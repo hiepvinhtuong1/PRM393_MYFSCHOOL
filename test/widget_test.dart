@@ -8,5 +8,6 @@ void main() {
     await tester.pumpWidget(const MyFptSchoolsApp());
 
     expect(find.byType(MaterialApp), findsOneWidget);
+    expect(find.text('Dang nhap'), findsOneWidget);
   });
 }
