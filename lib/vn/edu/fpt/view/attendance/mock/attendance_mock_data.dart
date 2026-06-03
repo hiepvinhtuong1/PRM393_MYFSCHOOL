@@ -9,13 +9,11 @@ class AttendanceSummary {
     required this.totalSessions,
     required this.presentSessions,
     required this.absentSessions,
-    required this.lateSessions,
   });
 
   final int totalSessions;
   final int presentSessions;
   final int absentSessions;
-  final int lateSessions;
 }
 
 class AttendanceSubject {
@@ -25,7 +23,6 @@ class AttendanceSubject {
     required this.totalSessions,
     required this.presentSessions,
     required this.absentSessions,
-    required this.lateSessions,
   });
 
   final String subject;
@@ -33,7 +30,6 @@ class AttendanceSubject {
   final int totalSessions;
   final int presentSessions;
   final int absentSessions;
-  final int lateSessions;
 
   double get absentRate {
     if (totalSessions == 0) return 0;
@@ -104,9 +100,8 @@ abstract final class AttendanceMockData {
       label: 'Học kỳ Spring 2026',
       summary: AttendanceSummary(
         totalSessions: 72,
-        presentSessions: 65,
+        presentSessions: 67,
         absentSessions: 5,
-        lateSessions: 2,
       ),
       subjects: [
         AttendanceSubject(
@@ -115,23 +110,20 @@ abstract final class AttendanceMockData {
           totalSessions: 18,
           presentSessions: 15,
           absentSessions: 3,
-          lateSessions: 0,
         ),
         AttendanceSubject(
           subject: 'Tiếng Anh',
           teacher: 'Mr. David Brown',
           totalSessions: 16,
-          presentSessions: 15,
+          presentSessions: 16,
           absentSessions: 0,
-          lateSessions: 1,
         ),
         AttendanceSubject(
           subject: 'Vật lý',
           teacher: 'Thầy Phạm Minh Quân',
           totalSessions: 14,
-          presentSessions: 11,
+          presentSessions: 12,
           absentSessions: 2,
-          lateSessions: 1,
         ),
         AttendanceSubject(
           subject: 'Tin học',
@@ -139,7 +131,6 @@ abstract final class AttendanceMockData {
           totalSessions: 12,
           presentSessions: 12,
           absentSessions: 0,
-          lateSessions: 0,
         ),
       ],
     ),
@@ -148,9 +139,8 @@ abstract final class AttendanceMockData {
       label: 'Học kỳ Fall 2025',
       summary: AttendanceSummary(
         totalSessions: 80,
-        presentSessions: 76,
+        presentSessions: 78,
         absentSessions: 2,
-        lateSessions: 2,
       ),
       subjects: [
         AttendanceSubject(
@@ -159,15 +149,13 @@ abstract final class AttendanceMockData {
           totalSessions: 20,
           presentSessions: 19,
           absentSessions: 1,
-          lateSessions: 0,
         ),
         AttendanceSubject(
           subject: 'Hóa học',
           teacher: 'Cô Trần Mai Linh',
           totalSessions: 18,
-          presentSessions: 17,
+          presentSessions: 18,
           absentSessions: 0,
-          lateSessions: 1,
         ),
       ],
     ),
@@ -178,7 +166,6 @@ abstract final class AttendanceMockData {
         totalSessions: 0,
         presentSessions: 0,
         absentSessions: 0,
-        lateSessions: 0,
       ),
       subjects: [],
     ),

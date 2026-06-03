@@ -4,14 +4,12 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/app_card.dart';
 import '../attendance/attendance_screen.dart';
+import '../grades/grades_screen.dart';
 import '../login/mock/mock_users.dart';
 import 'mock/home_mock_data.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({
-    super.key,
-    required this.user,
-  });
+  const HomeScreen({super.key, required this.user});
 
   final MockUser user;
 
@@ -68,9 +66,7 @@ class _HomeHeader extends StatelessWidget {
           backgroundColor: const Color(0x1FF37021),
           child: Text(
             user.fullName.trim().isEmpty ? '?' : user.fullName.trim()[0],
-            style: textTheme.titleMedium?.copyWith(
-              color: AppColors.fptOrange,
-            ),
+            style: textTheme.titleMedium?.copyWith(color: AppColors.fptOrange),
           ),
         ),
       ],
@@ -284,11 +280,12 @@ class _MenuTile extends StatelessWidget {
     switch (item.action) {
       case HomeMenuAction.attendance:
         Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => const AttendanceScreen(),
-          ),
+          MaterialPageRoute<void>(builder: (_) => const AttendanceScreen()),
         );
       case HomeMenuAction.grades:
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute<void>(builder: (_) => const GradesScreen()));
       case HomeMenuAction.timetable:
       case HomeMenuAction.news:
       case HomeMenuAction.dormitory:
@@ -345,10 +342,7 @@ class _NewsItem extends StatelessWidget {
             color: const Color(0x0DF37021),
             borderRadius: BorderRadius.circular(AppRadius.sm),
           ),
-          child: const Icon(
-            Icons.article_outlined,
-            color: AppColors.fptOrange,
-          ),
+          child: const Icon(Icons.article_outlined, color: AppColors.fptOrange),
         ),
         const SizedBox(width: AppSpacing.md),
         Expanded(
@@ -388,10 +382,7 @@ class _SectionHeader extends StatelessWidget {
       children: [
         Expanded(child: Text(title, style: textTheme.titleMedium)),
         if (actionLabel != null)
-          TextButton(
-            onPressed: onActionPressed,
-            child: Text(actionLabel!),
-          ),
+          TextButton(onPressed: onActionPressed, child: Text(actionLabel!)),
       ],
     );
   }

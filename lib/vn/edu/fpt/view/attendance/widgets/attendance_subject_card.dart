@@ -6,10 +6,7 @@ import '../../../core/widgets/app_card.dart';
 import '../mock/attendance_mock_data.dart';
 
 class AttendanceSubjectCard extends StatelessWidget {
-  const AttendanceSubjectCard({
-    super.key,
-    required this.subject,
-  });
+  const AttendanceSubjectCard({super.key, required this.subject});
 
   final AttendanceSubject subject;
 
@@ -58,7 +55,7 @@ class AttendanceSubjectCard extends StatelessWidget {
                 ),
               ),
               Text(
-                '${subject.presentSessions} có mặt • ${subject.absentSessions} vắng • ${subject.lateSessions} muộn',
+                '${subject.presentSessions}/${subject.totalSessions} buổi đi học',
                 style: textTheme.bodySmall,
               ),
             ],
@@ -88,9 +85,9 @@ class _RiskBadge extends StatelessWidget {
       child: Text(
         risk.label,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              color: risk.color,
-              fontWeight: FontWeight.w700,
-            ),
+          color: risk.color,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

@@ -6,10 +6,7 @@ import '../../../core/widgets/app_card.dart';
 import '../mock/attendance_mock_data.dart';
 
 class AttendanceSummaryCard extends StatelessWidget {
-  const AttendanceSummaryCard({
-    super.key,
-    required this.summary,
-  });
+  const AttendanceSummaryCard({super.key, required this.summary});
 
   final AttendanceSummary summary;
 
@@ -27,7 +24,7 @@ class AttendanceSummaryCard extends StatelessWidget {
           ),
           Expanded(
             child: _SummaryMetric(
-              label: 'Có mặt',
+              label: 'Đi học',
               value: summary.presentSessions.toString(),
               color: AppColors.fptGreen,
             ),
@@ -41,14 +38,21 @@ class AttendanceSummaryCard extends StatelessWidget {
           ),
           Expanded(
             child: _SummaryMetric(
-              label: 'Muộn',
-              value: summary.lateSessions.toString(),
+              label: 'Tỷ lệ nghỉ',
+              value: '${summary.absentPercent}%',
               color: AppColors.warning,
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+extension _AttendanceSummaryPercent on AttendanceSummary {
+  int get absentPercent {
+    if (totalSessions == 0) return 0;
+    return (absentSessions / totalSessions * 100).round();
   }
 }
 

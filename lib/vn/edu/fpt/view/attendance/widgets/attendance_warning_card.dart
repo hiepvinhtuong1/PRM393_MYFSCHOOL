@@ -4,10 +4,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../mock/attendance_mock_data.dart';
 
 class AttendanceWarningCard extends StatelessWidget {
-  const AttendanceWarningCard({
-    super.key,
-    required this.risk,
-  });
+  const AttendanceWarningCard({super.key, required this.risk});
 
   final AttendanceRisk risk;
 

@@ -30,10 +30,7 @@ class AttendanceFilterBar extends StatelessWidget {
           icon: const Icon(Icons.keyboard_arrow_down),
           items: [
             for (final semester in semesters)
-              DropdownMenuItem(
-                value: semester,
-                child: Text(semester.label),
-              ),
+              DropdownMenuItem(value: semester, child: Text(semester.label)),
           ],
           onChanged: (semester) {
             if (semester != null) onChanged(semester);

@@ -7,8 +7,6 @@ import '../../core/widgets/app_feature_top_bar.dart';
 import 'mock/attendance_mock_data.dart';
 import 'widgets/attendance_filter_bar.dart';
 import 'widgets/attendance_subject_card.dart';
-import 'widgets/attendance_summary_card.dart';
-import 'widgets/attendance_warning_card.dart';
 
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({super.key});
@@ -23,7 +21,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     final subjects = _selectedSemester.subjects;
-    final highestRisk = _highestRisk(subjects);
 
     return Scaffold(
       body: SafeArea(
@@ -52,10 +49,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   if (subjects.isEmpty)
                     const _EmptyAttendanceState()
                   else ...[
-                    AttendanceSummaryCard(summary: _selectedSemester.summary),
-                    const SizedBox(height: AppSpacing.md),
-                    AttendanceWarningCard(risk: highestRisk),
-                    const SizedBox(height: AppSpacing.lg),
                     Text(
                       'Theo môn học',
                       style: Theme.of(context).textTheme.titleMedium,
@@ -74,16 +67,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       ),
     );
   }
-
-  AttendanceRisk _highestRisk(List<AttendanceSubject> subjects) {
-    if (subjects.any((subject) => subject.risk == AttendanceRisk.danger)) {
-      return AttendanceRisk.danger;
-    }
-    if (subjects.any((subject) => subject.risk == AttendanceRisk.warning)) {
-      return AttendanceRisk.warning;
-    }
-    return AttendanceRisk.safe;
-  }
 }
 
 class _AttendanceHeader extends StatelessWidget {
@@ -101,10 +84,8 @@ class _AttendanceHeader extends StatelessWidget {
         Text('Điểm danh', style: textTheme.displaySmall),
         const SizedBox(height: AppSpacing.xs),
         Text(
-          'Theo dõi tình trạng có mặt, vắng và đi muộn trong ${semester.label}.',
-          style: textTheme.bodyMedium?.copyWith(
-            color: AppColors.textSecondary,
-          ),
+          'Theo dõi tình trạng đi học và nghỉ trong ${semester.label}.',
+          style: textTheme.bodyMedium?.copyWith(color: AppColors.textSecondary),
         ),
       ],
     );
