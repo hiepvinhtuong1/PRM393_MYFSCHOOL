@@ -32,16 +32,27 @@ class QuickAlert {
   final Color color;
 }
 
+enum HomeMenuAction {
+  attendance,
+  grades,
+  timetable,
+  news,
+  dormitory,
+  clubs,
+}
+
 class HomeMenuItem {
   const HomeMenuItem({
     required this.label,
     required this.icon,
     required this.color,
+    required this.action,
   });
 
   final String label;
   final IconData icon;
   final Color color;
+  final HomeMenuAction action;
 }
 
 class FeaturedNews {
@@ -85,31 +96,37 @@ abstract final class HomeMockData {
       label: 'Điểm danh',
       icon: Icons.fact_check_outlined,
       color: AppColors.fptGreen,
+      action: HomeMenuAction.attendance,
     ),
     HomeMenuItem(
       label: 'Điểm số',
       icon: Icons.school_outlined,
       color: AppColors.fptOrange,
+      action: HomeMenuAction.grades,
     ),
     HomeMenuItem(
       label: 'Lịch học',
       icon: Icons.calendar_month_outlined,
       color: AppColors.fptBlue,
+      action: HomeMenuAction.timetable,
     ),
     HomeMenuItem(
       label: 'Tin tức',
       icon: Icons.article_outlined,
       color: AppColors.info,
+      action: HomeMenuAction.news,
     ),
     HomeMenuItem(
       label: 'Ký túc xá',
       icon: Icons.apartment_outlined,
       color: AppColors.warning,
+      action: HomeMenuAction.dormitory,
     ),
     HomeMenuItem(
       label: 'Câu lạc bộ',
       icon: Icons.groups_outlined,
       color: AppColors.fptGreen,
+      action: HomeMenuAction.clubs,
     ),
   ];
 

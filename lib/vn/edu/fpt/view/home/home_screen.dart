@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/app_card.dart';
+import '../attendance/attendance_screen.dart';
 import '../login/mock/mock_users.dart';
 import 'mock/home_mock_data.dart';
 
@@ -240,7 +241,7 @@ class _MenuTile extends StatelessWidget {
 
     return InkWell(
       borderRadius: BorderRadius.circular(AppRadius.md),
-      onTap: () {},
+      onTap: () => _handleTap(context),
       child: Ink(
         decoration: BoxDecoration(
           color: AppColors.surface,
@@ -277,6 +278,25 @@ class _MenuTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _handleTap(BuildContext context) {
+    switch (item.action) {
+      case HomeMenuAction.attendance:
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => const AttendanceScreen(),
+          ),
+        );
+      case HomeMenuAction.grades:
+      case HomeMenuAction.timetable:
+      case HomeMenuAction.news:
+      case HomeMenuAction.dormitory:
+      case HomeMenuAction.clubs:
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${item.label} sẽ được triển khai sau.')),
+        );
+    }
   }
 }
 
