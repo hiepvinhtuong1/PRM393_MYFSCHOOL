@@ -2,22 +2,34 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 
-enum TimetableViewMode { day, week }
-
 enum ClassStatus { upcoming, ongoing, completed, cancelled }
 
 enum AttendanceStatus { present, absent, late, pending }
 
-class TimetableDay {
-  const TimetableDay({
+class TimetableSemester {
+  const TimetableSemester({
     required this.label,
-    required this.date,
-    required this.isToday,
+    required this.icon,
   });
 
   final String label;
-  final String date;
+  final IconData icon;
+}
+
+class TimetableDay {
+  const TimetableDay({
+    required this.weekday,
+    required this.dayNumber,
+    required this.dateLabel,
+    required this.isToday,
+    required this.hasClasses,
+  });
+
+  final String weekday;
+  final int dayNumber;
+  final String dateLabel;
   final bool isToday;
+  final bool hasClasses;
 }
 
 class ClassSlot {
@@ -99,14 +111,66 @@ extension AttendanceStatusLabel on AttendanceStatus {
 }
 
 abstract final class TimetableMockData {
+  static const semesters = <TimetableSemester>[
+    TimetableSemester(label: 'Kì 2 năm 2026', icon: Icons.local_florist),
+    TimetableSemester(label: 'Kì 1 năm 2026', icon: Icons.wb_sunny_outlined),
+    TimetableSemester(label: 'Kì 2 năm 2025', icon: Icons.eco_outlined),
+    TimetableSemester(label: 'Kì 1 năm 2025', icon: Icons.ac_unit_outlined),
+  ];
+
+  static const currentWeekLabel = 'Tuần hiện tại: 01/06/2026 - 07/06/2026';
+  static const monthYearLabel = 'Tháng 6 năm 2026';
+
   static const weekDays = <TimetableDay>[
-    TimetableDay(label: 'T2', date: '01/06', isToday: false),
-    TimetableDay(label: 'T3', date: '02/06', isToday: false),
-    TimetableDay(label: 'T4', date: '03/06', isToday: true),
-    TimetableDay(label: 'T5', date: '04/06', isToday: false),
-    TimetableDay(label: 'T6', date: '05/06', isToday: false),
-    TimetableDay(label: 'T7', date: '06/06', isToday: false),
-    TimetableDay(label: 'CN', date: '07/06', isToday: false),
+    TimetableDay(
+      weekday: 'T2',
+      dayNumber: 1,
+      dateLabel: '01/06',
+      isToday: false,
+      hasClasses: true,
+    ),
+    TimetableDay(
+      weekday: 'T3',
+      dayNumber: 2,
+      dateLabel: '02/06',
+      isToday: false,
+      hasClasses: false,
+    ),
+    TimetableDay(
+      weekday: 'T4',
+      dayNumber: 3,
+      dateLabel: '03/06',
+      isToday: true,
+      hasClasses: true,
+    ),
+    TimetableDay(
+      weekday: 'T5',
+      dayNumber: 4,
+      dateLabel: '04/06',
+      isToday: false,
+      hasClasses: true,
+    ),
+    TimetableDay(
+      weekday: 'T6',
+      dayNumber: 5,
+      dateLabel: '05/06',
+      isToday: false,
+      hasClasses: true,
+    ),
+    TimetableDay(
+      weekday: 'T7',
+      dayNumber: 6,
+      dateLabel: '06/06',
+      isToday: false,
+      hasClasses: false,
+    ),
+    TimetableDay(
+      weekday: 'CN',
+      dayNumber: 7,
+      dateLabel: '07/06',
+      isToday: false,
+      hasClasses: false,
+    ),
   ];
 
   static const slotsByDay = <int, List<ClassSlot>>{

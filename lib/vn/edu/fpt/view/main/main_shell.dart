@@ -24,6 +24,10 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   int _currentIndex = 0;
 
+  void _selectTab(int index) {
+    setState(() => _currentIndex = index);
+  }
+
   @override
   Widget build(BuildContext context) {
     final tabs = <_MainTab>[
@@ -32,10 +36,10 @@ class _MainShellState extends State<MainShell> {
         icon: Icons.home_outlined,
         page: HomeScreen(user: widget.user),
       ),
-      const _MainTab(
+      _MainTab(
         label: 'Lịch học',
         icon: Icons.calendar_month_outlined,
-        page: TimetableScreen(),
+        page: TimetableScreen(onGoHome: () => _selectTab(0)),
       ),
       const _MainTab(
         label: 'Thông báo',
@@ -65,7 +69,7 @@ class _MainShellState extends State<MainShell> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
+        onTap: _selectTab,
         items: [
           for (final tab in tabs)
             BottomNavigationBarItem(
