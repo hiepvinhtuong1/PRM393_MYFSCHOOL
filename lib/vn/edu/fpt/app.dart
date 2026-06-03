@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'core/routing/app_routes.dart';
 import 'core/theme/app_theme.dart';
 
 class MyFptSchoolsApp extends StatelessWidget {
@@ -12,8 +11,7 @@ class MyFptSchoolsApp extends StatelessWidget {
       title: 'MyFPTSchools',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
-      initialRoute: AppRoutes.splash,
-      onGenerateRoute: AppRoutes.onGenerateRoute,
+      home: const SizedBox.shrink(),
     );
   }
 }
