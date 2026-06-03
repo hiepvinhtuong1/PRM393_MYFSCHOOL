@@ -5,6 +5,7 @@ import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/app_card.dart';
 import '../home/home_screen.dart';
 import '../login/mock/mock_users.dart';
+import '../timetable/timetable_screen.dart';
 
 class MainShell extends StatefulWidget {
   const MainShell({
@@ -34,11 +35,7 @@ class _MainShellState extends State<MainShell> {
       const _MainTab(
         label: 'Lịch học',
         icon: Icons.calendar_month_outlined,
-        page: _PlaceholderTab(
-          title: 'Lịch học',
-          subtitle: 'Thời khóa biểu ngày/tuần sẽ dùng dữ liệu mock trước.',
-          icon: Icons.event_note_outlined,
-        ),
+        page: TimetableScreen(),
       ),
       const _MainTab(
         label: 'Thông báo',
