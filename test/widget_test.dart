@@ -8,6 +8,11 @@ void main() {
     await tester.pumpWidget(const MyFptSchoolsApp());
 
     expect(find.byType(MaterialApp), findsOneWidget);
+    expect(find.text('MyFPTSchools'), findsOneWidget);
+
+    await tester.pump(const Duration(milliseconds: 900));
+    await tester.pumpAndSettle();
+
     expect(find.text('Đăng nhập'), findsOneWidget);
   });
 }

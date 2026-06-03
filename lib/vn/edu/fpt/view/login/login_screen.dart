@@ -7,7 +7,12 @@ import 'mock/mock_users.dart';
 import 'widgets/fpt_brand_header.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({
+    super.key,
+    required this.onLoginSuccess,
+  });
+
+  final ValueChanged<MockUser> onLoginSuccess;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -63,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: AppColors.fptGreen,
       ),
     );
+    widget.onLoginSuccess(user);
   }
 
   void _showForgotPasswordMessage() {
