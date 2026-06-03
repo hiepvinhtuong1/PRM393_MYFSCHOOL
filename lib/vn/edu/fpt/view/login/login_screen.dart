@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Tai khoan hoac mat khau khong dung.'),
+          content: Text('Tài khoản hoặc mật khẩu không đúng.'),
           backgroundColor: AppColors.danger,
         ),
       );
@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Dang nhap demo thanh cong: ${user.fullName}'),
+        content: Text('Đăng nhập demo thành công: ${user.fullName}'),
         backgroundColor: AppColors.fptGreen,
       ),
     );
@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _showForgotPasswordMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Tinh nang quen mat khau se duoc ket noi backend sau.'),
+        content: Text('Tính năng quên mật khẩu sẽ được kết nối backend sau.'),
       ),
     );
   }
@@ -90,12 +90,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   const FptBrandHeader(),
                   const SizedBox(height: AppSpacing.xl),
                   Text(
-                    'Dang nhap',
+                    'Đăng nhập',
                     style: textTheme.displaySmall,
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
-                    'Theo doi hoc tap, diem danh va thong bao nha truong.',
+                    'Theo dõi học tập, điểm danh và thông báo nhà trường.',
                     style: textTheme.bodyMedium?.copyWith(
                       color: AppColors.textSecondary,
                     ),
@@ -112,12 +112,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             keyboardType: TextInputType.emailAddress,
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
-                              labelText: 'Email hoac tai khoan',
+                              labelText: 'Email hoặc tài khoản',
                               prefixIcon: Icon(Icons.person_outline),
                             ),
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
-                                return 'Vui long nhap tai khoan';
+                                return 'Vui lòng nhập tài khoản';
                               }
                               return null;
                             },
@@ -128,12 +128,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             obscureText: _obscurePassword,
                             textInputAction: TextInputAction.done,
                             decoration: InputDecoration(
-                              labelText: 'Mat khau',
+                              labelText: 'Mật khẩu',
                               prefixIcon: const Icon(Icons.lock_outline),
                               suffixIcon: IconButton(
                                 tooltip: _obscurePassword
-                                    ? 'Hien mat khau'
-                                    : 'An mat khau',
+                                    ? 'Hiện mật khẩu'
+                                    : 'Ẩn mật khẩu',
                                 onPressed: () {
                                   setState(() {
                                     _obscurePassword = !_obscurePassword;
@@ -148,10 +148,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Vui long nhap mat khau';
+                                return 'Vui lòng nhập mật khẩu';
                               }
                               if (value.length < 6) {
-                                return 'Mat khau toi thieu 6 ky tu';
+                                return 'Mật khẩu tối thiểu 6 ký tự';
                               }
                               return null;
                             },
@@ -168,10 +168,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   });
                                 },
                               ),
-                              const Expanded(child: Text('Ghi nho dang nhap')),
+                              const Expanded(child: Text('Ghi nhớ đăng nhập')),
                               TextButton(
                                 onPressed: _showForgotPasswordMessage,
-                                child: const Text('Quen mat khau?'),
+                                child: const Text('Quên mật khẩu?'),
                               ),
                             ],
                           ),
@@ -185,33 +185,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                       strokeWidth: 2,
                                     ),
                                   )
-                                : const Text('Dang nhap'),
+                                : const Text('Đăng nhập'),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.md),
-                  AppCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Tai khoan demo',
-                          style: textTheme.titleMedium,
-                        ),
-                        const SizedBox(height: AppSpacing.sm),
-                        for (final user in MockUsers.demoAccounts)
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: AppSpacing.xs,
-                            ),
-                            child: Text(
-                              '${user.role}: ${user.account} / ${user.password}',
-                              style: textTheme.bodySmall,
-                            ),
-                          ),
-                      ],
                     ),
                   ),
                 ],

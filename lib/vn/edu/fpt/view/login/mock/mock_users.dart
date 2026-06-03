@@ -17,14 +17,14 @@ abstract final class MockUsers {
     MockUser(
       account: 'student@fpt.edu.vn',
       password: '123456',
-      fullName: 'Nguyen Minh Anh',
-      role: 'Hoc sinh',
+      fullName: 'Nguyễn Minh Anh',
+      role: 'Học sinh',
     ),
     MockUser(
       account: 'parent@fpt.edu.vn',
       password: '123456',
-      fullName: 'Tran Thu Ha',
-      role: 'Phu huynh',
+      fullName: 'Trần Thu Hà',
+      role: 'Phụ huynh',
     ),
   ];
 
