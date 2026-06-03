@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/app_card.dart';
+import '../home/home_screen.dart';
 import '../login/mock/mock_users.dart';
 
 class MainShell extends StatefulWidget {
@@ -28,12 +29,7 @@ class _MainShellState extends State<MainShell> {
       _MainTab(
         label: 'Trang chủ',
         icon: Icons.home_outlined,
-        page: _PlaceholderTab(
-          title: 'Trang chủ',
-          subtitle: 'Dashboard học tập sẽ được triển khai ở bước tiếp theo.',
-          icon: Icons.dashboard_outlined,
-          user: widget.user,
-        ),
+        page: HomeScreen(user: widget.user),
       ),
       const _MainTab(
         label: 'Lịch học',
@@ -102,13 +98,11 @@ class _PlaceholderTab extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.icon,
-    this.user,
   });
 
   final String title;
   final String subtitle;
   final IconData icon;
-  final MockUser? user;
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +116,7 @@ class _PlaceholderTab extends StatelessWidget {
           Text(title, style: textTheme.displaySmall),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            user == null ? subtitle : 'Xin chào, ${user!.fullName}. $subtitle',
+            subtitle,
             style: textTheme.bodyMedium?.copyWith(
               color: AppColors.textSecondary,
             ),
@@ -133,10 +127,7 @@ class _PlaceholderTab extends StatelessWidget {
               children: [
                 Icon(icon, size: 40, color: AppColors.fptOrange),
                 const SizedBox(height: AppSpacing.md),
-                Text(
-                  'Đang chuẩn bị',
-                  style: textTheme.titleMedium,
-                ),
+                Text('Đang chuẩn bị', style: textTheme.titleMedium),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
                   subtitle,
@@ -192,10 +183,7 @@ class _ProfileTab extends StatelessWidget {
                     children: [
                       Text(user.fullName, style: textTheme.titleMedium),
                       const SizedBox(height: AppSpacing.xs),
-                      Text(
-                        user.role,
-                        style: textTheme.bodySmall,
-                      ),
+                      Text(user.role, style: textTheme.bodySmall),
                     ],
                   ),
                 ),
