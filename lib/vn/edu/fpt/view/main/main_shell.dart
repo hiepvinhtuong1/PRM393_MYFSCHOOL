@@ -5,14 +5,11 @@ import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/app_card.dart';
 import '../home/home_screen.dart';
 import '../login/mock/mock_users.dart';
+import '../notifications/notifications_screen.dart';
 import '../timetable/timetable_screen.dart';
 
 class MainShell extends StatefulWidget {
-  const MainShell({
-    super.key,
-    required this.user,
-    required this.onLogout,
-  });
+  const MainShell({super.key, required this.user, required this.onLogout});
 
   final MockUser user;
   final VoidCallback onLogout;
@@ -44,19 +41,12 @@ class _MainShellState extends State<MainShell> {
       const _MainTab(
         label: 'Thông báo',
         icon: Icons.notifications_none_outlined,
-        page: _PlaceholderTab(
-          title: 'Thông báo',
-          subtitle: 'Danh sách thông báo sẽ được thêm sau khi có main flow.',
-          icon: Icons.notifications_active_outlined,
-        ),
+        page: NotificationsScreen(),
       ),
       _MainTab(
         label: 'Cá nhân',
         icon: Icons.person_outline,
-        page: _ProfileTab(
-          user: widget.user,
-          onLogout: widget.onLogout,
-        ),
+        page: _ProfileTab(user: widget.user, onLogout: widget.onLogout),
       ),
     ];
 
@@ -72,10 +62,7 @@ class _MainShellState extends State<MainShell> {
         onTap: _selectTab,
         items: [
           for (final tab in tabs)
-            BottomNavigationBarItem(
-              icon: Icon(tab.icon),
-              label: tab.label,
-            ),
+            BottomNavigationBarItem(icon: Icon(tab.icon), label: tab.label),
         ],
       ),
     );
@@ -83,72 +70,15 @@ class _MainShellState extends State<MainShell> {
 }
 
 class _MainTab {
-  const _MainTab({
-    required this.label,
-    required this.icon,
-    required this.page,
-  });
+  const _MainTab({required this.label, required this.icon, required this.page});
 
   final String label;
   final IconData icon;
   final Widget page;
 }
 
-class _PlaceholderTab extends StatelessWidget {
-  const _PlaceholderTab({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-  });
-
-  final String title;
-  final String subtitle;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(title, style: textTheme.displaySmall),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            subtitle,
-            style: textTheme.bodyMedium?.copyWith(
-              color: AppColors.textSecondary,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          AppCard(
-            child: Column(
-              children: [
-                Icon(icon, size: 40, color: AppColors.fptOrange),
-                const SizedBox(height: AppSpacing.md),
-                Text('Đang chuẩn bị', style: textTheme.titleMedium),
-                const SizedBox(height: AppSpacing.xs),
-                Text(
-                  subtitle,
-                  textAlign: TextAlign.center,
-                  style: textTheme.bodySmall,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _ProfileTab extends StatelessWidget {
-  const _ProfileTab({
-    required this.user,
-    required this.onLogout,
-  });
+  const _ProfileTab({required this.user, required this.onLogout});
 
   final MockUser user;
   final VoidCallback onLogout;
@@ -171,7 +101,9 @@ class _ProfileTab extends StatelessWidget {
                   radius: 28,
                   backgroundColor: const Color(0x1FF37021),
                   child: Text(
-                    user.fullName.trim().isEmpty ? '?' : user.fullName.trim()[0],
+                    user.fullName.trim().isEmpty
+                        ? '?'
+                        : user.fullName.trim()[0],
                     style: textTheme.titleMedium?.copyWith(
                       color: AppColors.fptOrange,
                     ),
@@ -196,9 +128,7 @@ class _ProfileTab extends StatelessWidget {
             onPressed: onLogout,
             icon: const Icon(Icons.logout),
             label: const Text('Đăng xuất'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.danger,
-            ),
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.danger),
           ),
         ],
       ),
