@@ -9,7 +9,7 @@ class FptBrandHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       AppAssets.ththcsFptLogo,
-      width: 180,
+      width: 150,
       fit: BoxFit.contain,
     );
   }

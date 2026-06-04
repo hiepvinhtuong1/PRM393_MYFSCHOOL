@@ -82,32 +82,47 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const FptBrandHeader(),
-                  const SizedBox(height: AppSpacing.xl),
-                  LoginForm(
-                    formKey: _formKey,
-                    phoneController: _phoneController,
-                    passwordController: _passwordController,
-                    obscurePassword: _obscurePassword,
-                    isSubmitting: _isSubmitting,
-                    onSubmit: _submit,
-                    onTogglePasswordVisibility: () {
-                      setState(() => _obscurePassword = !_obscurePassword);
-                    },
-                    onForgotPassword: _showForgotPasswordMessage,
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(AppSpacing.lg),
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 420),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const FptBrandHeader(),
+                        const SizedBox(height: AppSpacing.xl),
+                        LoginForm(
+                          formKey: _formKey,
+                          phoneController: _phoneController,
+                          passwordController: _passwordController,
+                          obscurePassword: _obscurePassword,
+                          isSubmitting: _isSubmitting,
+                          onSubmit: _submit,
+                          onTogglePasswordVisibility: () {
+                            setState(
+                              () => _obscurePassword = !_obscurePassword,
+                            );
+                          },
+                          onForgotPassword: _showForgotPasswordMessage,
+                        ),
+                      ],
+                    ),
                   ),
-                ],
+                ),
               ),
             ),
-          ),
+            const Padding(
+              padding: EdgeInsets.only(bottom: AppSpacing.md),
+              child: Text(
+                'Phiên bản 1.0.0',
+                style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
+              ),
+            ),
+          ],
         ),
       ),
     );
