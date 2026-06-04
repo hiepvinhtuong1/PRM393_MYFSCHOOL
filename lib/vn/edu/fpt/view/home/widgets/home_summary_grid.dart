@@ -20,22 +20,18 @@ class HomeSummaryGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(
-          child: _ScheduleSummaryCard(
-            items: scheduleItems,
-            onTap: () => Navigator.of(context).pushNamed(AppRoutes.timetable),
-          ),
+        _ScheduleSummaryCard(
+          items: scheduleItems,
+          onTap: () => Navigator.of(context).pushNamed(AppRoutes.timetable),
         ),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: _ProgressSummaryCard(
-            gpa: gpa,
-            bars: progressBars,
-            onTap: () => Navigator.of(context).pushNamed(AppRoutes.grade),
-          ),
+        const SizedBox(height: AppSpacing.md),
+        _ProgressSummaryCard(
+          gpa: gpa,
+          bars: progressBars,
+          onTap: () => Navigator.of(context).pushNamed(AppRoutes.grade),
         ),
       ],
     );
@@ -58,7 +54,7 @@ class _ScheduleSummaryCard extends StatelessWidget {
       child: AppCard(
         padding: const EdgeInsets.all(14),
         child: SizedBox(
-          height: 172,
+          height: 180,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -76,12 +72,12 @@ class _ScheduleSummaryCard extends StatelessWidget {
                   _Pill(label: 'Hôm nay'),
                 ],
               ),
-              const SizedBox(height: AppSpacing.md),
+              const SizedBox(height: AppSpacing.sm),
               Expanded(
                 child: Column(
                   children: items.take(2).map((item) {
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                      padding: const EdgeInsets.only(bottom: AppSpacing.xs),
                       child: _ScheduleLine(item: item),
                     );
                   }).toList(),
@@ -178,7 +174,7 @@ class _ProgressSummaryCard extends StatelessWidget {
       child: AppCard(
         padding: const EdgeInsets.all(14),
         child: SizedBox(
-          height: 172,
+          height: 180,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -202,7 +198,7 @@ class _ProgressSummaryCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: AppSpacing.md),
+              const SizedBox(height: AppSpacing.sm),
               Expanded(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
