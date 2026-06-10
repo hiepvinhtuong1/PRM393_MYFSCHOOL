@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-
-import 'vn/edu/fpt/app.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'vn/edu/fpt/app/app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyFptSchoolsApp());
+  runApp(
+    const ProviderScope(
+      child: MyFSchoolApp(),
+    ),
+  );
 }
