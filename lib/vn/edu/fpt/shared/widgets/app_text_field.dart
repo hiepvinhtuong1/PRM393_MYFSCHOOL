@@ -10,8 +10,15 @@ class AppTextField extends StatelessWidget {
     this.keyboardType,
     this.prefixIcon,
     this.suffixIcon,
+    this.onSuffixTap,
     this.errorText,
     this.onChanged,
+    this.validator,
+    this.textInputAction,
+    this.onSubmitted,
+    this.readOnly = false,
+    this.maxLines = 1,
+    this.enabled = true,
     super.key,
   });
 
@@ -20,10 +27,30 @@ class AppTextField extends StatelessWidget {
   final TextEditingController? controller;
   final bool obscureText;
   final TextInputType? keyboardType;
-  final Widget? prefixIcon;
-  final Widget? suffixIcon;
+  /// Accepts either IconData or Widget.
+  final dynamic prefixIcon;
+  /// Accepts either IconData or Widget.
+  final dynamic suffixIcon;
+  final VoidCallback? onSuffixTap;
   final String? errorText;
   final ValueChanged<String>? onChanged;
+  final FormFieldValidator<String>? validator;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onSubmitted;
+  final bool readOnly;
+  final int? maxLines;
+  final bool enabled;
+
+  Widget? _resolveIcon(dynamic icon, {VoidCallback? onTap}) {
+    if (icon == null) return null;
+    final w = icon is IconData
+        ? Icon(icon, size: 20, color: AppColors.ink400)
+        : icon as Widget;
+    if (onTap != null) {
+      return GestureDetector(onTap: onTap, child: w);
+    }
+    return w;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +63,18 @@ class AppTextField extends StatelessWidget {
           controller: controller,
           obscureText: obscureText,
           keyboardType: keyboardType,
+          textInputAction: textInputAction,
           onChanged: onChanged,
-          style: AppTextStyles.bodyBold,
+          onFieldSubmitted: onSubmitted,
+          validator: validator,
+          readOnly: readOnly,
+          maxLines: obscureText ? 1 : maxLines,
+          enabled: enabled,
+          style: AppTextStyles.body,
           decoration: InputDecoration(
             hintText: hint,
-            prefixIcon: prefixIcon,
-            suffixIcon: suffixIcon,
+            prefixIcon: _resolveIcon(prefixIcon),
+            suffixIcon: _resolveIcon(suffixIcon, onTap: onSuffixTap),
             errorText: errorText,
           ),
         ),

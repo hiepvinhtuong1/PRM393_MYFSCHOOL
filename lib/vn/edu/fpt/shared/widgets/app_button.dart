@@ -10,6 +10,8 @@ class AppButton extends StatelessWidget {
     this.variant = AppButtonVariant.primary,
     this.icon,
     this.isLoading = false,
+    /// fullWidth / isBlock — either name works.
+    this.fullWidth = false,
     this.isBlock = false,
     super.key,
   });
@@ -19,15 +21,16 @@ class AppButton extends StatelessWidget {
   final AppButtonVariant variant;
   final Widget? icon;
   final bool isLoading;
+  final bool fullWidth;
   final bool isBlock;
 
   @override
   Widget build(BuildContext context) {
     final (bg, fg, border) = switch (variant) {
-      AppButtonVariant.primary   => (AppColors.blue500,   Colors.white,        null),
-      AppButtonVariant.accent    => (AppColors.orange500, Colors.white,        null),
-      AppButtonVariant.secondary => (AppColors.blue50,    AppColors.blue600,   null),
-      AppButtonVariant.ghost     => (Colors.transparent,  AppColors.ink700,    null),
+      AppButtonVariant.primary   => (AppColors.blue500,   Colors.white,       null),
+      AppButtonVariant.accent    => (AppColors.orange500, Colors.white,       null),
+      AppButtonVariant.secondary => (AppColors.blue50,    AppColors.blue600,  null),
+      AppButtonVariant.ghost     => (Colors.transparent,  AppColors.ink700,   null),
       AppButtonVariant.outline   => (AppColors.surface,   AppColors.blue600,
           const BorderSide(color: AppColors.blue200, width: 1.5)),
     };
@@ -35,10 +38,7 @@ class AppButton extends StatelessWidget {
     final child = isLoading
         ? SizedBox(
             width: 20, height: 20,
-            child: CircularProgressIndicator(
-              strokeWidth: 2.5,
-              color: fg,
-            ),
+            child: CircularProgressIndicator(strokeWidth: 2.5, color: fg),
           )
         : Row(
             mainAxisSize: MainAxisSize.min,
@@ -49,7 +49,7 @@ class AppButton extends StatelessWidget {
           );
 
     return SizedBox(
-      width: isBlock ? double.infinity : null,
+      width: (fullWidth || isBlock) ? double.infinity : null,
       height: 52,
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
