@@ -6,26 +6,38 @@ class AppCard extends StatelessWidget {
     required this.child,
     this.padding,
     this.flat = false,
+    this.onTap,
     super.key,
   });
 
   final Widget child;
   final EdgeInsetsGeometry? padding;
   final bool flat;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final container = Container(
       padding: padding ?? const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: AppRadius.borderLg,
         boxShadow: flat ? null : AppShadows.sm,
-        border: flat
-            ? Border.all(color: AppColors.line2)
-            : null,
+        border: flat ? Border.all(color: AppColors.line2) : null,
       ),
       child: child,
+    );
+
+    if (onTap == null) return container;
+
+    return Material(
+      color: Colors.transparent,
+      borderRadius: AppRadius.borderLg,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: AppRadius.borderLg,
+        child: container,
+      ),
     );
   }
 }

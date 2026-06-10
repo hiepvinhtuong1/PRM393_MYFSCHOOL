@@ -85,7 +85,7 @@ ThemeData buildAppTheme() {
       hintStyle: AppTextStyles.body.copyWith(color: AppColors.ink400),
     ),
 
-    cardTheme: const CardTheme(
+    cardTheme: const CardThemeData(
       color: AppColors.surface,
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: AppRadius.borderLg),
