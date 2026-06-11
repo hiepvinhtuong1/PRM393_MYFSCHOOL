@@ -5,6 +5,9 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/app_button.dart';
 import '../../core/mock/app_mock_data.dart';
+import 'change_password_screen.dart';
+import 'notification_settings_screen.dart';
+import 'policy_screen.dart';
 import 'widgets/profile_header_card.dart';
 import 'widgets/profile_info_card.dart';
 import 'widgets/profile_menu_card.dart';
@@ -13,13 +16,34 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   void _onMenuTap(BuildContext context, ProfileMenuItem item) {
-    if (item.title == 'Thông tin cá nhân') {
-      Navigator.of(context).pushNamed(AppRoutes.personalInfo);
-      return;
+    switch (item.title) {
+      case 'Thông tin cá nhân':
+        Navigator.of(context).pushNamed(AppRoutes.personalInfo);
+      case 'Cài đặt thông báo':
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => const NotificationSettingsScreen(),
+          ),
+        );
+      case 'Đổi mật khẩu':
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => const ChangePasswordScreen(),
+          ),
+        );
+      case 'Điều khoản và chính sách':
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => const PolicyScreen(),
+          ),
+        );
+      default:
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${item.title} sẽ được triển khai ở bước sau'),
+          ),
+        );
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${item.title} sẽ được triển khai ở bước sau')),
-    );
   }
 
   void _logout(BuildContext context) {

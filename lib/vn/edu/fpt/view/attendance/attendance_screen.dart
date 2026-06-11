@@ -4,6 +4,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/mock/app_mock_data.dart';
+import 'attendance_detail_screen.dart';
 import 'widgets/attendance_filter_row.dart';
 import 'widgets/attendance_subject_card.dart';
 import 'widgets/attendance_summary_card.dart';
@@ -83,7 +84,15 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             )
           else
             for (final subject in subjects) ...[
-              AttendanceSubjectCard(subject: subject),
+              AttendanceSubjectCard(
+                subject: subject,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) =>
+                        AttendanceDetailScreen(subject: subject),
+                  ),
+                ),
+              ),
               const SizedBox(height: AppSpacing.md),
             ],
           const SizedBox(height: AppSpacing.sm),

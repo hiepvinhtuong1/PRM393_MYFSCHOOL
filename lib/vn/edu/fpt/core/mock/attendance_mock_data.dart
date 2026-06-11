@@ -15,6 +15,22 @@ enum AttendanceStatus {
   final IconData icon;
 }
 
+class AttendanceSession {
+  const AttendanceSession({
+    required this.date,
+    required this.slotLabel,
+    required this.subjectName,
+    required this.statusLabel,
+    required this.color,
+  });
+
+  final String date;
+  final String slotLabel;
+  final String subjectName;
+  final String statusLabel;
+  final Color color;
+}
+
 class AttendanceSubject {
   const AttendanceSubject({
     required this.id,
@@ -27,6 +43,7 @@ class AttendanceSubject {
     required this.lateSessions,
     required this.warningThreshold,
     required this.status,
+    required this.sessions,
   });
 
   final String id;
@@ -34,37 +51,16 @@ class AttendanceSubject {
   final String teacher;
   final int totalSessions;
   final int presentSessions;
-
-  /// Vắng có phép (có lý do hợp lệ, được nhà trường chấp nhận)
   final int excusedAbsent;
-
-  /// Vắng không phép (không có lý do hoặc lý do không hợp lệ)
   final int unexcusedAbsent;
-
   final int lateSessions;
-
-  /// Ngưỡng cảnh báo (số tiết vắng tuyệt đối, không phải %)
   final int warningThreshold;
-
   final AttendanceStatus status;
 
+  /// Lịch sử buổi học gần đây, mới nhất lên đầu
+  final List<AttendanceSession> sessions;
+
   int get totalAbsent => excusedAbsent + unexcusedAbsent;
-}
-
-class AttendanceSession {
-  const AttendanceSession({
-    required this.date,
-    required this.slotLabel,
-    required this.subjectName,
-    required this.statusLabel,
-    required this.color,
-  });
-
-  final String date;
-  final String slotLabel; // e.g. "Tiết 1-2"
-  final String subjectName;
-  final String statusLabel;
-  final Color color;
 }
 
 abstract final class AttendanceMockData {
@@ -75,10 +71,10 @@ abstract final class AttendanceMockData {
     'Học kỳ I - 2024-2025',
   ];
 
-  // Ngưỡng cảnh báo toàn kỳ: 45 tiết/học kỳ (theo quy định nhà trường)
   static const semesterWarningThreshold = 45;
 
   static const subjects = <AttendanceSubject>[
+    // ── Toán ─────────────────────────────────────────────────────────────────
     AttendanceSubject(
       id: 'math',
       name: 'Toán',
@@ -88,9 +84,28 @@ abstract final class AttendanceMockData {
       excusedAbsent: 2,
       unexcusedAbsent: 1,
       lateSessions: 1,
-      warningThreshold: 14, // ~20% của 70 tiết
+      warningThreshold: 14,
       status: AttendanceStatus.safe,
+      sessions: [
+        AttendanceSession(date: '11/06', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '09/06', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '04/06', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '02/06', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '28/05', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '26/05', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '21/05', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Đi muộn', color: AppColors.info),
+        AttendanceSession(date: '19/05', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '14/05', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '07/05', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '23/04', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '09/04', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '02/04', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '26/03', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '19/03', slotLabel: 'Tiết 5', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+      ],
     ),
+
+    // ── Ngữ Văn ──────────────────────────────────────────────────────────────
     AttendanceSubject(
       id: 'literature',
       name: 'Ngữ Văn',
@@ -102,7 +117,26 @@ abstract final class AttendanceMockData {
       lateSessions: 3,
       warningThreshold: 14,
       status: AttendanceStatus.attention,
+      sessions: [
+        AttendanceSession(date: '11/06', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '09/06', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Đi muộn', color: AppColors.info),
+        AttendanceSession(date: '04/06', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '28/05', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '21/05', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '14/05', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Đi muộn', color: AppColors.info),
+        AttendanceSession(date: '07/05', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '30/04', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '23/04', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '16/04', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '09/04', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '02/04', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '26/03', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Đi muộn', color: AppColors.info),
+        AttendanceSession(date: '19/03', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '12/03', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Vắng có phép', color: AppColors.warning),
+      ],
     ),
+
+    // ── Tiếng Anh ─────────────────────────────────────────────────────────────
     AttendanceSubject(
       id: 'english',
       name: 'Tiếng Anh',
@@ -114,7 +148,23 @@ abstract final class AttendanceMockData {
       lateSessions: 1,
       warningThreshold: 10,
       status: AttendanceStatus.safe,
+      sessions: [
+        AttendanceSession(date: '11/06', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '08/06', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '04/06', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '01/06', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '28/05', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Đi muộn', color: AppColors.info),
+        AttendanceSession(date: '25/05', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '18/05', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '11/05', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '04/05', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '27/04', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '20/04', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '13/04', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+      ],
     ),
+
+    // ── Vật Lý ───────────────────────────────────────────────────────────────
     AttendanceSubject(
       id: 'physics',
       name: 'Vật Lý',
@@ -126,7 +176,27 @@ abstract final class AttendanceMockData {
       lateSessions: 1,
       warningThreshold: 10,
       status: AttendanceStatus.danger,
+      sessions: [
+        AttendanceSession(date: '09/06', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Đi muộn', color: AppColors.info),
+        AttendanceSession(date: '05/06', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '02/06', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '26/05', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '22/05', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '19/05', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '12/05', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '05/05', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '28/04', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '21/04', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '14/04', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '07/04', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '31/03', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '24/03', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '17/03', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '10/03', slotLabel: 'Tiết 7-8', subjectName: 'Vật Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+      ],
     ),
+
+    // ── Hóa Học ──────────────────────────────────────────────────────────────
     AttendanceSubject(
       id: 'chemistry',
       name: 'Hóa Học',
@@ -138,7 +208,23 @@ abstract final class AttendanceMockData {
       lateSessions: 1,
       warningThreshold: 10,
       status: AttendanceStatus.attention,
+      sessions: [
+        AttendanceSession(date: '10/06', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '06/06', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '03/06', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '27/05', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Đi muộn', color: AppColors.info),
+        AttendanceSession(date: '20/05', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '13/05', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '06/05', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '29/04', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '22/04', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '15/04', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '08/04', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '01/04', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+      ],
     ),
+
+    // ── Sinh Học ─────────────────────────────────────────────────────────────
     AttendanceSubject(
       id: 'biology',
       name: 'Sinh Học',
@@ -150,7 +236,21 @@ abstract final class AttendanceMockData {
       lateSessions: 1,
       warningThreshold: 7,
       status: AttendanceStatus.safe,
+      sessions: [
+        AttendanceSession(date: '10/06', slotLabel: 'Tiết 1-2', subjectName: 'Sinh Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '03/06', slotLabel: 'Tiết 1-2', subjectName: 'Sinh Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '27/05', slotLabel: 'Tiết 1-2', subjectName: 'Sinh Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '20/05', slotLabel: 'Tiết 1-2', subjectName: 'Sinh Học', statusLabel: 'Đi muộn', color: AppColors.info),
+        AttendanceSession(date: '13/05', slotLabel: 'Tiết 1-2', subjectName: 'Sinh Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '06/05', slotLabel: 'Tiết 1-2', subjectName: 'Sinh Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '22/04', slotLabel: 'Tiết 1-2', subjectName: 'Sinh Học', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '15/04', slotLabel: 'Tiết 1-2', subjectName: 'Sinh Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '08/04', slotLabel: 'Tiết 1-2', subjectName: 'Sinh Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '01/04', slotLabel: 'Tiết 1-2', subjectName: 'Sinh Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+      ],
     ),
+
+    // ── Lịch Sử ──────────────────────────────────────────────────────────────
     AttendanceSubject(
       id: 'history',
       name: 'Lịch Sử',
@@ -162,7 +262,26 @@ abstract final class AttendanceMockData {
       lateSessions: 1,
       warningThreshold: 7,
       status: AttendanceStatus.exceeded,
+      sessions: [
+        AttendanceSession(date: '10/06', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '03/06', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '27/05', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '20/05', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '13/05', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '06/05', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '29/04', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Đi muộn', color: AppColors.info),
+        AttendanceSession(date: '22/04', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '15/04', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '08/04', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '01/04', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '25/03', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '18/03', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '11/03', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '04/03', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Vắng không phép', color: AppColors.danger),
+      ],
     ),
+
+    // ── Địa Lý ───────────────────────────────────────────────────────────────
     AttendanceSubject(
       id: 'geography',
       name: 'Địa Lý',
@@ -174,95 +293,34 @@ abstract final class AttendanceMockData {
       lateSessions: 0,
       warningThreshold: 7,
       status: AttendanceStatus.safe,
+      sessions: [
+        AttendanceSession(date: '09/06', slotLabel: 'Tiết 3-4', subjectName: 'Địa Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '02/06', slotLabel: 'Tiết 3-4', subjectName: 'Địa Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '26/05', slotLabel: 'Tiết 3-4', subjectName: 'Địa Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '19/05', slotLabel: 'Tiết 3-4', subjectName: 'Địa Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '12/05', slotLabel: 'Tiết 3-4', subjectName: 'Địa Lý', statusLabel: 'Vắng có phép', color: AppColors.warning),
+        AttendanceSession(date: '05/05', slotLabel: 'Tiết 3-4', subjectName: 'Địa Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '28/04', slotLabel: 'Tiết 3-4', subjectName: 'Địa Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '21/04', slotLabel: 'Tiết 3-4', subjectName: 'Địa Lý', statusLabel: 'Vắng không phép', color: AppColors.danger),
+        AttendanceSession(date: '14/04', slotLabel: 'Tiết 3-4', subjectName: 'Địa Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+        AttendanceSession(date: '07/04', slotLabel: 'Tiết 3-4', subjectName: 'Địa Lý', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+      ],
     ),
   ];
 
-  // 12 records gần nhất để test scroll
   static const recentSessions = <AttendanceSession>[
-    AttendanceSession(
-      date: '11/06',
-      slotLabel: 'Tiết 1-2',
-      subjectName: 'Ngữ Văn',
-      statusLabel: 'Có mặt',
-      color: AppColors.fptGreen,
-    ),
-    AttendanceSession(
-      date: '11/06',
-      slotLabel: 'Tiết 3-4',
-      subjectName: 'Tiếng Anh',
-      statusLabel: 'Có mặt',
-      color: AppColors.fptGreen,
-    ),
-    AttendanceSession(
-      date: '10/06',
-      slotLabel: 'Tiết 1-2',
-      subjectName: 'Sinh Học',
-      statusLabel: 'Có mặt',
-      color: AppColors.fptGreen,
-    ),
-    AttendanceSession(
-      date: '10/06',
-      slotLabel: 'Tiết 3-4',
-      subjectName: 'Toán',
-      statusLabel: 'Có mặt',
-      color: AppColors.fptGreen,
-    ),
-    AttendanceSession(
-      date: '09/06',
-      slotLabel: 'Tiết 5-6',
-      subjectName: 'Hóa Học',
-      statusLabel: 'Vắng có phép',
-      color: AppColors.warning,
-    ),
-    AttendanceSession(
-      date: '09/06',
-      slotLabel: 'Tiết 1-2',
-      subjectName: 'Vật Lý',
-      statusLabel: 'Đi muộn',
-      color: AppColors.warning,
-    ),
-    AttendanceSession(
-      date: '08/06',
-      slotLabel: 'Tiết 1-2',
-      subjectName: 'Toán',
-      statusLabel: 'Có mặt',
-      color: AppColors.fptGreen,
-    ),
-    AttendanceSession(
-      date: '08/06',
-      slotLabel: 'Tiết 7-8',
-      subjectName: 'Tin Học',
-      statusLabel: 'Có mặt',
-      color: AppColors.fptGreen,
-    ),
-    AttendanceSession(
-      date: '05/06',
-      slotLabel: 'Tiết 7-8',
-      subjectName: 'Lịch Sử',
-      statusLabel: 'Vắng không phép',
-      color: AppColors.danger,
-    ),
-    AttendanceSession(
-      date: '05/06',
-      slotLabel: 'Tiết 1-2',
-      subjectName: 'Vật Lý',
-      statusLabel: 'Vắng không phép',
-      color: AppColors.danger,
-    ),
-    AttendanceSession(
-      date: '04/06',
-      slotLabel: 'Tiết 3-4',
-      subjectName: 'Tiếng Anh',
-      statusLabel: 'Có mặt',
-      color: AppColors.fptGreen,
-    ),
-    AttendanceSession(
-      date: '03/06',
-      slotLabel: 'Tiết 1-2',
-      subjectName: 'Ngữ Văn',
-      statusLabel: 'Vắng có phép',
-      color: AppColors.warning,
-    ),
+    AttendanceSession(date: '11/06', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+    AttendanceSession(date: '11/06', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+    AttendanceSession(date: '10/06', slotLabel: 'Tiết 1-2', subjectName: 'Sinh Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+    AttendanceSession(date: '10/06', slotLabel: 'Tiết 3-4', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+    AttendanceSession(date: '09/06', slotLabel: 'Tiết 5-6', subjectName: 'Hóa Học', statusLabel: 'Vắng có phép', color: AppColors.warning),
+    AttendanceSession(date: '09/06', slotLabel: 'Tiết 1-2', subjectName: 'Vật Lý', statusLabel: 'Đi muộn', color: AppColors.warning),
+    AttendanceSession(date: '08/06', slotLabel: 'Tiết 1-2', subjectName: 'Toán', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+    AttendanceSession(date: '08/06', slotLabel: 'Tiết 7-8', subjectName: 'Tin Học', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+    AttendanceSession(date: '05/06', slotLabel: 'Tiết 7-8', subjectName: 'Lịch Sử', statusLabel: 'Vắng không phép', color: AppColors.danger),
+    AttendanceSession(date: '05/06', slotLabel: 'Tiết 1-2', subjectName: 'Vật Lý', statusLabel: 'Vắng không phép', color: AppColors.danger),
+    AttendanceSession(date: '04/06', slotLabel: 'Tiết 3-4', subjectName: 'Tiếng Anh', statusLabel: 'Có mặt', color: AppColors.fptGreen),
+    AttendanceSession(date: '03/06', slotLabel: 'Tiết 1-2', subjectName: 'Ngữ Văn', statusLabel: 'Vắng có phép', color: AppColors.warning),
   ];
 
   static int get totalSessions =>

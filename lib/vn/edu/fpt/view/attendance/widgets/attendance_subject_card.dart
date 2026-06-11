@@ -6,9 +6,14 @@ import '../../../core/widgets/app_card.dart';
 import '../../../core/mock/app_mock_data.dart';
 
 class AttendanceSubjectCard extends StatelessWidget {
-  const AttendanceSubjectCard({super.key, required this.subject});
+  const AttendanceSubjectCard({
+    super.key,
+    required this.subject,
+    this.onTap,
+  });
 
   final AttendanceSubject subject;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +23,11 @@ class AttendanceSubjectCard extends StatelessWidget {
         ? totalAbsent / subject.totalSessions
         : 0.0;
 
-    return AppCard(
-      child: Column(
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppRadius.md),
+      child: AppCard(
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -113,6 +121,7 @@ class AttendanceSubjectCard extends StatelessWidget {
             ),
           ),
         ],
+        ),
       ),
     );
   }
