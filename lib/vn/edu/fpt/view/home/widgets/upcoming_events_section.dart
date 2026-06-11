@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -27,10 +28,8 @@ class UpcomingEventsSection extends StatelessWidget {
             separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.md),
             itemBuilder: (context, index) => EventCard(
               event: events[index],
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => EventDetailScreen(event: events[index]),
-                ),
+              onTap: () => Get.to(
+                () => EventDetailScreen(event: events[index]),
               ),
             ),
           ),

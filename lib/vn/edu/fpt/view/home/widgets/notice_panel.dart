@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/constants/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
@@ -32,8 +33,7 @@ class NoticePanel extends StatelessWidget {
                 child: Text('Thông báo mới', style: textTheme.titleMedium),
               ),
               TextButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed(AppRoutes.notification),
+                onPressed: () => Get.toNamed(AppRoutes.notification),
                 child: const Text('Xem tất cả'),
               ),
             ],
@@ -42,11 +42,8 @@ class NoticePanel extends StatelessWidget {
           for (var index = 0; index < notices.length; index++) ...[
             _NoticeItem(
               notice: notices[index],
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) =>
-                      NoticeDetailScreen(notice: notices[index]),
-                ),
+              onTap: () => Get.to(
+                () => NoticeDetailScreen(notice: notices[index]),
               ),
             ),
             if (index != notices.length - 1)

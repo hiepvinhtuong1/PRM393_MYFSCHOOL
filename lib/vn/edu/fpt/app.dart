@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import 'bindings/app_binding.dart';
+import 'core/constants/app_routes.dart';
 import 'core/theme/app_theme.dart';
 import 'routes/app_router.dart';
 
@@ -8,12 +11,13 @@ class MyFptSchoolsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'MyFPTSchools',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
-      initialRoute: AppRouter.initialRoute,
-      onGenerateRoute: AppRouter.onGenerateRoute,
+      initialRoute: AppRoutes.login,
+      getPages: AppRouter.pages,
+      initialBinding: AppBinding(),
     );
   }
 }

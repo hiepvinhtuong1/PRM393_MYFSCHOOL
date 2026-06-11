@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../core/constants/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/app_button.dart';
 import '../../core/mock/app_mock_data.dart';
+import '../../controllers/auth_controller.dart';
 import 'change_password_screen.dart';
 import 'notification_settings_screen.dart';
 import 'policy_screen.dart';
@@ -15,45 +17,25 @@ import 'widgets/profile_menu_card.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  void _onMenuTap(BuildContext context, ProfileMenuItem item) {
+  void _onMenuTap(ProfileMenuItem item) {
     switch (item.title) {
       case 'Thông tin cá nhân':
-        Navigator.of(context).pushNamed(AppRoutes.personalInfo);
+        Get.toNamed(AppRoutes.personalInfo);
       case 'Cài đặt thông báo':
-        Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => const NotificationSettingsScreen(),
-          ),
-        );
+        Get.to(() => const NotificationSettingsScreen());
       case 'Đổi mật khẩu':
-        Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => const ChangePasswordScreen(),
-          ),
-        );
+        Get.to(() => const ChangePasswordScreen());
       case 'Điều khoản và chính sách':
-        Navigator.of(context).push(
-          MaterialPageRoute<void>(
-            builder: (_) => const PolicyScreen(),
-          ),
-        );
+        Get.to(() => const PolicyScreen());
       default:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${item.title} sẽ được triển khai ở bước sau'),
-          ),
+        Get.snackbar(
+          'Thông báo',
+          '${item.title} sẽ được triển khai ở bước sau',
         );
     }
   }
 
-  void _logout(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Đã đăng xuất khỏi tài khoản mock')),
-    );
-    Navigator.of(
-      context,
-    ).pushNamedAndRemoveUntil(AppRoutes.login, (route) => false);
-  }
+  void _logout() => Get.find<AuthController>().logout();
 
   @override
   Widget build(BuildContext context) {
@@ -102,13 +84,13 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           ProfileMenuCard(
             items: ProfileMockData.menuItems,
-            onItemTap: (item) => _onMenuTap(context, item),
+            onItemTap: _onMenuTap,
           ),
           const SizedBox(height: AppSpacing.lg),
           AppButton(
             label: 'Đăng xuất',
             icon: Icons.logout,
-            onPressed: () => _logout(context),
+            onPressed: _logout,
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.danger,
               foregroundColor: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../constants/app_routes.dart';
 import '../constants/app_strings.dart';
@@ -32,7 +33,7 @@ class AppScaffold extends StatelessWidget {
                 IconButton(
                   onPressed: () {
                     if (currentRoute != AppRoutes.notification) {
-                      Navigator.of(context).pushNamed(AppRoutes.notification);
+                      Get.toNamed(AppRoutes.notification);
                     }
                   },
                   icon: const Icon(Icons.notifications_outlined),
@@ -87,9 +88,8 @@ class _AppBottomNavigationBar extends StatelessWidget {
     ),
   ];
 
-  static bool isMainRoute(String route) {
-    return _items.any((item) => item.route == route);
-  }
+  static bool isMainRoute(String route) =>
+      _items.any((item) => item.route == route);
 
   @override
   Widget build(BuildContext context) {
@@ -102,8 +102,7 @@ class _AppBottomNavigationBar extends StatelessWidget {
       onTap: (index) {
         final route = _items[index].route;
         if (route == currentRoute) return;
-
-        Navigator.of(context).pushReplacementNamed(route);
+        Get.offNamed(route);
       },
       items: _items.map((item) {
         return BottomNavigationBarItem(
