@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../controllers/auth_controller.dart';
 import '../core/constants/app_routes.dart';
+import '../core/mock/app_mock_data.dart';
 import '../core/widgets/app_scaffold.dart';
 import '../view/attendance/attendance_screen.dart';
 import '../view/contact/contact_screen.dart';
@@ -33,15 +35,23 @@ abstract final class AppRouter {
     ),
     GetPage(
       name: AppRoutes.timetable,
-      page: () => _screen(
-        AppRoutes.timetable,
-        'Lịch học',
-        const TimetableScreen(),
-      ),
+      page: () {
+        final childName = HomeMockData.user.fullName.split(' ').last;
+        final title = Get.find<AuthController>().isParent
+            ? 'Lịch học của $childName'
+            : 'Lịch học';
+        return _screen(AppRoutes.timetable, title, const TimetableScreen());
+      },
     ),
     GetPage(
       name: AppRoutes.grade,
-      page: () => _screen(AppRoutes.grade, 'Bảng điểm', const GradeScreen()),
+      page: () {
+        final childName = HomeMockData.user.fullName.split(' ').last;
+        final title = Get.find<AuthController>().isParent
+            ? 'Bảng điểm của $childName'
+            : 'Bảng điểm';
+        return _screen(AppRoutes.grade, title, const GradeScreen());
+      },
     ),
     GetPage(
       name: AppRoutes.notification,
