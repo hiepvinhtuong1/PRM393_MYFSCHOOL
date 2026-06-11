@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/empty_state.dart';
-import '../mock/timetable_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 import 'lesson_card.dart';
 
 class TimelineLessonList extends StatelessWidget {
@@ -20,8 +20,8 @@ class TimelineLessonList extends StatelessWidget {
     if (lessons.isEmpty) {
       return const EmptyState(
         icon: Icons.event_busy_outlined,
-        title: 'Không có tiết học',
-        message: 'Ngày đã chọn chưa có lịch học.',
+        title: 'KhÃ´ng cÃ³ tiáº¿t há»c',
+        message: 'NgÃ y Ä‘Ã£ chá»n chÆ°a cÃ³ lá»‹ch há»c.',
       );
     }
 

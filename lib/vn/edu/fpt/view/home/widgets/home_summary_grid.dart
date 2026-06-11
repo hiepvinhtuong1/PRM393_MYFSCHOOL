@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
-import '../mock/home_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class HomeSummaryGrid extends StatelessWidget {
   const HomeSummaryGrid({
@@ -67,9 +67,9 @@ class _ScheduleSummaryCard extends StatelessWidget {
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Expanded(
-                    child: Text('Lịch học', style: textTheme.titleMedium),
+                    child: Text('Lá»‹ch há»c', style: textTheme.titleMedium),
                   ),
-                  _Pill(label: 'Hôm nay'),
+                  _Pill(label: 'HÃ´m nay'),
                 ],
               ),
               const SizedBox(height: AppSpacing.sm),
@@ -84,7 +84,7 @@ class _ScheduleSummaryCard extends StatelessWidget {
                 ),
               ),
               Text(
-                'Xem toàn bộ lịch',
+                'Xem toÃ n bá»™ lá»‹ch',
                 textAlign: TextAlign.center,
                 style: textTheme.labelSmall?.copyWith(
                   color: AppColors.fptOrange,
@@ -139,7 +139,7 @@ class _ScheduleLine extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${item.startTime} • ${item.roomCode}',
+                  '${item.startTime} â€¢ ${item.roomCode}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.labelSmall,
@@ -187,7 +187,7 @@ class _ProgressSummaryCard extends StatelessWidget {
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Expanded(
-                    child: Text('Tiến độ', style: textTheme.titleMedium),
+                    child: Text('Tiáº¿n Ä‘á»™', style: textTheme.titleMedium),
                   ),
                   Text(
                     gpa.toStringAsFixed(1),

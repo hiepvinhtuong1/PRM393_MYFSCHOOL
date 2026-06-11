@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../theme/app_colors.dart';
 
 enum NotificationCategory {
-  all('Tất cả', Icons.notifications_outlined, AppColors.textSecondary),
-  study('Học tập', Icons.school_outlined, AppColors.fptBlue),
-  attendance('Điểm danh', Icons.fact_check_outlined, AppColors.warning),
-  grade('Điểm số', Icons.bar_chart_outlined, AppColors.fptGreen),
-  event('Sự kiện', Icons.event_available_outlined, AppColors.fptOrange);
+  all('Táº¥t cáº£', Icons.notifications_outlined, AppColors.textSecondary),
+  study('Há»c táº­p', Icons.school_outlined, AppColors.fptBlue),
+  attendance('Äiá»ƒm danh', Icons.fact_check_outlined, AppColors.warning),
+  grade('Äiá»ƒm sá»‘', Icons.bar_chart_outlined, AppColors.fptGreen),
+  event('Sá»± kiá»‡n', Icons.event_available_outlined, AppColors.fptOrange);
 
   const NotificationCategory(this.label, this.icon, this.color);
 
@@ -51,41 +51,45 @@ abstract final class NotificationMockData {
   static const notifications = <SchoolNotification>[
     SchoolNotification(
       id: 'attendance-001',
-      title: 'Cập nhật điểm danh buổi sáng',
-      description: 'Nguyễn Minh Anh đã có mặt trong tiết Toán Học lúc 07:30.',
-      time: '08:05 hôm nay',
+      title: 'Cáº­p nháº­t Ä‘iá»ƒm danh buá»•i sÃ¡ng',
+      description:
+          'Nguyá»…n Minh Anh Ä‘Ã£ cÃ³ máº·t trong tiáº¿t ToÃ¡n Há»c lÃºc 07:30.',
+      time: '08:05 hÃ´m nay',
       category: NotificationCategory.attendance,
       isRead: false,
     ),
     SchoolNotification(
       id: 'grade-001',
-      title: 'Có điểm kiểm tra mới',
-      description: 'Môn Vật Lý đã cập nhật điểm kiểm tra 15 phút.',
-      time: 'Hôm qua',
+      title: 'CÃ³ Ä‘iá»ƒm kiá»ƒm tra má»›i',
+      description:
+          'MÃ´n Váº­t LÃ½ Ä‘Ã£ cáº­p nháº­t Ä‘iá»ƒm kiá»ƒm tra 15 phÃºt.',
+      time: 'HÃ´m qua',
       category: NotificationCategory.grade,
       isRead: false,
     ),
     SchoolNotification(
       id: 'study-001',
-      title: 'Nhắc lịch học Ngữ Văn',
-      description: 'Tiết học bắt đầu lúc 08:15 tại phòng 305.',
-      time: '2 ngày trước',
+      title: 'Nháº¯c lá»‹ch há»c Ngá»¯ VÄƒn',
+      description: 'Tiáº¿t há»c báº¯t Ä‘áº§u lÃºc 08:15 táº¡i phÃ²ng 305.',
+      time: '2 ngÃ y trÆ°á»›c',
       category: NotificationCategory.study,
       isRead: true,
     ),
     SchoolNotification(
       id: 'event-001',
-      title: 'Hội thao học sinh FPT',
-      description: 'Đăng ký tham gia các nội dung thi đấu trước ngày 15/06.',
-      time: '3 ngày trước',
+      title: 'Há»™i thao há»c sinh FPT',
+      description:
+          'ÄÄƒng kÃ½ tham gia cÃ¡c ná»™i dung thi Ä‘áº¥u trÆ°á»›c ngÃ y 15/06.',
+      time: '3 ngÃ y trÆ°á»›c',
       category: NotificationCategory.event,
       isRead: false,
     ),
     SchoolNotification(
       id: 'study-002',
-      title: 'Tài liệu ôn tập học kỳ',
-      description: 'Tài liệu ôn tập Toán, Văn, Anh đã được giáo viên cập nhật.',
-      time: '5 ngày trước',
+      title: 'TÃ i liá»‡u Ã´n táº­p há»c ká»³',
+      description:
+          'TÃ i liá»‡u Ã´n táº­p ToÃ¡n, VÄƒn, Anh Ä‘Ã£ Ä‘Æ°á»£c giÃ¡o viÃªn cáº­p nháº­t.',
+      time: '5 ngÃ y trÆ°á»›c',
       category: NotificationCategory.study,
       isRead: true,
     ),

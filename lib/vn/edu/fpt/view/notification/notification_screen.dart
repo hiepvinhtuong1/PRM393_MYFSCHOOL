@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/empty_state.dart';
-import 'mock/notification_mock_data.dart';
+import '../../core/mock/app_mock_data.dart';
 import 'widgets/notification_card.dart';
 import 'widgets/notification_filter_chips.dart';
 
@@ -83,7 +83,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Thông báo',
+                          'ThÃ´ng bÃ¡o',
                           style: textTheme.headlineSmall?.copyWith(
                             color: AppColors.textPrimary,
                             fontWeight: FontWeight.w800,
@@ -92,8 +92,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         const SizedBox(height: AppSpacing.xs),
                         Text(
                           _unreadCount > 0
-                              ? 'Bạn có $_unreadCount thông báo chưa đọc'
-                              : 'Tất cả thông báo đã được đọc',
+                              ? 'Báº¡n cÃ³ $_unreadCount thÃ´ng bÃ¡o chÆ°a Ä‘á»c'
+                              : 'Táº¥t cáº£ thÃ´ng bÃ¡o Ä‘Ã£ Ä‘Æ°á»£c Ä‘á»c',
                           style: textTheme.bodyMedium?.copyWith(
                             color: AppColors.textSecondary,
                           ),
@@ -105,7 +105,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     TextButton.icon(
                       onPressed: _markAllAsRead,
                       icon: const Icon(Icons.done_all_outlined, size: 18),
-                      label: const Text('Đánh dấu đã đọc'),
+                      label: const Text('ÄÃ¡nh dáº¥u Ä‘Ã£ Ä‘á»c'),
                     ),
                 ],
               ),
@@ -122,8 +122,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
               if (filteredNotifications.isEmpty)
                 const EmptyState(
                   icon: Icons.notifications_none_outlined,
-                  title: 'Chưa có thông báo',
-                  message: 'Bộ lọc này hiện chưa có thông báo nào.',
+                  title: 'ChÆ°a cÃ³ thÃ´ng bÃ¡o',
+                  message: 'Bá»™ lá»c nÃ y hiá»‡n chÆ°a cÃ³ thÃ´ng bÃ¡o nÃ o.',
                 )
               else
                 ListView.separated(

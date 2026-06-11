@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
-import '../mock/home_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class NoticePanel extends StatelessWidget {
   const NoticePanel({super.key, required this.notices});
@@ -28,12 +28,12 @@ class NoticePanel extends StatelessWidget {
               ),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
-                child: Text('Thông báo mới', style: textTheme.titleMedium),
+                child: Text('ThÃ´ng bÃ¡o má»›i', style: textTheme.titleMedium),
               ),
               TextButton(
                 onPressed: () =>
                     Navigator.of(context).pushNamed(AppRoutes.notification),
-                child: const Text('Xem tất cả'),
+                child: const Text('Xem táº¥t cáº£'),
               ),
             ],
           ),

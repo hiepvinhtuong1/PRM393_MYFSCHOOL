@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
-import 'mock/grade_mock_data.dart';
+import '../../core/mock/app_mock_data.dart';
 import 'widgets/gpa_summary_card.dart';
 import 'widgets/grade_filter_row.dart';
 import 'widgets/grade_item_card.dart';
@@ -30,7 +30,7 @@ class _GradeScreenState extends State<GradeScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Bảng điểm',
+            'Báº£ng Ä‘iá»ƒm',
             style: textTheme.displaySmall?.copyWith(
               color: AppColors.textPrimary,
               fontWeight: FontWeight.w800,
@@ -53,7 +53,7 @@ class _GradeScreenState extends State<GradeScreen> {
           GpaSummaryCard(semester: _selectedSemester, gpa: gpa),
           const SizedBox(height: AppSpacing.lg),
           Text(
-            'Bảng điểm chi tiết',
+            'Báº£ng Ä‘iá»ƒm chi tiáº¿t',
             style: textTheme.titleMedium?.copyWith(
               color: AppColors.textSecondary,
               fontWeight: FontWeight.w800,

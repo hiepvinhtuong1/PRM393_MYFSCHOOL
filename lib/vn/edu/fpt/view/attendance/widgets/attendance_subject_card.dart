@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
-import '../mock/attendance_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class AttendanceSubjectCard extends StatelessWidget {
   const AttendanceSubjectCard({super.key, required this.subject});
@@ -49,19 +49,19 @@ class AttendanceSubjectCard extends StatelessWidget {
           Row(
             children: [
               _CountBadge(
-                label: 'Có mặt',
+                label: 'CÃ³ máº·t',
                 value: subject.presentSessions,
                 color: AppColors.fptGreen,
               ),
               const SizedBox(width: AppSpacing.sm),
               _CountBadge(
-                label: 'Vắng',
+                label: 'Váº¯ng',
                 value: subject.absentSessions,
                 color: AppColors.danger,
               ),
               const SizedBox(width: AppSpacing.sm),
               _CountBadge(
-                label: 'Muộn',
+                label: 'Muá»™n',
                 value: subject.lateSessions,
                 color: AppColors.warning,
               ),
@@ -83,7 +83,7 @@ class AttendanceSubjectCard extends StatelessWidget {
               ),
               const SizedBox(width: AppSpacing.md),
               Text(
-                '${subject.absentSessions}/${subject.totalSessions} buổi vắng',
+                '${subject.absentSessions}/${subject.totalSessions} buá»•i váº¯ng',
                 style: textTheme.bodySmall?.copyWith(
                   color: AppColors.textSecondary,
                   fontWeight: FontWeight.w700,
@@ -93,7 +93,7 @@ class AttendanceSubjectCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            'Ngưỡng cảnh báo: ${(subject.thresholdPercent * 100).toStringAsFixed(0)}%',
+            'NgÆ°á»¡ng cáº£nh bÃ¡o: ${(subject.thresholdPercent * 100).toStringAsFixed(0)}%',
             style: textTheme.bodySmall?.copyWith(color: AppColors.textTertiary),
           ),
         ],

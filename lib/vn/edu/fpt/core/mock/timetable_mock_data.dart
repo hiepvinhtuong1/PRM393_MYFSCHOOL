@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../theme/app_colors.dart';
 
 class WeekDayItem {
   const WeekDayItem({
@@ -41,9 +41,9 @@ class LessonItem {
 }
 
 enum LessonStatus {
-  present('Có mặt', AppColors.fptGreen),
-  absent('Vắng', Color(0xFFB45309)),
-  notYet('Chưa điểm danh', Color(0xFF6B7280));
+  present('CÃ³ máº·t', AppColors.fptGreen),
+  absent('Váº¯ng', Color(0xFFB45309)),
+  notYet('ChÆ°a Ä‘iá»ƒm danh', Color(0xFF6B7280));
 
   const LessonStatus(this.label, this.color);
 
@@ -70,24 +70,24 @@ abstract final class TimetableMockData {
   static const semesters = <SemesterItem>[
     SemesterItem(
       id: '2026-2',
-      label: 'Kì 2 2026',
+      label: 'KÃ¬ 2 2026',
       icon: Icons.wb_sunny_outlined,
     ),
-    SemesterItem(id: '2026-1', label: 'Kì 1 2026', icon: Icons.spa_outlined),
+    SemesterItem(id: '2026-1', label: 'KÃ¬ 1 2026', icon: Icons.spa_outlined),
     SemesterItem(
       id: '2025-3',
-      label: 'Kì 3 2025',
+      label: 'KÃ¬ 3 2025',
       icon: Icons.ac_unit_outlined,
     ),
     SemesterItem(
       id: '2025-2',
-      label: 'Kì 2 2025',
+      label: 'KÃ¬ 2 2025',
       icon: Icons.wb_sunny_outlined,
     ),
-    SemesterItem(id: '2025-1', label: 'Kì 1 2025', icon: Icons.spa_outlined),
+    SemesterItem(id: '2025-1', label: 'KÃ¬ 1 2025', icon: Icons.spa_outlined),
     SemesterItem(
       id: '2024-3',
-      label: 'Kì 3 2024',
+      label: 'KÃ¬ 3 2024',
       icon: Icons.ac_unit_outlined,
     ),
   ];
@@ -96,19 +96,19 @@ abstract final class TimetableMockData {
     LessonItem(
       id: 's1',
       date: '2026-06-04',
-      subjectName: 'Toán Cao Cấp',
-      teacherName: 'Nguyễn Văn A',
+      subjectName: 'ToÃ¡n Cao Cáº¥p',
+      teacherName: 'Nguyá»…n VÄƒn A',
       startTime: '07:30',
       endTime: '09:45',
-      roomCode: 'Phòng 201',
+      roomCode: 'PhÃ²ng 201',
       color: AppColors.fptOrange,
       status: LessonStatus.present,
     ),
     LessonItem(
       id: 's2',
       date: '2026-06-04',
-      subjectName: 'Lập Trình Web',
-      teacherName: 'Lê Văn C',
+      subjectName: 'Láº­p TrÃ¬nh Web',
+      teacherName: 'LÃª VÄƒn C',
       startTime: '10:00',
       endTime: '12:15',
       roomCode: 'Lab 3B',
@@ -118,33 +118,33 @@ abstract final class TimetableMockData {
     LessonItem(
       id: 's3',
       date: '2026-06-03',
-      subjectName: 'Toán Học',
-      teacherName: 'Nguyễn Văn A',
+      subjectName: 'ToÃ¡n Há»c',
+      teacherName: 'Nguyá»…n VÄƒn A',
       startTime: '07:30',
       endTime: '08:15',
-      roomCode: 'Phòng 302',
+      roomCode: 'PhÃ²ng 302',
       color: AppColors.fptOrange,
       status: LessonStatus.present,
     ),
     LessonItem(
       id: 's4',
       date: '2026-06-03',
-      subjectName: 'Ngữ Văn',
-      teacherName: 'Trần Thị B',
+      subjectName: 'Ngá»¯ VÄƒn',
+      teacherName: 'Tráº§n Thá»‹ B',
       startTime: '08:15',
       endTime: '09:00',
-      roomCode: 'Phòng 305',
+      roomCode: 'PhÃ²ng 305',
       color: AppColors.fptBlue,
       status: LessonStatus.absent,
     ),
     LessonItem(
       id: 's5',
       date: '2026-06-03',
-      subjectName: 'Vật Lý',
-      teacherName: 'Lê Văn C',
+      subjectName: 'Váº­t LÃ½',
+      teacherName: 'LÃª VÄƒn C',
       startTime: '09:15',
       endTime: '10:00',
-      roomCode: 'Phòng Lab 1',
+      roomCode: 'PhÃ²ng Lab 1',
       color: AppColors.fptGreen,
       status: LessonStatus.notYet,
     ),
@@ -161,13 +161,13 @@ abstract final class TimetableMockData {
   static List<WeekDayItem> weekDaysFor(DateTime weekStart) {
     const dayLabels = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
     const fullDayLabels = [
-      'Thứ 2',
-      'Thứ 3',
-      'Thứ 4',
-      'Thứ 5',
-      'Thứ 6',
-      'Thứ 7',
-      'Chủ nhật',
+      'Thá»© 2',
+      'Thá»© 3',
+      'Thá»© 4',
+      'Thá»© 5',
+      'Thá»© 6',
+      'Thá»© 7',
+      'Chá»§ nháº­t',
     ];
 
     return List<WeekDayItem>.generate(7, (index) {
@@ -179,7 +179,7 @@ abstract final class TimetableMockData {
         date: dateKey(date),
         dayLabel: dayLabels[index],
         dayNumber: '${date.day}',
-        fullLabel: '${fullDayLabels[index]}, ngày $day/$month',
+        fullLabel: '${fullDayLabels[index]}, ngÃ y $day/$month',
       );
     });
   }
@@ -193,9 +193,9 @@ abstract final class TimetableMockData {
   static String monthYearLabel(DateTime weekStart) {
     final weekEnd = weekStart.add(const Duration(days: 6));
     if (weekStart.month == weekEnd.month) {
-      return 'Tháng ${weekStart.month}, ${weekStart.year}';
+      return 'ThÃ¡ng ${weekStart.month}, ${weekStart.year}';
     }
-    return 'Tháng ${weekStart.month}-${weekEnd.month}, ${weekStart.year}';
+    return 'ThÃ¡ng ${weekStart.month}-${weekEnd.month}, ${weekStart.year}';
   }
 
   static String weekRangeLabel(DateTime weekStart) {
@@ -206,7 +206,7 @@ abstract final class TimetableMockData {
       return '$day/$month/${date.year}';
     }
 
-    return 'Tuần hiện tại: ${shortDate(weekStart)} - ${shortDate(weekEnd)}';
+    return 'Tuáº§n hiá»‡n táº¡i: ${shortDate(weekStart)} - ${shortDate(weekEnd)}';
   }
 
   static WeekDayItem dayForDate(String date) {

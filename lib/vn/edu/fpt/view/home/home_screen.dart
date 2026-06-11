@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../core/theme/app_spacing.dart';
-import 'mock/home_mock_data.dart';
+import '../../core/mock/app_mock_data.dart';
 import 'widgets/home_header.dart';
 import 'widgets/home_summary_grid.dart';
 import 'widgets/notice_panel.dart';

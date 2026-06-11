@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
-import '../mock/attendance_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class AttendanceSummaryCard extends StatelessWidget {
   const AttendanceSummaryCard({super.key});
@@ -21,7 +21,7 @@ class AttendanceSummaryCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Tổng quan điểm danh',
+                  'Tá»•ng quan Ä‘iá»ƒm danh',
                   style: textTheme.titleMedium?.copyWith(
                     color: AppColors.textPrimary,
                     fontWeight: FontWeight.w800,
@@ -29,7 +29,7 @@ class AttendanceSummaryCard extends StatelessWidget {
                 ),
               ),
               Text(
-                '${(absentPercent * 100).toStringAsFixed(1)}% vắng',
+                '${(absentPercent * 100).toStringAsFixed(1)}% váº¯ng',
                 style: textTheme.titleMedium?.copyWith(
                   color: _riskColor(absentPercent),
                   fontWeight: FontWeight.w900,
@@ -52,28 +52,28 @@ class AttendanceSummaryCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _MetricTile(
-                  label: 'Tổng buổi',
+                  label: 'Tá»•ng buá»•i',
                   value: '${AttendanceMockData.totalSessions}',
                   color: AppColors.textPrimary,
                 ),
               ),
               Expanded(
                 child: _MetricTile(
-                  label: 'Có mặt',
+                  label: 'CÃ³ máº·t',
                   value: '${AttendanceMockData.presentSessions}',
                   color: AppColors.fptGreen,
                 ),
               ),
               Expanded(
                 child: _MetricTile(
-                  label: 'Vắng',
+                  label: 'Váº¯ng',
                   value: '${AttendanceMockData.absentSessions}',
                   color: AppColors.danger,
                 ),
               ),
               Expanded(
                 child: _MetricTile(
-                  label: 'Muộn',
+                  label: 'Muá»™n',
                   value: '${AttendanceMockData.lateSessions}',
                   color: AppColors.warning,
                 ),

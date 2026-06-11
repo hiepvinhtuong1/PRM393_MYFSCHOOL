@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -14,10 +14,10 @@ class GpaSummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final result = gpa >= 8
-        ? 'Giỏi'
+        ? 'Giá»i'
         : gpa >= 6.5
-        ? 'Khá'
-        : 'Cần cố gắng';
+        ? 'KhÃ¡'
+        : 'Cáº§n cá»‘ gáº¯ng';
     final progress = (gpa / 10).clamp(0.0, 1.0);
 
     return AppCard(
@@ -39,7 +39,7 @@ class GpaSummaryCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text('Tổng kết $semester', style: textTheme.titleMedium),
+                Text('Tá»•ng káº¿t $semester', style: textTheme.titleMedium),
                 const SizedBox(height: AppSpacing.md),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,7 +49,7 @@ class GpaSummaryCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'ĐIỂM TRUNG BÌNH',
+                          'ÄIá»‚M TRUNG BÃŒNH',
                           style: textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w800,
                           ),
@@ -68,7 +68,7 @@ class GpaSummaryCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'KẾT QUẢ',
+                          'Káº¾T QUáº¢',
                           style: textTheme.labelSmall?.copyWith(
                             fontWeight: FontWeight.w800,
                           ),

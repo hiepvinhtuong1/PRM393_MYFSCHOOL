@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
-import '../mock/attendance_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class RecentAttendanceList extends StatelessWidget {
   const RecentAttendanceList({super.key, required this.sessions});

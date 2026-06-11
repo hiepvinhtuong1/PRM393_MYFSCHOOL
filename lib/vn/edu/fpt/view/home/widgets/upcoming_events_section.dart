@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
-import '../mock/home_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class UpcomingEventsSection extends StatelessWidget {
   const UpcomingEventsSection({super.key, required this.events});
@@ -16,7 +16,7 @@ class UpcomingEventsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Sự kiện sắp tới', style: textTheme.headlineSmall),
+        Text('Sá»± kiá»‡n sáº¯p tá»›i', style: textTheme.headlineSmall),
         const SizedBox(height: AppSpacing.md),
         SizedBox(
           height: 150,

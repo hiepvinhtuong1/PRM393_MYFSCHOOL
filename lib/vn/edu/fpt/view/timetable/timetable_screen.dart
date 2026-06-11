@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
-import 'mock/timetable_mock_data.dart';
+import '../../core/mock/app_mock_data.dart';
 import 'widgets/semester_tab_bar.dart';
 import 'widgets/timeline_lesson_list.dart';
 import 'widgets/week_day_selector.dart';
@@ -38,7 +38,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
             children: [
               Expanded(
                 child: Text(
-                  'Lịch học',
+                  'Lá»‹ch há»c',
                   style: textTheme.displaySmall?.copyWith(
                     color: AppColors.textPrimary,
                     fontWeight: FontWeight.w800,
@@ -62,7 +62,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                       ),
                       SizedBox(width: AppSpacing.xs),
                       Text(
-                        'Tháng 6, 2026',
+                        'ThÃ¡ng 6, 2026',
                         style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 12,
@@ -111,7 +111,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     child: Text(
-                      'Hôm nay',
+                      'HÃ´m nay',
                       style: TextStyle(
                         color: AppColors.fptGreen,
                         fontSize: 11,

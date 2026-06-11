@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
-import '../mock/home_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key, required this.user});
@@ -29,7 +29,7 @@ class HomeHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'CHÀO BUỔI SÁNG,',
+                'CHÃ€O BUá»”I SÃNG,',
                 style: textTheme.labelSmall?.copyWith(
                   color: AppColors.textSecondary,
                   fontWeight: FontWeight.w800,
@@ -47,7 +47,7 @@ class HomeHeader extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                '${user.role} • Lớp ${user.className}',
+                '${user.role} â€¢ Lá»›p ${user.className}',
                 style: textTheme.bodySmall,
               ),
             ],

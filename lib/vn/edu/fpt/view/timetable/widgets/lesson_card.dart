@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
-import '../mock/timetable_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class LessonCard extends StatelessWidget {
   const LessonCard({super.key, required this.lesson});
@@ -164,7 +164,7 @@ class _MaterialBadge extends StatelessWidget {
       child: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 14, vertical: 7),
         child: Text(
-          'Tài liệu',
+          'TÃ i liá»‡u',
           style: TextStyle(
             color: AppColors.surface,
             fontSize: 12,

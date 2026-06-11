@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../theme/app_colors.dart';
 
 enum GradeStatus {
-  passed('Đạt', AppColors.fptGreen, Icons.check_circle_outline),
-  warning('Cảnh báo', AppColors.danger, Icons.warning_amber_outlined),
-  inProgress('Đang học', AppColors.warning, Icons.horizontal_rule);
+  passed('Äáº¡t', AppColors.fptGreen, Icons.check_circle_outline),
+  warning('Cáº£nh bÃ¡o', AppColors.danger, Icons.warning_amber_outlined),
+  inProgress('Äang há»c', AppColors.warning, Icons.horizontal_rule);
 
   const GradeStatus(this.label, this.color, this.icon);
 
@@ -33,13 +33,13 @@ class GradeItem {
 }
 
 abstract final class GradeMockData {
-  static const semesters = <String>['Học kỳ 1', 'Học kỳ 2'];
+  static const semesters = <String>['Há»c ká»³ 1', 'Há»c ká»³ 2'];
   static const years = <String>['2025-2026', '2024-2025', '2023-2024'];
 
   static const grades = <GradeItem>[
     GradeItem(
       id: 'g1',
-      subjectName: 'Toán',
+      subjectName: 'ToÃ¡n',
       coefficient: 2,
       averageScore: 8.5,
       examScore: 9,
@@ -47,7 +47,7 @@ abstract final class GradeMockData {
     ),
     GradeItem(
       id: 'g2',
-      subjectName: 'Ngữ Văn',
+      subjectName: 'Ngá»¯ VÄƒn',
       coefficient: 2,
       averageScore: 7,
       examScore: 7.5,
@@ -55,7 +55,7 @@ abstract final class GradeMockData {
     ),
     GradeItem(
       id: 'g3',
-      subjectName: 'Tiếng Anh',
+      subjectName: 'Tiáº¿ng Anh',
       coefficient: 1,
       averageScore: 9.2,
       examScore: 9.5,
@@ -63,7 +63,7 @@ abstract final class GradeMockData {
     ),
     GradeItem(
       id: 'g4',
-      subjectName: 'Vật Lý',
+      subjectName: 'Váº­t LÃ½',
       coefficient: 1,
       averageScore: 6.5,
       examScore: 6,

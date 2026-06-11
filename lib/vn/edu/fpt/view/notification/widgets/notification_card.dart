@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
-import '../mock/notification_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({
@@ -108,7 +108,7 @@ class NotificationCard extends StatelessWidget {
                       if (!notification.isRead)
                         TextButton(
                           onPressed: onMarkRead,
-                          child: const Text('Đánh dấu đã đọc'),
+                          child: const Text('ÄÃ¡nh dáº¥u Ä‘Ã£ Ä‘á»c'),
                         ),
                     ],
                   ),

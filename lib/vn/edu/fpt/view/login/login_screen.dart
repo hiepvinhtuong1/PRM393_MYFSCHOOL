@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/constants/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
-import 'mock/mock_users.dart';
+import '../../core/mock/app_mock_data.dart';
 import 'widgets/fpt_brand_header.dart';
 import 'widgets/login_form.dart';
 
@@ -50,7 +50,9 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Số điện thoại hoặc mật khẩu không đúng.'),
+          content: Text(
+            'Sá»‘ Ä‘iá»‡n thoáº¡i hoáº·c máº­t kháº©u khÃ´ng Ä‘Ãºng.',
+          ),
           backgroundColor: AppColors.danger,
         ),
       );
@@ -59,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Đăng nhập demo thành công: ${user.fullName}'),
+        content: Text('ÄÄƒng nháº­p demo thÃ nh cÃ´ng: ${user.fullName}'),
         backgroundColor: AppColors.fptGreen,
       ),
     );
@@ -72,7 +74,9 @@ class _LoginScreenState extends State<LoginScreen> {
   void _showForgotPasswordMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Tính năng quên mật khẩu sẽ được kết nối backend sau.'),
+        content: Text(
+          'TÃ­nh nÄƒng quÃªn máº­t kháº©u sáº½ Ä‘Æ°á»£c káº¿t ná»‘i backend sau.',
+        ),
       ),
     );
   }
@@ -118,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const Padding(
               padding: EdgeInsets.only(bottom: AppSpacing.md),
               child: Text(
-                'Phiên bản 1.0.0',
+                'PhiÃªn báº£n 1.0.0',
                 style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
               ),
             ),

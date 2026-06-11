@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../theme/app_colors.dart';
 
 class ProfileInfo {
   const ProfileInfo({
@@ -52,46 +52,46 @@ class ProfileMenuItem {
 
 abstract final class ProfileMockData {
   static const profile = ProfileInfo(
-    fullName: 'Nguyễn Minh Anh',
-    role: 'Học sinh',
+    fullName: 'Nguyá»…n Minh Anh',
+    role: 'Há»c sinh',
     studentCode: 'HS20260018',
     className: '10A1',
-    grade: 'Khối 10',
+    grade: 'Khá»‘i 10',
     campus: 'FPT School Alpha Campus',
     phone: '0912345678',
     email: 'minhanh@student.fpt.edu.vn',
-    guardianName: 'Trần Thu Hà',
+    guardianName: 'Tráº§n Thu HÃ ',
     guardianPhone: '0987654321',
   );
 
   static const menuItems = <ProfileMenuItem>[
     ProfileMenuItem(
-      title: 'Thông tin cá nhân',
-      subtitle: 'Xem hồ sơ học sinh và liên hệ',
+      title: 'ThÃ´ng tin cÃ¡ nhÃ¢n',
+      subtitle: 'Xem há»“ sÆ¡ há»c sinh vÃ  liÃªn há»‡',
       icon: Icons.badge_outlined,
       color: AppColors.fptBlue,
     ),
     ProfileMenuItem(
-      title: 'Cài đặt thông báo',
-      subtitle: 'Quản lý nhóm thông báo muốn nhận',
+      title: 'CÃ i Ä‘áº·t thÃ´ng bÃ¡o',
+      subtitle: 'Quáº£n lÃ½ nhÃ³m thÃ´ng bÃ¡o muá»‘n nháº­n',
       icon: Icons.notifications_active_outlined,
       color: AppColors.fptOrange,
     ),
     ProfileMenuItem(
-      title: 'Ngôn ngữ',
-      subtitle: 'Tiếng Việt',
+      title: 'NgÃ´n ngá»¯',
+      subtitle: 'Tiáº¿ng Viá»‡t',
       icon: Icons.language_outlined,
       color: AppColors.fptGreen,
     ),
     ProfileMenuItem(
-      title: 'Đổi mật khẩu',
-      subtitle: 'Cập nhật mật khẩu tài khoản',
+      title: 'Äá»•i máº­t kháº©u',
+      subtitle: 'Cáº­p nháº­t máº­t kháº©u tÃ i khoáº£n',
       icon: Icons.lock_reset_outlined,
       color: AppColors.warning,
     ),
     ProfileMenuItem(
-      title: 'Điều khoản và chính sách',
-      subtitle: 'Quy định sử dụng ứng dụng',
+      title: 'Äiá»u khoáº£n vÃ  chÃ­nh sÃ¡ch',
+      subtitle: 'Quy Ä‘á»‹nh sá»­ dá»¥ng á»©ng dá»¥ng',
       icon: Icons.policy_outlined,
       color: AppColors.textSecondary,
     ),

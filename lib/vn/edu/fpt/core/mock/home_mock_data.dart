@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../theme/app_colors.dart';
 
 class HomeUser {
   const HomeUser({
@@ -62,20 +62,20 @@ class HomeEvent {
 
 abstract final class HomeMockData {
   static const user = HomeUser(
-    fullName: 'Nguyễn Minh Anh',
-    role: 'Học sinh',
+    fullName: 'Nguyá»…n Minh Anh',
+    role: 'Há»c sinh',
     className: '10A1',
   );
 
   static const todaySchedule = <HomeScheduleItem>[
     HomeScheduleItem(
-      subjectName: 'Toán Cao Cấp',
+      subjectName: 'ToÃ¡n Cao Cáº¥p',
       startTime: '07:30',
-      roomCode: 'Phòng 201',
+      roomCode: 'PhÃ²ng 201',
       color: AppColors.fptOrange,
     ),
     HomeScheduleItem(
-      subjectName: 'Lập Trình Web',
+      subjectName: 'Láº­p TrÃ¬nh Web',
       startTime: '10:00',
       roomCode: 'Lab 3B',
       color: AppColors.fptGreen,
@@ -87,43 +87,43 @@ abstract final class HomeMockData {
 
   static const notices = <HomeNotice>[
     HomeNotice(
-      title: 'Đóng học phí kỳ Fall 2026',
+      title: 'ÄÃ³ng há»c phÃ­ ká»³ Fall 2026',
       description:
-          'Hạn chót nộp học phí là ngày 30/10. Vui lòng hoàn thành để không ảnh hưởng đăng ký học.',
-      time: '2 giờ trước',
-      badge: 'Học phí',
+          'Háº¡n chÃ³t ná»™p há»c phÃ­ lÃ  ngÃ y 30/10. Vui lÃ²ng hoÃ n thÃ nh Ä‘á»ƒ khÃ´ng áº£nh hÆ°á»Ÿng Ä‘Äƒng kÃ½ há»c.',
+      time: '2 giá» trÆ°á»›c',
+      badge: 'Há»c phÃ­',
       color: AppColors.danger,
     ),
     HomeNotice(
-      title: 'Cập nhật lịch thi giữa kỳ',
+      title: 'Cáº­p nháº­t lá»‹ch thi giá»¯a ká»³',
       description:
-          'Lịch thi giữa kỳ các môn chuyên ngành đã được cập nhật chính thức trên hệ thống.',
-      time: 'Hôm qua',
-      badge: 'Lịch thi',
+          'Lá»‹ch thi giá»¯a ká»³ cÃ¡c mÃ´n chuyÃªn ngÃ nh Ä‘Ã£ Ä‘Æ°á»£c cáº­p nháº­t chÃ­nh thá»©c trÃªn há»‡ thá»‘ng.',
+      time: 'HÃ´m qua',
+      badge: 'Lá»‹ch thi',
       color: AppColors.info,
     ),
   ];
 
   static const events = <HomeEvent>[
     HomeEvent(
-      title: 'Hội thao FPT School 2026',
-      date: 'Hôm nay',
-      location: 'Sân bóng đá chính',
-      category: 'Thể thao',
+      title: 'Há»™i thao FPT School 2026',
+      date: 'HÃ´m nay',
+      location: 'SÃ¢n bÃ³ng Ä‘Ã¡ chÃ­nh',
+      category: 'Thá»ƒ thao',
       color: AppColors.fptGreen,
     ),
     HomeEvent(
-      title: 'Hội thảo AI trong học tập',
+      title: 'Há»™i tháº£o AI trong há»c táº­p',
       date: '28 Th10',
-      location: 'Hội trường Alpha',
-      category: 'Ngoại khóa',
+      location: 'Há»™i trÆ°á»ng Alpha',
+      category: 'Ngoáº¡i khÃ³a',
       color: AppColors.fptBlue,
     ),
     HomeEvent(
-      title: 'Lễ hội âm nhạc mùa thu',
+      title: 'Lá»… há»™i Ã¢m nháº¡c mÃ¹a thu',
       date: '20 Th10',
-      location: 'Hội trường A',
-      category: 'Nghệ thuật',
+      location: 'Há»™i trÆ°á»ng A',
+      category: 'Nghá»‡ thuáº­t',
       color: AppColors.fptOrange,
     ),
   ];

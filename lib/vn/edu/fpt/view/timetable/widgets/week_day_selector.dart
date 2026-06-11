@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
-import '../mock/timetable_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class WeekDaySelector extends StatelessWidget {
   const WeekDaySelector({
@@ -40,7 +40,7 @@ class WeekDaySelector extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                tooltip: 'Tuần trước',
+                tooltip: 'Tuáº§n trÆ°á»›c',
                 onPressed: onPreviousWeek,
                 icon: const Icon(Icons.chevron_left),
               ),
@@ -52,7 +52,7 @@ class WeekDaySelector extends StatelessWidget {
                 ),
               ),
               IconButton(
-                tooltip: 'Tuần sau',
+                tooltip: 'Tuáº§n sau',
                 onPressed: onNextWeek,
                 icon: const Icon(Icons.chevron_right),
               ),

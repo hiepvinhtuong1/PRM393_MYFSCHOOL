@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
-import '../mock/grade_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class GradeItemCard extends StatelessWidget {
   const GradeItemCard({super.key, required this.item});
@@ -41,7 +41,7 @@ class GradeItemCard extends StatelessWidget {
             children: [
               Expanded(
                 child: _ScoreColumn(
-                  label: 'TB môn',
+                  label: 'TB mÃ´n',
                   value: item.averageScore.toStringAsFixed(1),
                   alignment: CrossAxisAlignment.start,
                 ),
@@ -57,7 +57,7 @@ class GradeItemCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('Trạng thái', style: textTheme.labelSmall),
+                    Text('Tráº¡ng thÃ¡i', style: textTheme.labelSmall),
                     const SizedBox(height: AppSpacing.xs),
                     _StatusBadge(status: item.status),
                   ],

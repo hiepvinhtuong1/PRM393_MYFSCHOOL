@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
-import '../mock/profile_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class ProfileInfoCard extends StatelessWidget {
   const ProfileInfoCard({super.key, required this.profile});
@@ -15,15 +15,15 @@ class ProfileInfoCard extends StatelessWidget {
     return AppCard(
       child: Column(
         children: [
-          _InfoRow(label: 'Mã học sinh', value: profile.studentCode),
-          _InfoRow(label: 'Lớp', value: profile.className),
-          _InfoRow(label: 'Khối', value: profile.grade),
-          _InfoRow(label: 'Cơ sở', value: profile.campus),
-          _InfoRow(label: 'Số điện thoại', value: profile.phone),
+          _InfoRow(label: 'MÃ£ há»c sinh', value: profile.studentCode),
+          _InfoRow(label: 'Lá»›p', value: profile.className),
+          _InfoRow(label: 'Khá»‘i', value: profile.grade),
+          _InfoRow(label: 'CÆ¡ sá»Ÿ', value: profile.campus),
+          _InfoRow(label: 'Sá»‘ Ä‘iá»‡n thoáº¡i', value: profile.phone),
           _InfoRow(label: 'Email', value: profile.email),
-          _InfoRow(label: 'Phụ huynh', value: profile.guardianName),
+          _InfoRow(label: 'Phá»¥ huynh', value: profile.guardianName),
           _InfoRow(
-            label: 'SĐT phụ huynh',
+            label: 'SÄT phá»¥ huynh',
             value: profile.guardianPhone,
             showDivider: false,
           ),

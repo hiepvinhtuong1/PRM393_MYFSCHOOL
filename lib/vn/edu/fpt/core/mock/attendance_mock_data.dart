@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../theme/app_colors.dart';
 
 enum AttendanceStatus {
-  safe('An toàn', AppColors.fptGreen, Icons.check_circle_outline),
-  attention('Cần chú ý', AppColors.warning, Icons.info_outline),
-  danger('Nguy hiểm', AppColors.danger, Icons.warning_amber_outlined),
-  exceeded('Vượt ngưỡng', Color(0xFFB91C1C), Icons.report_gmailerrorred);
+  safe('An toÃ n', AppColors.fptGreen, Icons.check_circle_outline),
+  attention('Cáº§n chÃº Ã½', AppColors.warning, Icons.info_outline),
+  danger('Nguy hiá»ƒm', AppColors.danger, Icons.warning_amber_outlined),
+  exceeded('VÆ°á»£t ngÆ°á»¡ng', Color(0xFFB91C1C), Icons.report_gmailerrorred);
 
   const AttendanceStatus(this.label, this.color, this.icon);
 
@@ -62,17 +62,17 @@ class AttendanceSession {
 
 abstract final class AttendanceMockData {
   static const semesters = <String>[
-    'Kì 2 2026',
-    'Kì 1 2026',
-    'Kì 3 2025',
-    'Kì 2 2025',
+    'KÃ¬ 2 2026',
+    'KÃ¬ 1 2026',
+    'KÃ¬ 3 2025',
+    'KÃ¬ 2 2025',
   ];
 
   static const subjects = <AttendanceSubject>[
     AttendanceSubject(
       id: 'math',
-      name: 'Toán Học',
-      teacher: 'Nguyễn Văn A',
+      name: 'ToÃ¡n Há»c',
+      teacher: 'Nguyá»…n VÄƒn A',
       totalSessions: 32,
       presentSessions: 29,
       absentSessions: 1,
@@ -82,8 +82,8 @@ abstract final class AttendanceMockData {
     ),
     AttendanceSubject(
       id: 'literature',
-      name: 'Ngữ Văn',
-      teacher: 'Trần Thị B',
+      name: 'Ngá»¯ VÄƒn',
+      teacher: 'Tráº§n Thá»‹ B',
       totalSessions: 30,
       presentSessions: 25,
       absentSessions: 3,
@@ -93,8 +93,8 @@ abstract final class AttendanceMockData {
     ),
     AttendanceSubject(
       id: 'physics',
-      name: 'Vật Lý',
-      teacher: 'Lê Văn C',
+      name: 'Váº­t LÃ½',
+      teacher: 'LÃª VÄƒn C',
       totalSessions: 28,
       presentSessions: 21,
       absentSessions: 5,
@@ -104,8 +104,8 @@ abstract final class AttendanceMockData {
     ),
     AttendanceSubject(
       id: 'english',
-      name: 'Tiếng Anh',
-      teacher: 'Phạm Thu D',
+      name: 'Tiáº¿ng Anh',
+      teacher: 'Pháº¡m Thu D',
       totalSessions: 26,
       presentSessions: 19,
       absentSessions: 6,
@@ -119,22 +119,22 @@ abstract final class AttendanceMockData {
     AttendanceSession(
       date: '11/06',
       slot: 'Slot 1',
-      subjectName: 'Toán Học',
-      statusLabel: 'Có mặt',
+      subjectName: 'ToÃ¡n Há»c',
+      statusLabel: 'CÃ³ máº·t',
       color: AppColors.fptGreen,
     ),
     AttendanceSession(
       date: '10/06',
       slot: 'Slot 2',
-      subjectName: 'Ngữ Văn',
-      statusLabel: 'Đi muộn',
+      subjectName: 'Ngá»¯ VÄƒn',
+      statusLabel: 'Äi muá»™n',
       color: AppColors.warning,
     ),
     AttendanceSession(
       date: '09/06',
       slot: 'Slot 1',
-      subjectName: 'Vật Lý',
-      statusLabel: 'Vắng',
+      subjectName: 'Váº­t LÃ½',
+      statusLabel: 'Váº¯ng',
       color: AppColors.danger,
     ),
   ];

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
-import '../mock/profile_mock_data.dart';
+import '../../../core/mock/app_mock_data.dart';
 
 class ProfileMenuCard extends StatelessWidget {
   const ProfileMenuCard({
