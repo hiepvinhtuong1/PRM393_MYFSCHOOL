@@ -1,3 +1,5 @@
+enum UserRole { student, parent }
+
 class MockUser {
   const MockUser({
     required this.phone,
@@ -9,7 +11,10 @@ class MockUser {
   final String phone;
   final String password;
   final String fullName;
-  final String role;
+  final UserRole role;
+
+  bool get isStudent => role == UserRole.student;
+  bool get isParent => role == UserRole.parent;
 }
 
 abstract final class MockUsers {
@@ -18,13 +23,13 @@ abstract final class MockUsers {
       phone: '0912345678',
       password: '123456',
       fullName: 'Nguyễn Minh Anh',
-      role: 'Học sinh',
+      role: UserRole.student,
     ),
     MockUser(
       phone: '0987654321',
       password: '123456',
       fullName: 'Trần Thu Hà',
-      role: 'Phụ huynh',
+      role: UserRole.parent,
     ),
   ];
 
@@ -33,9 +38,7 @@ abstract final class MockUsers {
     required String password,
   }) {
     for (final user in demoAccounts) {
-      if (user.phone == phone && user.password == password) {
-        return user;
-      }
+      if (user.phone == phone && user.password == password) return user;
     }
     return null;
   }

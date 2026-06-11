@@ -14,6 +14,11 @@ class AuthController extends GetxController {
   final obscurePassword = true.obs;
   final isSubmitting = false.obs;
   final loginError = Rxn<String>();
+  final currentUser = Rxn<MockUser>();
+
+  UserRole get role => currentUser.value?.role ?? UserRole.student;
+  bool get isParent => role == UserRole.parent;
+  bool get isStudent => role == UserRole.student;
 
   @override
   void onInit() {
@@ -57,6 +62,8 @@ class AuthController extends GetxController {
       return;
     }
 
+    currentUser.value = user;
+
     Get.snackbar(
       'Đăng nhập thành công',
       user.fullName,
@@ -76,6 +83,7 @@ class AuthController extends GetxController {
   }
 
   void logout() {
+    currentUser.value = null;
     Get.offAllNamed(AppRoutes.login);
   }
 }

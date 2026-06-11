@@ -55,6 +55,21 @@ class ProfileMenuItem {
 }
 
 abstract final class ProfileMockData {
+  static const parentProfile = ProfileInfo(
+    fullName: 'Trần Thu Hà',
+    role: 'Phụ huynh',
+    studentCode: 'HS20260018',
+    className: '10A1',
+    grade: 'Khối 10',
+    campus: 'FPT School Alpha Campus',
+    phone: '0987654321',
+    email: 'thuha@gmail.com',
+    guardianName: 'Nguyễn Minh Anh',
+    guardianPhone: '0912345678',
+    dateOfBirth: '20/05/1980',
+    gender: 'Nữ',
+  );
+
   static const profile = ProfileInfo(
     fullName: 'Nguyễn Minh Anh',
     role: 'Học sinh',

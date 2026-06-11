@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/constants/app_routes.dart';
+import '../../core/mock/app_mock_data.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/app_button.dart';
-import '../../core/mock/app_mock_data.dart';
+import '../../core/widgets/app_card.dart';
 import '../../controllers/auth_controller.dart';
 import 'change_password_screen.dart';
 import 'notification_settings_screen.dart';
@@ -39,8 +40,38 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Obx(() {
+      final ctrl = Get.find<AuthController>();
+      final isParent = ctrl.isParent;
+      final profile =
+          isParent ? ProfileMockData.parentProfile : ProfileMockData.profile;
+
+      return _ProfileContent(
+        profile: profile,
+        isParent: isParent,
+        onMenuTap: _onMenuTap,
+        onLogout: _logout,
+      );
+    });
+  }
+}
+
+class _ProfileContent extends StatelessWidget {
+  const _ProfileContent({
+    required this.profile,
+    required this.isParent,
+    required this.onMenuTap,
+    required this.onLogout,
+  });
+
+  final ProfileInfo profile;
+  final bool isParent;
+  final void Function(ProfileMenuItem) onMenuTap;
+  final VoidCallback onLogout;
+
+  @override
+  Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    const profile = ProfileMockData.profile;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(AppSpacing.md),
@@ -56,13 +87,15 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            'Hồ sơ học sinh và thiết lập tài khoản.',
+            isParent
+                ? 'Hồ sơ phụ huynh và thiết lập tài khoản.'
+                : 'Hồ sơ học sinh và thiết lập tài khoản.',
             style: textTheme.bodyMedium?.copyWith(
               color: AppColors.textSecondary,
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
-          const ProfileHeaderCard(profile: profile),
+          ProfileHeaderCard(profile: profile),
           const SizedBox(height: AppSpacing.lg),
           Text(
             'Thông tin hồ sơ',
@@ -72,7 +105,10 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          const ProfileInfoCard(profile: profile),
+          if (isParent)
+            _ParentInfoCard(profile: profile)
+          else
+            ProfileInfoCard(profile: profile),
           const SizedBox(height: AppSpacing.lg),
           Text(
             'Thiết lập',
@@ -84,13 +120,13 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           ProfileMenuCard(
             items: ProfileMockData.menuItems,
-            onItemTap: _onMenuTap,
+            onItemTap: onMenuTap,
           ),
           const SizedBox(height: AppSpacing.lg),
           AppButton(
             label: 'Đăng xuất',
             icon: Icons.logout,
-            onPressed: _logout,
+            onPressed: onLogout,
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.danger,
               foregroundColor: Colors.white,
@@ -98,6 +134,102 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+// ─── Parent-specific info card ────────────────────────────────────────────────
+
+class _ParentInfoCard extends StatelessWidget {
+  const _ParentInfoCard({required this.profile});
+
+  final ProfileInfo profile;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _row(textTheme, 'Số điện thoại', profile.phone),
+          _row(textTheme, 'Email', profile.email),
+          _row(textTheme, 'Ngày sinh', profile.dateOfBirth),
+          _row(textTheme, 'Giới tính', profile.gender),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Divider(color: AppColors.borderLight),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+                  child: Text(
+                    'Học sinh liên kết',
+                    style: textTheme.labelSmall?.copyWith(
+                      color: AppColors.textTertiary,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Divider(color: AppColors.borderLight),
+                ),
+              ],
+            ),
+          ),
+          _row(textTheme, 'Họ và tên', profile.guardianName),
+          _row(textTheme, 'Lớp', profile.className),
+          _row(textTheme, 'Mã học sinh', profile.studentCode),
+          _row(textTheme, 'Cơ sở', profile.campus, showDivider: false),
+        ],
+      ),
+    );
+  }
+
+  Widget _row(
+    TextTheme textTheme,
+    String label,
+    String value, {
+    bool showDivider = true,
+  }) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Text(
+                  label,
+                  style: textTheme.bodySmall?.copyWith(
+                    color: AppColors.textSecondary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Text(
+                  value,
+                  textAlign: TextAlign.right,
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: AppColors.textPrimary,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (showDivider)
+          const Divider(height: 1, color: AppColors.borderLight),
+      ],
     );
   }
 }
