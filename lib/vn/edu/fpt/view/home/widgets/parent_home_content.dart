@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_routes.dart';
 import '../../../core/mock/app_mock_data.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -371,49 +372,63 @@ class _TodayScheduleCard extends StatelessWidget {
       child: Column(
         children: [
           for (var i = 0; i < items.length; i++) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
-                vertical: AppSpacing.sm + 2,
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 4,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      color: items[i].color,
-                      borderRadius: BorderRadius.circular(2),
+            InkWell(
+              onTap: () => Get.offNamed(AppRoutes.timetable),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.sm + 2,
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 4,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: items[i].color,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: AppSpacing.md),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(width: AppSpacing.md),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            items[i].subjectName,
+                            style: textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          Text(
+                            '${items[i].slotLabel} · ${items[i].roomCode}',
+                            style: textTheme.bodySmall?.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          items[i].subjectName,
-                          style: textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w800,
+                          items[i].startTime,
+                          style: textTheme.bodySmall?.copyWith(
+                            color: AppColors.textTertiary,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
-                        Text(
-                          '${items[i].slotLabel} · ${items[i].roomCode}',
-                          style: textTheme.bodySmall?.copyWith(
-                            color: AppColors.textSecondary,
-                          ),
+                        const SizedBox(width: AppSpacing.xs),
+                        const Icon(
+                          Icons.chevron_right,
+                          size: 16,
+                          color: AppColors.textTertiary,
                         ),
                       ],
                     ),
-                  ),
-                  Text(
-                    items[i].startTime,
-                    style: textTheme.bodySmall?.copyWith(
-                      color: AppColors.textTertiary,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             if (i != items.length - 1)
