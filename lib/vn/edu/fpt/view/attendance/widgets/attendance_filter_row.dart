@@ -80,7 +80,7 @@ class AttendanceFilterRow extends StatelessWidget {
               return ChoiceChip(
                 selected: isSelected,
                 showCheckmark: false,
-                label: Text(isAll ? 'Táº¥t cáº£ mÃ´n' : subject!.name),
+                label: Text(isAll ? 'Tất cả môn' : subject!.name),
                 labelStyle: TextStyle(
                   color: isSelected ? Colors.white : AppColors.textPrimary,
                   fontWeight: FontWeight.w700,

@@ -40,7 +40,7 @@ class WeekDaySelector extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                tooltip: 'Tuáº§n trÆ°á»›c',
+                tooltip: 'Tuần trước',
                 onPressed: onPreviousWeek,
                 icon: const Icon(Icons.chevron_left),
               ),
@@ -52,7 +52,7 @@ class WeekDaySelector extends StatelessWidget {
                 ),
               ),
               IconButton(
-                tooltip: 'Tuáº§n sau',
+                tooltip: 'Tuần sau',
                 onPressed: onNextWeek,
                 icon: const Icon(Icons.chevron_right),
               ),

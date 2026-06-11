@@ -16,7 +16,7 @@ class UpcomingEventsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Sá»± kiá»‡n sáº¯p tá»›i', style: textTheme.headlineSmall),
+        Text('Sự kiện sắp tới', style: textTheme.headlineSmall),
         const SizedBox(height: AppSpacing.md),
         SizedBox(
           height: 150,

@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
@@ -28,12 +28,12 @@ class NoticePanel extends StatelessWidget {
               ),
               const SizedBox(width: AppSpacing.sm),
               Expanded(
-                child: Text('ThÃ´ng bÃ¡o má»›i', style: textTheme.titleMedium),
+                child: Text('Thông báo mới', style: textTheme.titleMedium),
               ),
               TextButton(
                 onPressed: () =>
                     Navigator.of(context).pushNamed(AppRoutes.notification),
-                child: const Text('Xem táº¥t cáº£'),
+                child: const Text('Xem tất cả'),
               ),
             ],
           ),

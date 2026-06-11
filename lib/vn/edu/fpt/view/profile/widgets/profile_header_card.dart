@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -44,7 +44,7 @@ class ProfileHeaderCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            '${profile.role} â€¢ ${profile.className}',
+            '${profile.role} • ${profile.className}',
             style: textTheme.bodyMedium?.copyWith(
               color: AppColors.textSecondary,
               fontWeight: FontWeight.w700,
@@ -59,7 +59,7 @@ class ProfileHeaderCard extends StatelessWidget {
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               child: Text(
-                'Trá»±c tuyáº¿n',
+                'Trực tuyến',
                 style: TextStyle(
                   color: AppColors.fptGreen,
                   fontSize: 12,
