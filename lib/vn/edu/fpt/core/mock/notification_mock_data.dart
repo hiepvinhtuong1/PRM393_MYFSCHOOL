@@ -61,7 +61,7 @@ abstract final class NotificationMockData {
     SchoolNotification(
       id: 'grade-001',
       title: 'Điểm thường xuyên mới – Vật Lý',
-      description: 'Giáo viên vừa cập nhật điểm TX3 môn Vật Lý: 6.5/10.',
+      description: 'Giáo viên vừa cập nhật điểm TX3 môn Vật Lý: 6.0/10.',
       time: 'Hôm qua',
       category: NotificationCategory.grade,
       isRead: false,
