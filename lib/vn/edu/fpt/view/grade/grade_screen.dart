@@ -4,6 +4,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/mock/app_mock_data.dart';
+import 'grade_detail_screen.dart';
 import 'widgets/gpa_summary_card.dart';
 import 'widgets/grade_filter_row.dart';
 import 'widgets/grade_item_card.dart';
@@ -72,7 +73,14 @@ class _GradeScreenState extends State<GradeScreen> {
             )
           else
             for (final item in grades) ...[
-              GradeItemCard(item: item),
+              GradeItemCard(
+                item: item,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => GradeDetailScreen(item: item),
+                  ),
+                ),
+              ),
               const SizedBox(height: AppSpacing.md),
             ],
         ],
