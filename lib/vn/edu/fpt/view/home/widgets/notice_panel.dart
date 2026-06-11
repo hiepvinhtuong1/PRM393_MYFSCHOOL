@@ -5,6 +5,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/mock/app_mock_data.dart';
+import '../notice_detail_screen.dart';
 
 class NoticePanel extends StatelessWidget {
   const NoticePanel({super.key, required this.notices});
@@ -41,24 +42,18 @@ class NoticePanel extends StatelessWidget {
           for (var index = 0; index < notices.length; index++) ...[
             _NoticeItem(
               notice: notices[index],
-              onTap: () => _showDetail(context, notices[index]),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (_) =>
+                      NoticeDetailScreen(notice: notices[index]),
+                ),
+              ),
             ),
             if (index != notices.length - 1)
               const Divider(color: AppColors.borderLight),
           ],
         ],
       ),
-    );
-  }
-
-  void _showDetail(BuildContext context, HomeNotice notice) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (_) => _NoticeDetailSheet(notice: notice),
     );
   }
 }
@@ -93,6 +88,12 @@ class _NoticeItem extends StatelessWidget {
                 ),
                 const SizedBox(width: AppSpacing.sm),
                 _Badge(label: notice.badge, color: notice.color),
+                const SizedBox(width: AppSpacing.xs),
+                const Icon(
+                  Icons.chevron_right,
+                  size: 16,
+                  color: AppColors.textTertiary,
+                ),
               ],
             ),
             const SizedBox(height: AppSpacing.xs),
@@ -111,94 +112,6 @@ class _NoticeItem extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _NoticeDetailSheet extends StatelessWidget {
-  const _NoticeDetailSheet({required this.notice});
-
-  final HomeNotice notice;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        AppSpacing.lg,
-        AppSpacing.lg,
-        AppSpacing.lg,
-        AppSpacing.lg + MediaQuery.of(context).viewInsets.bottom,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Handle
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.borderLight,
-                borderRadius: BorderRadius.circular(AppRadius.pill),
-              ),
-            ),
-          ),
-          const SizedBox(height: AppSpacing.lg),
-
-          // Badge + time
-          Row(
-            children: [
-              _Badge(label: notice.badge, color: notice.color),
-              const Spacer(),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.schedule_outlined,
-                    size: 13,
-                    color: AppColors.textTertiary,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    notice.time,
-                    style: textTheme.bodySmall?.copyWith(
-                      color: AppColors.textTertiary,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.md),
-
-          // Title
-          Text(
-            notice.title,
-            style: textTheme.titleLarge?.copyWith(
-              color: AppColors.textPrimary,
-              fontWeight: FontWeight.w800,
-              height: 1.3,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-
-          const Divider(color: AppColors.borderLight),
-          const SizedBox(height: AppSpacing.md),
-
-          // Full description
-          Text(
-            notice.description,
-            style: textTheme.bodyMedium?.copyWith(
-              color: AppColors.textSecondary,
-              height: 1.6,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.lg),
-        ],
       ),
     );
   }

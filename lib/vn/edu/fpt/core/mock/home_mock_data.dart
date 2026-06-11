@@ -55,6 +55,7 @@ class HomeEvent {
     required this.category,
     required this.color,
     required this.description,
+    required this.imageUrl,
   });
 
   final String title;
@@ -63,6 +64,7 @@ class HomeEvent {
   final String category;
   final Color color;
   final String description;
+  final String imageUrl;
 }
 
 /// Điểm trung bình từng học kỳ (dùng để vẽ bar chart)
@@ -80,7 +82,6 @@ abstract final class HomeMockData {
     className: '10A1',
   );
 
-  // Lịch hôm nay (Thứ Năm 11/06): lấy từ timetable mock, 4 tiết
   static const todaySchedule = <HomeScheduleItem>[
     HomeScheduleItem(
       subjectName: 'Ngữ Văn',
@@ -112,13 +113,11 @@ abstract final class HomeMockData {
     ),
   ];
 
-  // ĐTB học kỳ cho 2 học kỳ gần nhất, dùng grade_mock_data thực
   static List<SemesterGpa> get semesterGpaHistory => [
     SemesterGpa(label: 'HK II\n24-25', gpa: GradeMockData.hk2PrevAverage),
     SemesterGpa(label: 'HK I\n25-26', gpa: GradeMockData.hk1Average),
   ];
 
-  // ĐTB học kỳ hiện tại (HK I 2025-2026 là kỳ hoàn chỉnh gần nhất)
   static double get currentGpa => GradeMockData.hk1Average;
 
   static const notices = <HomeNotice>[
@@ -155,6 +154,7 @@ abstract final class HomeMockData {
       location: 'Sân thi đấu chính',
       category: 'Thể thao',
       color: AppColors.fptGreen,
+      imageUrl: 'https://picsum.photos/seed/fpt-sports/800/400',
       description:
           'Ngày hội thể thao thường niên của FPT School với các môn thi đấu: bóng đá, cầu lông, bóng rổ và điền kinh. Toàn thể học sinh và giáo viên đều tham gia. Trang phục: đồng phục thể thao của lớp.',
     ),
@@ -164,6 +164,7 @@ abstract final class HomeMockData {
       location: 'Hội trường A',
       category: 'Hướng nghiệp',
       color: AppColors.fptBlue,
+      imageUrl: 'https://picsum.photos/seed/fpt-career/800/400',
       description:
           'Chương trình hướng nghiệp dành cho học sinh khối 10-12, với sự tham gia của các chuyên gia từ nhiều lĩnh vực. Nội dung: định hướng ngành học đại học, kỹ năng cần thiết cho tương lai.',
     ),
@@ -173,6 +174,7 @@ abstract final class HomeMockData {
       location: 'Sân trường',
       category: 'Nghi lễ',
       color: AppColors.fptOrange,
+      imageUrl: 'https://picsum.photos/seed/fpt-ceremony/800/400',
       description:
           'Lễ tổng kết và trao thưởng học sinh xuất sắc năm học 2025-2026. Phụ huynh được mời tham dự. Thời gian: 08:00 – 11:30. Trang phục: đồng phục học sinh.',
     ),
