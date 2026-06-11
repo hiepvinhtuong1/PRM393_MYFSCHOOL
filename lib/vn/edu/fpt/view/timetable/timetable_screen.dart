@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/mock/app_mock_data.dart';
+import '../../controllers/auth_controller.dart';
 import '../../controllers/timetable_controller.dart';
 import 'widgets/semester_tab_bar.dart';
 import 'widgets/timeline_lesson_list.dart';
@@ -21,6 +22,8 @@ class TimetableScreen extends StatelessWidget {
       final selectedDay = TimetableMockData.dayForDate(ctrl.selectedDate.value);
       final lessons = TimetableMockData.lessonsForDate(ctrl.selectedDate.value);
       final weekDays = TimetableMockData.weekDaysFor(ctrl.weekStart.value);
+      final isParent = Get.find<AuthController>().isParent;
+      final childFirstName = HomeMockData.user.fullName.split(' ').last;
 
       return SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -32,7 +35,7 @@ class TimetableScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'Lịch học',
+                    isParent ? 'Lịch học của $childFirstName' : 'Lịch học',
                     style: textTheme.displaySmall?.copyWith(
                       color: AppColors.textPrimary,
                       fontWeight: FontWeight.w800,

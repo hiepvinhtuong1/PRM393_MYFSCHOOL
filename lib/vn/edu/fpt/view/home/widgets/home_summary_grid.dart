@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../core/constants/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
@@ -25,13 +26,13 @@ class HomeSummaryGrid extends StatelessWidget {
       children: [
         _ScheduleSummaryCard(
           items: scheduleItems,
-          onTap: () => Navigator.of(context).pushNamed(AppRoutes.timetable),
+          onTap: () => Get.offNamed(AppRoutes.timetable),
         ),
         const SizedBox(height: AppSpacing.md),
         _ProgressSummaryCard(
           currentGpa: currentGpa,
           semesterHistory: semesterGpaHistory,
-          onTap: () => Navigator.of(context).pushNamed(AppRoutes.grade),
+          onTap: () => Get.offNamed(AppRoutes.grade),
         ),
       ],
     );

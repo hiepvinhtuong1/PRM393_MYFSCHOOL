@@ -5,6 +5,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/mock/app_mock_data.dart';
+import '../../controllers/auth_controller.dart';
 import '../../controllers/grade_controller.dart';
 import 'grade_detail_screen.dart';
 import 'widgets/gpa_summary_card.dart';
@@ -24,6 +25,8 @@ class GradeScreen extends StatelessWidget {
         ctrl.selectedSemester.value,
         ctrl.selectedYear.value,
       );
+      final isParent = Get.find<AuthController>().isParent;
+      final childFirstName = HomeMockData.user.fullName.split(' ').last;
 
       return SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -31,7 +34,7 @@ class GradeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Bảng điểm',
+              isParent ? 'Bảng điểm của $childFirstName' : 'Bảng điểm',
               style: textTheme.displaySmall?.copyWith(
                 color: AppColors.textPrimary,
                 fontWeight: FontWeight.w800,
