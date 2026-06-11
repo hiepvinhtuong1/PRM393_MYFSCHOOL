@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -13,7 +13,10 @@ class AttendanceSubjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final absentPercent = subject.absentPercent;
+    final totalAbsent = subject.totalAbsent;
+    final absentRatio = subject.totalSessions > 0
+        ? totalAbsent / subject.totalSessions
+        : 0.0;
 
     return AppCard(
       child: Column(
@@ -49,21 +52,27 @@ class AttendanceSubjectCard extends StatelessWidget {
           Row(
             children: [
               _CountBadge(
-                label: 'CÃ³ máº·t',
+                label: 'Có mặt',
                 value: subject.presentSessions,
                 color: AppColors.fptGreen,
               ),
               const SizedBox(width: AppSpacing.sm),
               _CountBadge(
-                label: 'Váº¯ng',
-                value: subject.absentSessions,
+                label: 'Có phép',
+                value: subject.excusedAbsent,
+                color: AppColors.warning,
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              _CountBadge(
+                label: 'Không phép',
+                value: subject.unexcusedAbsent,
                 color: AppColors.danger,
               ),
               const SizedBox(width: AppSpacing.sm),
               _CountBadge(
-                label: 'Muá»™n',
+                label: 'Muộn',
                 value: subject.lateSessions,
-                color: AppColors.warning,
+                color: AppColors.info,
               ),
             ],
           ),
@@ -74,7 +83,7 @@ class AttendanceSubjectCard extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(AppRadius.pill),
                   child: LinearProgressIndicator(
-                    value: absentPercent,
+                    value: absentRatio.clamp(0.0, 1.0),
                     minHeight: 8,
                     color: subject.status.color,
                     backgroundColor: AppColors.surfaceElevated,
@@ -83,7 +92,7 @@ class AttendanceSubjectCard extends StatelessWidget {
               ),
               const SizedBox(width: AppSpacing.md),
               Text(
-                '${subject.absentSessions}/${subject.totalSessions} buá»•i váº¯ng',
+                '$totalAbsent/${subject.totalSessions} tiết vắng',
                 style: textTheme.bodySmall?.copyWith(
                   color: AppColors.textSecondary,
                   fontWeight: FontWeight.w700,
@@ -91,10 +100,17 @@ class AttendanceSubjectCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.sm),
+          const SizedBox(height: AppSpacing.xs),
           Text(
-            'NgÆ°á»¡ng cáº£nh bÃ¡o: ${(subject.thresholdPercent * 100).toStringAsFixed(0)}%',
-            style: textTheme.bodySmall?.copyWith(color: AppColors.textTertiary),
+            'Ngưỡng cảnh báo: ${subject.warningThreshold} tiết',
+            style: textTheme.bodySmall?.copyWith(
+              color: totalAbsent >= subject.warningThreshold
+                  ? AppColors.danger
+                  : AppColors.textTertiary,
+              fontWeight: totalAbsent >= subject.warningThreshold
+                  ? FontWeight.w700
+                  : FontWeight.w400,
+            ),
           ),
         ],
       ),
@@ -173,7 +189,7 @@ class _CountBadge extends StatelessWidget {
                 label,
                 style: const TextStyle(
                   color: AppColors.textSecondary,
-                  fontSize: 12,
+                  fontSize: 10,
                   fontWeight: FontWeight.w700,
                 ),
               ),

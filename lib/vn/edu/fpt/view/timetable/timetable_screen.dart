@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
@@ -38,7 +38,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
             children: [
               Expanded(
                 child: Text(
-                  'Lá»‹ch há»c',
+                  'Lịch học',
                   style: textTheme.displaySmall?.copyWith(
                     color: AppColors.textPrimary,
                     fontWeight: FontWeight.w800,
@@ -50,20 +50,24 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   color: AppColors.surfaceElevated,
                   borderRadius: BorderRadius.circular(AppRadius.pill),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 7,
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.calendar_month_outlined,
                         color: AppColors.fptOrange,
                         size: 16,
                       ),
-                      SizedBox(width: AppSpacing.xs),
+                      const SizedBox(width: AppSpacing.xs),
+                      // Dynamic: cập nhật theo tuần đang xem
                       Text(
-                        'ThÃ¡ng 6, 2026',
-                        style: TextStyle(
+                        TimetableMockData.monthYearLabel(_weekStart),
+                        style: const TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 12,
                           fontWeight: FontWeight.w800,
@@ -111,7 +115,7 @@ class _TimetableScreenState extends State<TimetableScreen> {
                   child: const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     child: Text(
-                      'HÃ´m nay',
+                      'Hôm nay',
                       style: TextStyle(
                         color: AppColors.fptGreen,
                         fontSize: 11,
@@ -131,13 +135,12 @@ class _TimetableScreenState extends State<TimetableScreen> {
   }
 
   void _changeWeek(int direction) {
-    final nextSelectedDate = DateTime.parse(
-      _selectedDate,
-    ).add(Duration(days: direction * 7));
-
+    final nextDate = DateTime.parse(_selectedDate).add(
+      Duration(days: direction * 7),
+    );
     setState(() {
-      _selectedDate = TimetableMockData.dateKey(nextSelectedDate);
-      _weekStart = TimetableMockData.weekStartFor(nextSelectedDate);
+      _selectedDate = TimetableMockData.dateKey(nextDate);
+      _weekStart = TimetableMockData.weekStartFor(nextDate);
     });
   }
 }

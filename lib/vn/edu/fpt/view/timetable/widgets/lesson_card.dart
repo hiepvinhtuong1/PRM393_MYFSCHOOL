@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -18,7 +18,7 @@ class LessonCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 58,
+          width: 62,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -30,6 +30,14 @@ class LessonCard extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(lesson.endTime, style: textTheme.bodySmall),
+              const SizedBox(height: 4),
+              Text(
+                lesson.slotLabel,
+                style: textTheme.labelSmall?.copyWith(
+                  color: AppColors.textTertiary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ],
           ),
         ),
@@ -107,7 +115,7 @@ class LessonCard extends StatelessWidget {
                             runSpacing: AppSpacing.sm,
                             children: [
                               _StatusBadge(status: lesson.status),
-                              const _MaterialBadge(),
+                              if (lesson.hasMaterials) const _MaterialBadge(),
                             ],
                           ),
                         ],
@@ -164,7 +172,7 @@ class _MaterialBadge extends StatelessWidget {
       child: const Padding(
         padding: EdgeInsets.symmetric(horizontal: 14, vertical: 7),
         child: Text(
-          'TÃ i liá»‡u',
+          'Tài liệu',
           style: TextStyle(
             color: AppColors.surface,
             fontSize: 12,

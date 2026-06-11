@@ -62,7 +62,7 @@ class RecentAttendanceList extends StatelessWidget {
                               ),
                               const SizedBox(height: AppSpacing.xs),
                               Text(
-                                session.slot,
+                                session.slotLabel,
                                 style: textTheme.bodySmall?.copyWith(
                                   color: AppColors.textSecondary,
                                 ),

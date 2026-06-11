@@ -1,6 +1,7 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import 'grade_mock_data.dart';
 
 class HomeUser {
   const HomeUser({
@@ -18,12 +19,14 @@ class HomeScheduleItem {
   const HomeScheduleItem({
     required this.subjectName,
     required this.startTime,
+    required this.slotLabel,
     required this.roomCode,
     required this.color,
   });
 
   final String subjectName;
   final String startTime;
+  final String slotLabel;
   final String roomCode;
   final Color color;
 }
@@ -60,70 +63,109 @@ class HomeEvent {
   final Color color;
 }
 
+/// Điểm trung bình từng học kỳ (dùng để vẽ bar chart)
+class SemesterGpa {
+  const SemesterGpa({required this.label, required this.gpa});
+
+  final String label;
+  final double gpa;
+}
+
 abstract final class HomeMockData {
   static const user = HomeUser(
-    fullName: 'Nguyá»…n Minh Anh',
-    role: 'Há»c sinh',
+    fullName: 'Nguyễn Minh Anh',
+    role: 'Học sinh',
     className: '10A1',
   );
 
+  // Lịch hôm nay (Thứ Năm 11/06): lấy từ timetable mock, 4 tiết
   static const todaySchedule = <HomeScheduleItem>[
     HomeScheduleItem(
-      subjectName: 'ToÃ¡n Cao Cáº¥p',
-      startTime: '07:30',
-      roomCode: 'PhÃ²ng 201',
+      subjectName: 'Ngữ Văn',
+      startTime: '07:00',
+      slotLabel: 'Tiết 1-2',
+      roomCode: 'Phòng 305',
+      color: AppColors.fptBlue,
+    ),
+    HomeScheduleItem(
+      subjectName: 'Tiếng Anh',
+      startTime: '08:45',
+      slotLabel: 'Tiết 3-4',
+      roomCode: 'Phòng 201',
+      color: AppColors.fptBlue,
+    ),
+    HomeScheduleItem(
+      subjectName: 'Toán',
+      startTime: '10:30',
+      slotLabel: 'Tiết 5',
+      roomCode: 'Phòng 201',
       color: AppColors.fptOrange,
     ),
     HomeScheduleItem(
-      subjectName: 'Láº­p TrÃ¬nh Web',
-      startTime: '10:00',
-      roomCode: 'Lab 3B',
+      subjectName: 'Vật Lý',
+      startTime: '13:00',
+      slotLabel: 'Tiết 7-8',
+      roomCode: 'Phòng Lab 1',
       color: AppColors.fptGreen,
     ),
   ];
 
-  static const gpa = 8.1;
-  static const progressBars = <double>[0.45, 0.65, 0.55, 0.85];
+  // ĐTB học kỳ cho 2 học kỳ gần nhất, dùng grade_mock_data thực
+  static List<SemesterGpa> get semesterGpaHistory => [
+    SemesterGpa(label: 'HK II\n24-25', gpa: GradeMockData.hk2PrevAverage),
+    SemesterGpa(label: 'HK I\n25-26', gpa: GradeMockData.hk1Average),
+  ];
+
+  // ĐTB học kỳ hiện tại (HK I 2025-2026 là kỳ hoàn chỉnh gần nhất)
+  static double get currentGpa => GradeMockData.hk1Average;
 
   static const notices = <HomeNotice>[
     HomeNotice(
-      title: 'ÄÃ³ng há»c phÃ­ ká»³ Fall 2026',
+      title: 'Đóng học phí Học kỳ II 2025-2026',
       description:
-          'Háº¡n chÃ³t ná»™p há»c phÃ­ lÃ  ngÃ y 30/10. Vui lÃ²ng hoÃ n thÃ nh Ä‘á»ƒ khÃ´ng áº£nh hÆ°á»Ÿng Ä‘Äƒng kÃ½ há»c.',
-      time: '2 giá» trÆ°á»›c',
-      badge: 'Há»c phÃ­',
+          'Hạn chót nộp học phí là ngày 30/06. Vui lòng hoàn thành để không ảnh hưởng kết quả học tập.',
+      time: '2 giờ trước',
+      badge: 'Học phí',
       color: AppColors.danger,
     ),
     HomeNotice(
-      title: 'Cáº­p nháº­t lá»‹ch thi giá»¯a ká»³',
+      title: 'Cập nhật lịch thi cuối học kỳ II',
       description:
-          'Lá»‹ch thi giá»¯a ká»³ cÃ¡c mÃ´n chuyÃªn ngÃ nh Ä‘Ã£ Ä‘Æ°á»£c cáº­p nháº­t chÃ­nh thá»©c trÃªn há»‡ thá»‘ng.',
-      time: 'HÃ´m qua',
-      badge: 'Lá»‹ch thi',
+          'Lịch thi cuối kỳ các môn đã được cập nhật chính thức. Xem chi tiết trong mục Thông báo.',
+      time: 'Hôm qua',
+      badge: 'Lịch thi',
       color: AppColors.info,
+    ),
+    HomeNotice(
+      title: 'Thông báo từ GVCN: Họp phụ huynh',
+      description:
+          'Buổi họp phụ huynh cuối học kỳ II sẽ diễn ra vào sáng thứ Bảy ngày 28/06.',
+      time: '2 ngày trước',
+      badge: 'GVCN',
+      color: AppColors.fptBlue,
     ),
   ];
 
   static const events = <HomeEvent>[
     HomeEvent(
-      title: 'Há»™i thao FPT School 2026',
-      date: 'HÃ´m nay',
-      location: 'SÃ¢n bÃ³ng Ä‘Ã¡ chÃ­nh',
-      category: 'Thá»ƒ thao',
+      title: 'Hội thao FPT School 2026',
+      date: 'Hôm nay',
+      location: 'Sân thi đấu chính',
+      category: 'Thể thao',
       color: AppColors.fptGreen,
     ),
     HomeEvent(
-      title: 'Há»™i tháº£o AI trong há»c táº­p',
-      date: '28 Th10',
-      location: 'Há»™i trÆ°á»ng Alpha',
-      category: 'Ngoáº¡i khÃ³a',
+      title: 'Hội thảo hướng nghiệp THPT',
+      date: '18 Th6',
+      location: 'Hội trường A',
+      category: 'Hướng nghiệp',
       color: AppColors.fptBlue,
     ),
     HomeEvent(
-      title: 'Lá»… há»™i Ã¢m nháº¡c mÃ¹a thu',
-      date: '20 Th10',
-      location: 'Há»™i trÆ°á»ng A',
-      category: 'Nghá»‡ thuáº­t',
+      title: 'Lễ tổng kết năm học 2025-2026',
+      date: '30 Th6',
+      location: 'Sân trường',
+      category: 'Nghi lễ',
       color: AppColors.fptOrange,
     ),
   ];

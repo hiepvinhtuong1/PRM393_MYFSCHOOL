@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_routes.dart';
 import '../../../core/theme/app_colors.dart';
@@ -10,13 +10,13 @@ class HomeSummaryGrid extends StatelessWidget {
   const HomeSummaryGrid({
     super.key,
     required this.scheduleItems,
-    required this.gpa,
-    required this.progressBars,
+    required this.semesterGpaHistory,
+    required this.currentGpa,
   });
 
   final List<HomeScheduleItem> scheduleItems;
-  final double gpa;
-  final List<double> progressBars;
+  final List<SemesterGpa> semesterGpaHistory;
+  final double currentGpa;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,8 @@ class HomeSummaryGrid extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.md),
         _ProgressSummaryCard(
-          gpa: gpa,
-          bars: progressBars,
+          currentGpa: currentGpa,
+          semesterHistory: semesterGpaHistory,
           onTap: () => Navigator.of(context).pushNamed(AppRoutes.grade),
         ),
       ],
@@ -67,9 +67,9 @@ class _ScheduleSummaryCard extends StatelessWidget {
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Expanded(
-                    child: Text('Lá»‹ch há»c', style: textTheme.titleMedium),
+                    child: Text('Lịch học', style: textTheme.titleMedium),
                   ),
-                  _Pill(label: 'HÃ´m nay'),
+                  _Pill(label: 'Hôm nay'),
                 ],
               ),
               const SizedBox(height: AppSpacing.sm),
@@ -84,7 +84,7 @@ class _ScheduleSummaryCard extends StatelessWidget {
                 ),
               ),
               Text(
-                'Xem toÃ n bá»™ lá»‹ch',
+                'Xem toàn bộ lịch',
                 textAlign: TextAlign.center,
                 style: textTheme.labelSmall?.copyWith(
                   color: AppColors.fptOrange,
@@ -139,7 +139,7 @@ class _ScheduleLine extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${item.startTime} â€¢ ${item.roomCode}',
+                  '${item.startTime} • ${item.slotLabel} • ${item.roomCode}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.labelSmall,
@@ -155,13 +155,13 @@ class _ScheduleLine extends StatelessWidget {
 
 class _ProgressSummaryCard extends StatelessWidget {
   const _ProgressSummaryCard({
-    required this.gpa,
-    required this.bars,
+    required this.currentGpa,
+    required this.semesterHistory,
     required this.onTap,
   });
 
-  final double gpa;
-  final List<double> bars;
+  final double currentGpa;
+  final List<SemesterGpa> semesterHistory;
   final VoidCallback onTap;
 
   @override
@@ -187,10 +187,10 @@ class _ProgressSummaryCard extends StatelessWidget {
                   ),
                   const SizedBox(width: AppSpacing.xs),
                   Expanded(
-                    child: Text('Tiáº¿n Ä‘á»™', style: textTheme.titleMedium),
+                    child: Text('Tiến độ', style: textTheme.titleMedium),
                   ),
                   Text(
-                    gpa.toStringAsFixed(1),
+                    currentGpa.toStringAsFixed(1),
                     style: textTheme.headlineSmall?.copyWith(
                       color: AppColors.fptOrange,
                       fontWeight: FontWeight.w800,
@@ -203,14 +203,14 @@ class _ProgressSummaryCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    for (var index = 0; index < bars.length; index++)
-                      _BarColumn(
-                        value: bars[index],
-                        label: 'HK${index + 1}',
-                        highlighted: index == bars.length - 1,
-                      ),
-                  ],
+                  children: semesterHistory.map((s) {
+                    final isLast = s == semesterHistory.last;
+                    return _BarColumn(
+                      value: s.gpa / 10,
+                      label: s.label,
+                      highlighted: isLast,
+                    );
+                  }).toList(),
                 ),
               ),
             ],
@@ -240,7 +240,7 @@ class _BarColumn extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
-          width: 18,
+          width: 28,
           height: 90 * value,
           decoration: BoxDecoration(
             color: color,
@@ -252,9 +252,10 @@ class _BarColumn extends StatelessWidget {
         const SizedBox(height: AppSpacing.xs),
         Text(
           label,
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: highlighted ? AppColors.fptOrange : AppColors.textSecondary,
-            fontSize: 10,
+            fontSize: 9,
             fontWeight: highlighted ? FontWeight.w800 : FontWeight.w500,
           ),
         ),

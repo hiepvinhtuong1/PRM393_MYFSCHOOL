@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
@@ -20,20 +20,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   String _selectedSemester = AttendanceMockData.semesters.first;
   String _selectedSubjectId = 'all';
 
-  List<AttendanceSubject> get _subjects {
-    if (_selectedSubjectId == 'all') {
-      return AttendanceMockData.subjects;
-    }
-
+  List<AttendanceSubject> get _filteredSubjects {
+    if (_selectedSubjectId == 'all') return AttendanceMockData.subjects;
     return AttendanceMockData.subjects
-        .where((subject) => subject.id == _selectedSubjectId)
+        .where((s) => s.id == _selectedSubjectId)
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final subjects = _subjects;
+    final subjects = _filteredSubjects;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(AppSpacing.md),
@@ -41,7 +38,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Äiá»ƒm danh',
+            'Điểm danh',
             style: textTheme.displaySmall?.copyWith(
               color: AppColors.textPrimary,
               fontWeight: FontWeight.w800,
@@ -49,7 +46,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            'Theo dÃµi tÃ¬nh tráº¡ng chuyÃªn cáº§n vÃ  cáº£nh bÃ¡o váº¯ng há»c.',
+            'Theo dõi chuyên cần và cảnh báo vắng học.',
             style: textTheme.bodyMedium?.copyWith(
               color: AppColors.textSecondary,
             ),
@@ -67,10 +64,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             },
           ),
           const SizedBox(height: AppSpacing.lg),
-          const AttendanceSummaryCard(),
+          // Summary card phản hồi theo bộ lọc hiện tại
+          AttendanceSummaryCard(subjects: subjects),
           const SizedBox(height: AppSpacing.lg),
           Text(
-            'Theo mÃ´n há»c',
+            'Theo môn học',
             style: textTheme.titleMedium?.copyWith(
               color: AppColors.textSecondary,
               fontWeight: FontWeight.w800,
@@ -80,8 +78,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           if (subjects.isEmpty)
             const EmptyState(
               icon: Icons.fact_check_outlined,
-              title: 'ChÆ°a cÃ³ dá»¯ liá»‡u Ä‘iá»ƒm danh',
-              message: 'Bá»™ lá»c hiá»‡n táº¡i chÆ°a cÃ³ mÃ´n há»c nÃ o.',
+              title: 'Chưa có dữ liệu điểm danh',
+              message: 'Bộ lọc hiện tại chưa có môn học nào.',
             )
           else
             for (final subject in subjects) ...[
@@ -90,7 +88,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             ],
           const SizedBox(height: AppSpacing.sm),
           Text(
-            'Láº§n Ä‘iá»ƒm danh gáº§n Ä‘Ã¢y',
+            'Lần điểm danh gần đây',
             style: textTheme.titleMedium?.copyWith(
               color: AppColors.textSecondary,
               fontWeight: FontWeight.w800,

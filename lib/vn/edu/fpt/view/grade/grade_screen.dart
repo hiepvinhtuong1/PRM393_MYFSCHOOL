@@ -1,7 +1,8 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/widgets/empty_state.dart';
 import '../../core/mock/app_mock_data.dart';
 import 'widgets/gpa_summary_card.dart';
 import 'widgets/grade_filter_row.dart';
@@ -20,8 +21,7 @@ class _GradeScreenState extends State<GradeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final grades = GradeMockData.grades;
-    final gpa = GradeMockData.weightedAverage(grades);
+    final grades = GradeMockData.gradesFor(_selectedSemester, _selectedYear);
     final textTheme = Theme.of(context).textTheme;
 
     return SingleChildScrollView(
@@ -30,7 +30,7 @@ class _GradeScreenState extends State<GradeScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Báº£ng Ä‘iá»ƒm',
+            'Bảng điểm',
             style: textTheme.displaySmall?.copyWith(
               color: AppColors.textPrimary,
               fontWeight: FontWeight.w800,
@@ -50,20 +50,31 @@ class _GradeScreenState extends State<GradeScreen> {
             },
           ),
           const SizedBox(height: AppSpacing.lg),
-          GpaSummaryCard(semester: _selectedSemester, gpa: gpa),
+          GpaSummaryCard(
+            semester: _selectedSemester,
+            year: _selectedYear,
+            grades: grades,
+          ),
           const SizedBox(height: AppSpacing.lg),
           Text(
-            'Báº£ng Ä‘iá»ƒm chi tiáº¿t',
+            'Bảng điểm chi tiết',
             style: textTheme.titleMedium?.copyWith(
               color: AppColors.textSecondary,
               fontWeight: FontWeight.w800,
             ),
           ),
           const SizedBox(height: AppSpacing.md),
-          for (final item in grades) ...[
-            GradeItemCard(item: item),
-            const SizedBox(height: AppSpacing.md),
-          ],
+          if (grades.isEmpty)
+            const EmptyState(
+              icon: Icons.bar_chart_outlined,
+              title: 'Chưa có dữ liệu điểm',
+              message: 'Học kỳ đã chọn chưa có điểm số.',
+            )
+          else
+            for (final item in grades) ...[
+              GradeItemCard(item: item),
+              const SizedBox(height: AppSpacing.md),
+            ],
         ],
       ),
     );

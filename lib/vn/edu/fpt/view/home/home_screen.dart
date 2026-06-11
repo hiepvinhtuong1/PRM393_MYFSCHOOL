@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../core/theme/app_spacing.dart';
 import '../../core/mock/app_mock_data.dart';
@@ -16,19 +16,19 @@ class HomeScreen extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.md),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const [
-          HomeHeader(user: HomeMockData.user),
-          SizedBox(height: AppSpacing.lg),
+        children: [
+          const HomeHeader(user: HomeMockData.user),
+          const SizedBox(height: AppSpacing.lg),
           HomeSummaryGrid(
             scheduleItems: HomeMockData.todaySchedule,
-            gpa: HomeMockData.gpa,
-            progressBars: HomeMockData.progressBars,
+            semesterGpaHistory: HomeMockData.semesterGpaHistory,
+            currentGpa: HomeMockData.currentGpa,
           ),
-          SizedBox(height: AppSpacing.lg),
-          NoticePanel(notices: HomeMockData.notices),
-          SizedBox(height: AppSpacing.lg),
-          UpcomingEventsSection(events: HomeMockData.events),
-          SizedBox(height: AppSpacing.lg),
+          const SizedBox(height: AppSpacing.lg),
+          const NoticePanel(notices: HomeMockData.notices),
+          const SizedBox(height: AppSpacing.lg),
+          const UpcomingEventsSection(events: HomeMockData.events),
+          const SizedBox(height: AppSpacing.lg),
         ],
       ),
     );
