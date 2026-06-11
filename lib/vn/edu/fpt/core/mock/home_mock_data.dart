@@ -54,6 +54,7 @@ class HomeEvent {
     required this.location,
     required this.category,
     required this.color,
+    required this.description,
   });
 
   final String title;
@@ -61,6 +62,7 @@ class HomeEvent {
   final String location;
   final String category;
   final Color color;
+  final String description;
 }
 
 /// Điểm trung bình từng học kỳ (dùng để vẽ bar chart)
@@ -153,6 +155,8 @@ abstract final class HomeMockData {
       location: 'Sân thi đấu chính',
       category: 'Thể thao',
       color: AppColors.fptGreen,
+      description:
+          'Ngày hội thể thao thường niên của FPT School với các môn thi đấu: bóng đá, cầu lông, bóng rổ và điền kinh. Toàn thể học sinh và giáo viên đều tham gia. Trang phục: đồng phục thể thao của lớp.',
     ),
     HomeEvent(
       title: 'Hội thảo hướng nghiệp THPT',
@@ -160,6 +164,8 @@ abstract final class HomeMockData {
       location: 'Hội trường A',
       category: 'Hướng nghiệp',
       color: AppColors.fptBlue,
+      description:
+          'Chương trình hướng nghiệp dành cho học sinh khối 10-12, với sự tham gia của các chuyên gia từ nhiều lĩnh vực. Nội dung: định hướng ngành học đại học, kỹ năng cần thiết cho tương lai.',
     ),
     HomeEvent(
       title: 'Lễ tổng kết năm học 2025-2026',
@@ -167,6 +173,8 @@ abstract final class HomeMockData {
       location: 'Sân trường',
       category: 'Nghi lễ',
       color: AppColors.fptOrange,
+      description:
+          'Lễ tổng kết và trao thưởng học sinh xuất sắc năm học 2025-2026. Phụ huynh được mời tham dự. Thời gian: 08:00 – 11:30. Trang phục: đồng phục học sinh.',
     ),
   ];
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../core/constants/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/empty_state.dart';
 import '../../core/mock/app_mock_data.dart';
+import 'notification_detail_screen.dart';
 import 'widgets/notification_card.dart';
 import 'widgets/notification_filter_chips.dart';
 
@@ -54,14 +54,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
-  void _navigateForCategory(NotificationCategory category) {
-    final route = switch (category) {
-      NotificationCategory.attendance => AppRoutes.attendance,
-      NotificationCategory.grade => AppRoutes.grade,
-      NotificationCategory.study => AppRoutes.timetable,
-      _ => null,
-    };
-    if (route != null) Navigator.of(context).pushNamed(route);
+  void _openDetail(SchoolNotification notification) {
+    _markAsRead(notification.id);
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => NotificationDetailScreen(notification: notification),
+      ),
+    );
   }
 
   @override
@@ -136,8 +135,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     return NotificationCard(
                       notification: notification,
                       onMarkRead: () => _markAsRead(notification.id),
-                      onTap: () =>
-                          _navigateForCategory(notification.category),
+                      onTap: () => _openDetail(notification),
                     );
                   },
                   separatorBuilder: (_, _) =>
