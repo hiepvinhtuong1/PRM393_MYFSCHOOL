@@ -59,7 +59,7 @@ class NotificationFilterChips extends StatelessWidget {
             onSelected: (_) => onSelected(category),
           );
         },
-        separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.sm),
+        separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.sm),
         itemCount: categories.length,
       ),
     );

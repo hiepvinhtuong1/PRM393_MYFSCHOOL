@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 
 import '../../core/constants/app_routes.dart';
@@ -17,14 +18,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController(
-    text: MockUsers.demoAccounts.first.phone,
+    // Chỉ pre-fill trong debug mode
+    text: kDebugMode ? MockUsers.demoAccounts.first.phone : '',
   );
   final _passwordController = TextEditingController(
-    text: MockUsers.demoAccounts.first.password,
+    text: kDebugMode ? MockUsers.demoAccounts.first.password : '',
   );
 
   bool _obscurePassword = true;
   bool _isSubmitting = false;
+  String? _loginError; // Lỗi từ server, hiển thị inline
 
   @override
   void dispose() {
@@ -33,8 +36,14 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  void _clearLoginError() {
+    if (_loginError != null) setState(() => _loginError = null);
+  }
+
   Future<void> _submit() async {
-    if (_isSubmitting || !_formKey.currentState!.validate()) return;
+    if (_isSubmitting) return;
+    setState(() => _loginError = null);
+    if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isSubmitting = true);
     await Future<void>.delayed(const Duration(milliseconds: 500));
@@ -48,25 +57,21 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isSubmitting = false);
 
     if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Sá»‘ Ä‘iá»‡n thoáº¡i hoáº·c máº­t kháº©u khÃ´ng Ä‘Ãºng.',
-          ),
-          backgroundColor: AppColors.danger,
-        ),
-      );
+      setState(() {
+        _loginError = 'Số điện thoại hoặc mật khẩu không đúng.';
+      });
       return;
     }
 
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('ÄÄƒng nháº­p demo thÃ nh cÃ´ng: ${user.fullName}'),
+        content: Text('Đăng nhập thành công: ${user.fullName}'),
         backgroundColor: AppColors.fptGreen,
       ),
     );
 
-    await Future<void>.delayed(const Duration(milliseconds: 450));
+    await Future<void>.delayed(const Duration(milliseconds: 400));
     if (!mounted) return;
     Navigator.of(context).pushReplacementNamed(AppRoutes.home);
   }
@@ -74,9 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _showForgotPasswordMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text(
-          'TÃ­nh nÄƒng quÃªn máº­t kháº©u sáº½ Ä‘Æ°á»£c káº¿t ná»‘i backend sau.',
-        ),
+        content: Text('Tính năng quên mật khẩu sẽ được kết nối backend sau.'),
       ),
     );
   }
@@ -105,7 +108,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           passwordController: _passwordController,
                           obscurePassword: _obscurePassword,
                           isSubmitting: _isSubmitting,
+                          loginError: _loginError,
                           onSubmit: _submit,
+                          onFieldChanged: _clearLoginError,
                           onTogglePasswordVisibility: () {
                             setState(
                               () => _obscurePassword = !_obscurePassword,
@@ -122,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const Padding(
               padding: EdgeInsets.only(bottom: AppSpacing.md),
               child: Text(
-                'PhiÃªn báº£n 1.0.0',
+                'Phiên bản 1.0.0',
                 style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
               ),
             ),

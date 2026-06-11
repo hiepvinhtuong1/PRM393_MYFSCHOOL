@@ -7,6 +7,7 @@ import '../view/grade/grade_screen.dart';
 import '../view/home/home_screen.dart';
 import '../view/login/login_screen.dart';
 import '../view/notification/notification_screen.dart';
+import '../view/profile/personal_info_screen.dart';
 import '../view/profile/profile_screen.dart';
 import '../view/timetable/timetable_screen.dart';
 
@@ -45,6 +46,7 @@ abstract final class AppRouter {
         'Cá nhân',
         const ProfileScreen(),
       ),
+      AppRoutes.personalInfo => const PersonalInfoScreen(),
       AppRoutes.login ||
       _ => const AppScaffold(showAppBar: false, child: LoginScreen()),
     };

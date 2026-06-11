@@ -12,19 +12,19 @@ import 'widgets/profile_menu_card.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  void _showComingSoon(BuildContext context, String title) {
+  void _onMenuTap(BuildContext context, ProfileMenuItem item) {
+    if (item.title == 'Thông tin cá nhân') {
+      Navigator.of(context).pushNamed(AppRoutes.personalInfo);
+      return;
+    }
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('$title sáº½ Ä‘Æ°á»£c triá»ƒn khai á»Ÿ bÆ°á»›c sau'),
-      ),
+      SnackBar(content: Text('${item.title} sẽ được triển khai ở bước sau')),
     );
   }
 
   void _logout(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('ÄÃ£ Ä‘Äƒng xuáº¥t khá»i tÃ i khoáº£n mock'),
-      ),
+      const SnackBar(content: Text('Đã đăng xuất khỏi tài khoản mock')),
     );
     Navigator.of(
       context,
@@ -42,7 +42,7 @@ class ProfileScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'CÃ¡ nhÃ¢n',
+            'Cá nhân',
             style: textTheme.displaySmall?.copyWith(
               color: AppColors.textPrimary,
               fontWeight: FontWeight.w800,
@@ -50,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.xs),
           Text(
-            'Há»“ sÆ¡ há»c sinh vÃ  thiáº¿t láº­p tÃ i khoáº£n.',
+            'Hồ sơ học sinh và thiết lập tài khoản.',
             style: textTheme.bodyMedium?.copyWith(
               color: AppColors.textSecondary,
             ),
@@ -59,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
           const ProfileHeaderCard(profile: profile),
           const SizedBox(height: AppSpacing.lg),
           Text(
-            'ThÃ´ng tin há»“ sÆ¡',
+            'Thông tin hồ sơ',
             style: textTheme.titleMedium?.copyWith(
               color: AppColors.textSecondary,
               fontWeight: FontWeight.w800,
@@ -69,7 +69,7 @@ class ProfileScreen extends StatelessWidget {
           const ProfileInfoCard(profile: profile),
           const SizedBox(height: AppSpacing.lg),
           Text(
-            'Thiáº¿t láº­p',
+            'Thiết lập',
             style: textTheme.titleMedium?.copyWith(
               color: AppColors.textSecondary,
               fontWeight: FontWeight.w800,
@@ -78,11 +78,11 @@ class ProfileScreen extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           ProfileMenuCard(
             items: ProfileMockData.menuItems,
-            onItemTap: (item) => _showComingSoon(context, item.title),
+            onItemTap: (item) => _onMenuTap(context, item),
           ),
           const SizedBox(height: AppSpacing.lg),
           AppButton(
-            label: 'ÄÄƒng xuáº¥t',
+            label: 'Đăng xuất',
             icon: Icons.logout,
             onPressed: () => _logout(context),
             style: ElevatedButton.styleFrom(

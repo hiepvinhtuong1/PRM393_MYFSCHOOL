@@ -6,15 +6,22 @@ import '../../../core/widgets/app_card.dart';
 import '../../../core/mock/app_mock_data.dart';
 
 class LessonCard extends StatelessWidget {
-  const LessonCard({super.key, required this.lesson});
+  const LessonCard({
+    super.key,
+    required this.lesson,
+    this.isPast = false,
+    this.onTap,
+  });
 
   final LessonItem lesson;
+  final bool isPast;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    return Row(
+    final card = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
@@ -26,10 +33,16 @@ class LessonCard extends StatelessWidget {
                 lesson.startTime,
                 style: textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w800,
+                  color: isPast ? AppColors.textTertiary : null,
                 ),
               ),
               const SizedBox(height: 2),
-              Text(lesson.endTime, style: textTheme.bodySmall),
+              Text(
+                lesson.endTime,
+                style: textTheme.bodySmall?.copyWith(
+                  color: isPast ? AppColors.textTertiary : null,
+                ),
+              ),
               const SizedBox(height: 4),
               Text(
                 lesson.slotLabel,
@@ -46,7 +59,7 @@ class LessonCard extends StatelessWidget {
           padding: const EdgeInsets.only(top: 6),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: lesson.color,
+              color: isPast ? AppColors.textTertiary : lesson.color,
               shape: BoxShape.circle,
             ),
             child: const SizedBox.square(dimension: 12),
@@ -54,80 +67,91 @@ class LessonCard extends StatelessWidget {
         ),
         const SizedBox(width: AppSpacing.md),
         Expanded(
-          child: AppCard(
-            padding: EdgeInsets.zero,
-            child: IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    width: 4,
-                    decoration: BoxDecoration(
-                      color: lesson.color,
-                      borderRadius: const BorderRadius.horizontal(
-                        left: Radius.circular(AppRadius.md),
+          child: Opacity(
+            opacity: isPast ? 0.45 : 1.0,
+            child: AppCard(
+              padding: EdgeInsets.zero,
+              child: IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      width: 4,
+                      decoration: BoxDecoration(
+                        color: isPast ? AppColors.textTertiary : lesson.color,
+                        borderRadius: const BorderRadius.horizontal(
+                          left: Radius.circular(AppRadius.md),
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(AppSpacing.md),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  lesson.subjectName,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textTheme.titleMedium,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    lesson.subjectName,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textTheme.titleMedium,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: AppSpacing.sm),
-                              _RoomBadge(roomCode: lesson.roomCode),
-                            ],
-                          ),
-                          const SizedBox(height: AppSpacing.sm),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.person_outline,
-                                color: AppColors.textSecondary,
-                                size: 16,
-                              ),
-                              const SizedBox(width: AppSpacing.xs),
-                              Expanded(
-                                child: Text(
-                                  'GV: ${lesson.teacherName}',
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: textTheme.bodySmall,
+                                const SizedBox(width: AppSpacing.sm),
+                                _RoomBadge(roomCode: lesson.roomCode),
+                              ],
+                            ),
+                            const SizedBox(height: AppSpacing.sm),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.person_outline,
+                                  color: AppColors.textSecondary,
+                                  size: 16,
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: AppSpacing.sm),
-                          Wrap(
-                            spacing: AppSpacing.sm,
-                            runSpacing: AppSpacing.sm,
-                            children: [
-                              _StatusBadge(status: lesson.status),
-                              if (lesson.hasMaterials) const _MaterialBadge(),
-                            ],
-                          ),
-                        ],
+                                const SizedBox(width: AppSpacing.xs),
+                                Expanded(
+                                  child: Text(
+                                    'GV: ${lesson.teacherName}',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: textTheme.bodySmall,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: AppSpacing.sm),
+                            Wrap(
+                              spacing: AppSpacing.sm,
+                              runSpacing: AppSpacing.sm,
+                              children: [
+                                _StatusBadge(status: lesson.status),
+                                if (lesson.hasMaterials) const _MaterialBadge(),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ],
+    );
+
+    if (onTap == null) return card;
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(AppRadius.md),
+      onTap: onTap,
+      child: card,
     );
   }
 }

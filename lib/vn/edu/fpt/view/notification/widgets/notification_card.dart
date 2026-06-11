@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -10,10 +10,12 @@ class NotificationCard extends StatelessWidget {
     super.key,
     required this.notification,
     required this.onMarkRead,
+    this.onTap,
   });
 
   final SchoolNotification notification;
   final VoidCallback onMarkRead;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,10 @@ class NotificationCard extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.md),
       child: InkWell(
         borderRadius: BorderRadius.circular(AppRadius.md),
-        onTap: notification.isRead ? null : onMarkRead,
+        onTap: () {
+          if (!notification.isRead) onMarkRead();
+          onTap?.call();
+        },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -90,7 +95,7 @@ class NotificationCard extends StatelessWidget {
                   const SizedBox(height: AppSpacing.md),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.schedule_outlined,
                         size: 16,
                         color: AppColors.textTertiary,
@@ -108,7 +113,7 @@ class NotificationCard extends StatelessWidget {
                       if (!notification.isRead)
                         TextButton(
                           onPressed: onMarkRead,
-                          child: const Text('ÄÃ¡nh dáº¥u Ä‘Ã£ Ä‘á»c'),
+                          child: const Text('Đánh dấu đã đọc'),
                         ),
                     ],
                   ),

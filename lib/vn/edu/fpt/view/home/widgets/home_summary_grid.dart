@@ -74,14 +74,34 @@ class _ScheduleSummaryCard extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.sm),
               Expanded(
-                child: Column(
-                  children: items.take(2).map((item) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: AppSpacing.xs),
-                      child: _ScheduleLine(item: item),
-                    );
-                  }).toList(),
-                ),
+                child: items.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.event_available_outlined,
+                              size: 32,
+                              color: AppColors.textTertiary,
+                            ),
+                            const SizedBox(height: AppSpacing.xs),
+                            Text(
+                              'Hôm nay không có tiết học',
+                              style: textTheme.bodySmall?.copyWith(
+                                color: AppColors.textTertiary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : Column(
+                        children: items.take(2).map((item) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: AppSpacing.xs),
+                            child: _ScheduleLine(item: item),
+                          );
+                        }).toList(),
+                      ),
               ),
               Text(
                 'Xem toàn bộ lịch',

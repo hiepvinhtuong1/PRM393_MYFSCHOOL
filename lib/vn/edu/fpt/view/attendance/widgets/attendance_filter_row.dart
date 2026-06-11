@@ -68,7 +68,7 @@ class AttendanceFilterRow extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: AttendanceMockData.subjects.length + 1,
-            separatorBuilder: (_, __) => const SizedBox(width: AppSpacing.sm),
+            separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.sm),
             itemBuilder: (context, index) {
               final isAll = index == 0;
               final subject = isAll

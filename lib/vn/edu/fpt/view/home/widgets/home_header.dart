@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
@@ -8,6 +8,28 @@ class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key, required this.user});
 
   final HomeUser user;
+
+  String _greeting() {
+    final hour = DateTime.now().hour;
+    if (hour >= 5 && hour < 11) return 'CHÀO BUỔI SÁNG,';
+    if (hour >= 11 && hour < 18) return 'CHÀO BUỔI CHIỀU,';
+    return 'CHÀO BUỔI TỐI,';
+  }
+
+  String _todayLabel() {
+    final now = DateTime.now();
+    const weekdays = [
+      'Thứ Hai',
+      'Thứ Ba',
+      'Thứ Tư',
+      'Thứ Năm',
+      'Thứ Sáu',
+      'Thứ Bảy',
+      'Chủ Nhật',
+    ];
+    final weekday = weekdays[now.weekday - 1];
+    return '$weekday, ${now.day}/${now.month}/${now.year}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +51,7 @@ class HomeHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'CHÃ€O BUá»”I SÃNG,',
+                _greeting(),
                 style: textTheme.labelSmall?.copyWith(
                   color: AppColors.textSecondary,
                   fontWeight: FontWeight.w800,
@@ -47,8 +69,16 @@ class HomeHeader extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
-                '${user.role} â€¢ Lá»›p ${user.className}',
+                '${user.role} • Lớp ${user.className}',
                 style: textTheme.bodySmall,
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                _todayLabel(),
+                style: textTheme.bodySmall?.copyWith(
+                  color: AppColors.fptOrange,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),

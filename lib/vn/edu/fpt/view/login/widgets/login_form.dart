@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/utils/formatters.dart';
 import '../../../core/utils/validators.dart';
@@ -17,6 +18,8 @@ class LoginForm extends StatelessWidget {
     required this.onSubmit,
     required this.onTogglePasswordVisibility,
     required this.onForgotPassword,
+    this.loginError,
+    this.onFieldChanged,
   });
 
   final GlobalKey<FormState> formKey;
@@ -27,9 +30,13 @@ class LoginForm extends StatelessWidget {
   final VoidCallback onSubmit;
   final VoidCallback onTogglePasswordVisibility;
   final VoidCallback onForgotPassword;
+  final String? loginError;
+  final VoidCallback? onFieldChanged;
 
   @override
   Widget build(BuildContext context) {
+    final hasError = loginError != null;
+
     return Form(
       key: formKey,
       child: Column(
@@ -43,6 +50,8 @@ class LoginForm extends StatelessWidget {
             textInputAction: TextInputAction.next,
             inputFormatters: AppFormatters.phone,
             validator: Validators.phone,
+            hasError: hasError,
+            onChanged: (_) => onFieldChanged?.call(),
           ),
           const SizedBox(height: AppSpacing.md),
           AppTextField(
@@ -67,8 +76,31 @@ class LoginForm extends StatelessWidget {
                   ) ??
                   Validators.minLength(value, 6, label: 'Mật khẩu');
             },
+            hasError: hasError,
+            onChanged: (_) => onFieldChanged?.call(),
             onFieldSubmitted: (_) => onSubmit(),
           ),
+          // Inline error message below password field
+          if (hasError) ...[
+            const SizedBox(height: AppSpacing.xs),
+            Row(
+              children: [
+                const Icon(
+                  Icons.error_outline,
+                  size: 14,
+                  color: AppColors.fptOrange,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  loginError!,
+                  style: const TextStyle(
+                    color: AppColors.fptOrange,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ],
           const SizedBox(height: AppSpacing.sm),
           Align(
             alignment: Alignment.centerRight,

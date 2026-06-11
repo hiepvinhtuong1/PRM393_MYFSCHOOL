@@ -6,4 +6,5 @@ abstract final class AppRoutes {
   static const grade = '/grade';
   static const notification = '/notification';
   static const profile = '/profile';
+  static const personalInfo = '/personal-info';
 }

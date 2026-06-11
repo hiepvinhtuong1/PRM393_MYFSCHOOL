@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
 
@@ -14,6 +14,8 @@ class ProfileInfo {
     required this.email,
     required this.guardianName,
     required this.guardianPhone,
+    required this.dateOfBirth,
+    required this.gender,
   });
 
   final String fullName;
@@ -26,6 +28,8 @@ class ProfileInfo {
   final String email;
   final String guardianName;
   final String guardianPhone;
+  final String dateOfBirth;
+  final String gender;
 
   String get initials {
     final parts = fullName.trim().split(RegExp(r'\s+'));
@@ -52,46 +56,48 @@ class ProfileMenuItem {
 
 abstract final class ProfileMockData {
   static const profile = ProfileInfo(
-    fullName: 'Nguyá»…n Minh Anh',
-    role: 'Há»c sinh',
+    fullName: 'Nguyễn Minh Anh',
+    role: 'Học sinh',
     studentCode: 'HS20260018',
     className: '10A1',
-    grade: 'Khá»‘i 10',
+    grade: 'Khối 10',
     campus: 'FPT School Alpha Campus',
     phone: '0912345678',
     email: 'minhanh@student.fpt.edu.vn',
-    guardianName: 'Tráº§n Thu HÃ ',
+    guardianName: 'Trần Thu Hà',
     guardianPhone: '0987654321',
+    dateOfBirth: '15/03/2010',
+    gender: 'Nữ',
   );
 
   static const menuItems = <ProfileMenuItem>[
     ProfileMenuItem(
-      title: 'ThÃ´ng tin cÃ¡ nhÃ¢n',
-      subtitle: 'Xem há»“ sÆ¡ há»c sinh vÃ  liÃªn há»‡',
+      title: 'Thông tin cá nhân',
+      subtitle: 'Xem hồ sơ học sinh và liên hệ',
       icon: Icons.badge_outlined,
       color: AppColors.fptBlue,
     ),
     ProfileMenuItem(
-      title: 'CÃ i Ä‘áº·t thÃ´ng bÃ¡o',
-      subtitle: 'Quáº£n lÃ½ nhÃ³m thÃ´ng bÃ¡o muá»‘n nháº­n',
+      title: 'Cài đặt thông báo',
+      subtitle: 'Quản lý nhóm thông báo muốn nhận',
       icon: Icons.notifications_active_outlined,
       color: AppColors.fptOrange,
     ),
     ProfileMenuItem(
-      title: 'NgÃ´n ngá»¯',
-      subtitle: 'Tiáº¿ng Viá»‡t',
+      title: 'Ngôn ngữ',
+      subtitle: 'Tiếng Việt',
       icon: Icons.language_outlined,
       color: AppColors.fptGreen,
     ),
     ProfileMenuItem(
-      title: 'Äá»•i máº­t kháº©u',
-      subtitle: 'Cáº­p nháº­t máº­t kháº©u tÃ i khoáº£n',
+      title: 'Đổi mật khẩu',
+      subtitle: 'Cập nhật mật khẩu tài khoản',
       icon: Icons.lock_reset_outlined,
       color: AppColors.warning,
     ),
     ProfileMenuItem(
-      title: 'Äiá»u khoáº£n vÃ  chÃ­nh sÃ¡ch',
-      subtitle: 'Quy Ä‘á»‹nh sá»­ dá»¥ng á»©ng dá»¥ng',
+      title: 'Điều khoản và chính sách',
+      subtitle: 'Quy định sử dụng ứng dụng',
       icon: Icons.policy_outlined,
       color: AppColors.textSecondary,
     ),

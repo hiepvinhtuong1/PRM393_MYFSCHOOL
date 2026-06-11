@@ -1,5 +1,6 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
+import '../../core/constants/app_routes.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/empty_state.dart';
@@ -24,19 +25,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
     if (_selectedCategory == NotificationCategory.all) {
       return _notifications;
     }
-
     return _notifications
-        .where((notification) => notification.category == _selectedCategory)
+        .where((n) => n.category == _selectedCategory)
         .toList();
   }
 
   int get _unreadCount => _notifications.where((item) => !item.isRead).length;
 
   int _unreadCountFor(NotificationCategory category) {
-    if (category == NotificationCategory.all) {
-      return _unreadCount;
-    }
-
+    if (category == NotificationCategory.all) return _unreadCount;
     return _notifications
         .where((item) => item.category == category && !item.isRead)
         .length;
@@ -44,22 +41,27 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   void _markAsRead(String id) {
     setState(() {
-      _notifications = _notifications.map((notification) {
-        if (notification.id != id) {
-          return notification;
-        }
-
-        return notification.copyWith(isRead: true);
+      _notifications = _notifications.map((n) {
+        return n.id == id ? n.copyWith(isRead: true) : n;
       }).toList();
     });
   }
 
   void _markAllAsRead() {
     setState(() {
-      _notifications = _notifications
-          .map((notification) => notification.copyWith(isRead: true))
-          .toList();
+      _notifications =
+          _notifications.map((n) => n.copyWith(isRead: true)).toList();
     });
+  }
+
+  void _navigateForCategory(NotificationCategory category) {
+    final route = switch (category) {
+      NotificationCategory.attendance => AppRoutes.attendance,
+      NotificationCategory.grade => AppRoutes.grade,
+      NotificationCategory.study => AppRoutes.timetable,
+      _ => null,
+    };
+    if (route != null) Navigator.of(context).pushNamed(route);
   }
 
   @override
@@ -83,7 +85,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'ThÃ´ng bÃ¡o',
+                          'Thông báo',
                           style: textTheme.headlineSmall?.copyWith(
                             color: AppColors.textPrimary,
                             fontWeight: FontWeight.w800,
@@ -92,8 +94,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         const SizedBox(height: AppSpacing.xs),
                         Text(
                           _unreadCount > 0
-                              ? 'Báº¡n cÃ³ $_unreadCount thÃ´ng bÃ¡o chÆ°a Ä‘á»c'
-                              : 'Táº¥t cáº£ thÃ´ng bÃ¡o Ä‘Ã£ Ä‘Æ°á»£c Ä‘á»c',
+                              ? 'Bạn có $_unreadCount thông báo chưa đọc'
+                              : 'Tất cả thông báo đã được đọc',
                           style: textTheme.bodyMedium?.copyWith(
                             color: AppColors.textSecondary,
                           ),
@@ -105,7 +107,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     TextButton.icon(
                       onPressed: _markAllAsRead,
                       icon: const Icon(Icons.done_all_outlined, size: 18),
-                      label: const Text('ÄÃ¡nh dáº¥u Ä‘Ã£ Ä‘á»c'),
+                      label: const Text('Đánh dấu đã đọc'),
                     ),
                 ],
               ),
@@ -122,8 +124,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
               if (filteredNotifications.isEmpty)
                 const EmptyState(
                   icon: Icons.notifications_none_outlined,
-                  title: 'ChÆ°a cÃ³ thÃ´ng bÃ¡o',
-                  message: 'Bá»™ lá»c nÃ y hiá»‡n chÆ°a cÃ³ thÃ´ng bÃ¡o nÃ o.',
+                  title: 'Chưa có thông báo',
+                  message: 'Bộ lọc này hiện chưa có thông báo nào.',
                 )
               else
                 ListView.separated(
@@ -131,13 +133,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     final notification = filteredNotifications[index];
-
                     return NotificationCard(
                       notification: notification,
                       onMarkRead: () => _markAsRead(notification.id),
+                      onTap: () =>
+                          _navigateForCategory(notification.category),
                     );
                   },
-                  separatorBuilder: (_, __) =>
+                  separatorBuilder: (_, _) =>
                       const SizedBox(height: AppSpacing.sm),
                   itemCount: filteredNotifications.length,
                 ),
