@@ -98,7 +98,7 @@ class _NoticeItem extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.xs),
             Text(
-              notice.description,
+              notice.previewText,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: textTheme.bodySmall,

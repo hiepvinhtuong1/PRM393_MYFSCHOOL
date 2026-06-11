@@ -64,22 +64,92 @@ class NoticeDetailScreen extends StatelessWidget {
             const SizedBox(height: AppSpacing.lg),
 
             const Divider(color: AppColors.borderLight),
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: AppSpacing.md),
 
-            // Full description
-            Text(
-              notice.description,
-              style: textTheme.bodyLarge?.copyWith(
-                color: AppColors.textSecondary,
-                height: 1.7,
-              ),
-            ),
+            // Rich content blocks
+            for (final block in notice.content) ...[
+              _ContentBlockWidget(block: block),
+              const SizedBox(height: AppSpacing.lg),
+            ],
           ],
         ),
       ),
     );
   }
 }
+
+// ─── Shared content block renderer ───────────────────────────────────────────
+
+class _ContentBlockWidget extends StatelessWidget {
+  const _ContentBlockWidget({required this.block});
+
+  final ContentBlock block;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return switch (block) {
+      TextBlock(:final text) => Text(
+        text,
+        style: textTheme.bodyLarge?.copyWith(
+          color: AppColors.textSecondary,
+          height: 1.75,
+        ),
+      ),
+      ImageBlock(:final url, :final caption) => ClipRRect(
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Image.network(
+                url,
+                fit: BoxFit.cover,
+                loadingBuilder: (_, child, progress) {
+                  if (progress == null) return child;
+                  return Container(
+                    color: AppColors.borderLight,
+                    child: const Center(
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  );
+                },
+                errorBuilder: (_, _, _) => Container(
+                  color: AppColors.borderLight,
+                  child: const Icon(
+                    Icons.image_outlined,
+                    size: 40,
+                    color: AppColors.textTertiary,
+                  ),
+                ),
+              ),
+            ),
+            if (caption != null)
+              Container(
+                color: AppColors.borderLight.withValues(alpha: 0.6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.sm,
+                ),
+                child: Text(
+                  caption,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textTertiary,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    };
+  }
+}
+
+// ─── Badge chip ───────────────────────────────────────────────────────────────
 
 class _BadgeChip extends StatelessWidget {
   const _BadgeChip({required this.label, required this.color});

@@ -80,10 +80,7 @@ class EventDetailScreen extends StatelessWidget {
                   // Category + date row
                   Row(
                     children: [
-                      _CategoryChip(
-                        label: event.category,
-                        color: event.color,
-                      ),
+                      _CategoryChip(label: event.category, color: event.color),
                       const Spacer(),
                       Row(
                         mainAxisSize: MainAxisSize.min,
@@ -140,24 +137,14 @@ class EventDetailScreen extends StatelessWidget {
                   const SizedBox(height: AppSpacing.lg),
 
                   const Divider(color: AppColors.borderLight),
-                  const SizedBox(height: AppSpacing.lg),
+                  const SizedBox(height: AppSpacing.md),
 
-                  // Description
-                  Text(
-                    'Thông tin sự kiện',
-                    style: textTheme.titleMedium?.copyWith(
-                      color: AppColors.textPrimary,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(
-                    event.description,
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: AppColors.textSecondary,
-                      height: 1.7,
-                    ),
-                  ),
+                  // Rich content blocks
+                  for (final block in event.content) ...[
+                    _ContentBlockWidget(block: block),
+                    const SizedBox(height: AppSpacing.lg),
+                  ],
+
                   const SizedBox(height: AppSpacing.xl),
                 ],
               ),
@@ -168,6 +155,79 @@ class EventDetailScreen extends StatelessWidget {
     );
   }
 }
+
+// ─── Content block renderer ───────────────────────────────────────────────────
+
+class _ContentBlockWidget extends StatelessWidget {
+  const _ContentBlockWidget({required this.block});
+
+  final ContentBlock block;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return switch (block) {
+      TextBlock(:final text) => Text(
+        text,
+        style: textTheme.bodyLarge?.copyWith(
+          color: AppColors.textSecondary,
+          height: 1.75,
+        ),
+      ),
+      ImageBlock(:final url, :final caption) => ClipRRect(
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Image.network(
+                url,
+                fit: BoxFit.cover,
+                loadingBuilder: (_, child, progress) {
+                  if (progress == null) return child;
+                  return Container(
+                    color: AppColors.borderLight,
+                    child: const Center(
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  );
+                },
+                errorBuilder: (_, _, _) => Container(
+                  color: AppColors.borderLight,
+                  child: const Icon(
+                    Icons.image_outlined,
+                    size: 40,
+                    color: AppColors.textTertiary,
+                  ),
+                ),
+              ),
+            ),
+            if (caption != null)
+              Container(
+                color: AppColors.borderLight.withValues(alpha: 0.6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.md,
+                  vertical: AppSpacing.sm,
+                ),
+                child: Text(
+                  caption,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textTertiary,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    };
+  }
+}
+
+// ─── Category chip ────────────────────────────────────────────────────────────
 
 class _CategoryChip extends StatelessWidget {
   const _CategoryChip({required this.label, required this.color});
