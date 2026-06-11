@@ -101,6 +101,15 @@ class LessonCard extends StatelessWidget {
                               ),
                             ],
                           ),
+                          const SizedBox(height: AppSpacing.sm),
+                          Wrap(
+                            spacing: AppSpacing.sm,
+                            runSpacing: AppSpacing.sm,
+                            children: [
+                              _StatusBadge(status: lesson.status),
+                              const _MaterialBadge(),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -111,6 +120,58 @@ class LessonCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _StatusBadge extends StatelessWidget {
+  const _StatusBadge({required this.status});
+
+  final LessonStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: status.color,
+        borderRadius: BorderRadius.circular(AppRadius.pill),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+        child: Text(
+          status.label,
+          style: const TextStyle(
+            color: AppColors.surface,
+            fontSize: 12,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MaterialBadge extends StatelessWidget {
+  const _MaterialBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.fptOrange,
+        borderRadius: BorderRadius.circular(AppRadius.pill),
+      ),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+        child: Text(
+          'Tài liệu',
+          style: TextStyle(
+            color: AppColors.surface,
+            fontSize: 12,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
     );
   }
 }

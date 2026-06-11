@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import 'mock/timetable_mock_data.dart';
+import 'widgets/semester_tab_bar.dart';
 import 'widgets/timeline_lesson_list.dart';
 import 'widgets/week_day_selector.dart';
 
@@ -15,11 +16,16 @@ class TimetableScreen extends StatefulWidget {
 
 class _TimetableScreenState extends State<TimetableScreen> {
   String _selectedDate = TimetableMockData.selectedDate;
+  String _selectedSemester = TimetableMockData.selectedSemester;
+  late DateTime _weekStart = TimetableMockData.weekStartFor(
+    DateTime.parse(_selectedDate),
+  );
 
   @override
   Widget build(BuildContext context) {
     final selectedDay = TimetableMockData.dayForDate(_selectedDate);
     final lessons = TimetableMockData.lessonsForDate(_selectedDate);
+    final weekDays = TimetableMockData.weekDaysFor(_weekStart);
     final textTheme = Theme.of(context).textTheme;
 
     return SingleChildScrollView(
@@ -70,9 +76,21 @@ class _TimetableScreenState extends State<TimetableScreen> {
             ],
           ),
           const SizedBox(height: AppSpacing.md),
+          SemesterTabBar(
+            semesters: TimetableMockData.semesters,
+            selectedSemester: _selectedSemester,
+            onSelected: (semester) {
+              setState(() => _selectedSemester = semester);
+            },
+          ),
+          const SizedBox(height: AppSpacing.md),
           WeekDaySelector(
-            days: TimetableMockData.weekDays,
+            days: weekDays,
             selectedDate: _selectedDate,
+            weekRangeLabel: TimetableMockData.weekRangeLabel(_weekStart),
+            monthLabel: TimetableMockData.monthYearLabel(_weekStart),
+            onPreviousWeek: () => _changeWeek(-1),
+            onNextWeek: () => _changeWeek(1),
             onSelected: (date) => setState(() => _selectedDate = date),
           ),
           const SizedBox(height: AppSpacing.lg),
@@ -110,5 +128,16 @@ class _TimetableScreenState extends State<TimetableScreen> {
         ],
       ),
     );
+  }
+
+  void _changeWeek(int direction) {
+    final nextSelectedDate = DateTime.parse(
+      _selectedDate,
+    ).add(Duration(days: direction * 7));
+
+    setState(() {
+      _selectedDate = TimetableMockData.dateKey(nextSelectedDate);
+      _weekStart = TimetableMockData.weekStartFor(nextSelectedDate);
+    });
   }
 }
