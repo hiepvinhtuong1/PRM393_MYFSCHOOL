@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-
+import 'bindings/app_binding.dart';
+import 'core/constants/app_routes.dart';
 import 'core/theme/app_theme.dart';
+import 'routes/app_router.dart';
 import 'features/auth/domain/auth_provider.dart';
 import 'features/auth/presentation/login_screen.dart';
 import 'features/notifications/domain/notifications_provider.dart';
@@ -12,6 +15,13 @@ class MyFptSchoolsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return GetMaterialApp(
+      title: 'MyFPTSchools',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light(),
+      initialRoute: AppRoutes.login,
+      getPages: AppRouter.pages,
+      initialBinding: AppBinding(),
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()..checkAuth()),

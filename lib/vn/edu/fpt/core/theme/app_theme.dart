@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 import 'app_spacing.dart';
+import 'app_typography.dart';
 
 abstract final class AppTheme {
   static ThemeData light() {
@@ -17,7 +18,7 @@ abstract final class AppTheme {
       useMaterial3: true,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.background,
-      fontFamily: 'Roboto',
+      fontFamily: AppTypography.fontFamily,
       appBarTheme: const AppBarTheme(
         centerTitle: false,
         backgroundColor: AppColors.background,
@@ -30,44 +31,7 @@ abstract final class AppTheme {
           height: 1.4,
         ),
       ),
-      textTheme: const TextTheme(
-        displaySmall: TextStyle(
-          color: AppColors.textPrimary,
-          fontSize: 24,
-          fontWeight: FontWeight.w700,
-          height: 1.33,
-        ),
-        headlineSmall: TextStyle(
-          color: AppColors.textPrimary,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          height: 1.4,
-        ),
-        titleMedium: TextStyle(
-          color: AppColors.textPrimary,
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          height: 1.5,
-        ),
-        bodyMedium: TextStyle(
-          color: AppColors.textPrimary,
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          height: 1.43,
-        ),
-        bodySmall: TextStyle(
-          color: AppColors.textSecondary,
-          fontSize: 13,
-          fontWeight: FontWeight.w400,
-          height: 1.38,
-        ),
-        labelSmall: TextStyle(
-          color: AppColors.textSecondary,
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          height: 1.33,
-        ),
-      ),
+      textTheme: AppTypography.textTheme,
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surface,
@@ -100,10 +64,7 @@ abstract final class AppTheme {
           backgroundColor: AppColors.fptOrange,
           foregroundColor: AppColors.surface,
           elevation: 0,
-          textStyle: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-          ),
+          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.sm),
           ),
