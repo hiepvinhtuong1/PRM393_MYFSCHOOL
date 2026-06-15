@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/empty_state.dart';
-import '../../core/mock/app_mock_data.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/grade_controller.dart';
 import 'grade_detail_screen.dart';
@@ -21,12 +20,13 @@ class GradeScreen extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Obx(() {
-      final grades = GradeMockData.gradesFor(
-        ctrl.selectedSemester.value,
-        ctrl.selectedYear.value,
-      );
-      final isParent = Get.find<AuthController>().isParent;
-      final childFirstName = HomeMockData.user.fullName.split(' ').last;
+      final grades = ctrl.grades;
+      final authCtrl = Get.find<AuthController>();
+      final isParent = authCtrl.isParent;
+      final childFirstName = authCtrl.selectedChildFirstName;
+
+      final semesterItems = ctrl.semesters;
+      final yearItems = ctrl.years;
 
       return SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -41,43 +41,48 @@ class GradeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: AppSpacing.md),
-            GradeFilterRow(
-              semesters: GradeMockData.semesters,
-              years: GradeMockData.years,
-              selectedSemester: ctrl.selectedSemester.value,
-              selectedYear: ctrl.selectedYear.value,
-              onSemesterChanged: (v) => ctrl.selectedSemester.value = v,
-              onYearChanged: (v) => ctrl.selectedYear.value = v,
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            GpaSummaryCard(
-              semester: ctrl.selectedSemester.value,
-              year: ctrl.selectedYear.value,
-              grades: grades,
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            Text(
-              'Bảng điểm chi tiết',
-              style: textTheme.titleMedium?.copyWith(
-                color: AppColors.textSecondary,
-                fontWeight: FontWeight.w800,
+            if (semesterItems.isNotEmpty && yearItems.isNotEmpty)
+              GradeFilterRow(
+                semesters: semesterItems,
+                years: yearItems,
+                selectedSemester: ctrl.selectedSemester.value,
+                selectedYear: ctrl.selectedYear.value,
+                onSemesterChanged: ctrl.onSemesterChanged,
+                onYearChanged: ctrl.onYearChanged,
               ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            if (grades.isEmpty)
-              const EmptyState(
-                icon: Icons.bar_chart_outlined,
-                title: 'Chưa có dữ liệu điểm',
-                message: 'Học kỳ đã chọn chưa có điểm số.',
-              )
-            else
-              for (final item in grades) ...[
-                GradeItemCard(
-                  item: item,
-                  onTap: () => Get.to(() => GradeDetailScreen(item: item)),
+            const SizedBox(height: AppSpacing.lg),
+            if (ctrl.isLoading.value)
+              const Center(child: CircularProgressIndicator())
+            else ...[
+              GpaSummaryCard(
+                semester: ctrl.selectedSemester.value,
+                year: ctrl.selectedYear.value,
+                grades: grades,
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              Text(
+                'Bảng điểm chi tiết',
+                style: textTheme.titleMedium?.copyWith(
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w800,
                 ),
-                const SizedBox(height: AppSpacing.md),
-              ],
+              ),
+              const SizedBox(height: AppSpacing.md),
+              if (grades.isEmpty)
+                const EmptyState(
+                  icon: Icons.bar_chart_outlined,
+                  title: 'Chưa có dữ liệu điểm',
+                  message: 'Học kỳ đã chọn chưa có điểm số.',
+                )
+              else
+                for (final item in grades) ...[
+                  GradeItemCard(
+                    item: item,
+                    onTap: () => Get.to(() => GradeDetailScreen(item: item)),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                ],
+            ],
           ],
         ),
       );

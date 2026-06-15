@@ -20,10 +20,11 @@ class TimetableScreen extends StatelessWidget {
 
     return Obx(() {
       final selectedDay = TimetableMockData.dayForDate(ctrl.selectedDate.value);
-      final lessons = TimetableMockData.lessonsForDate(ctrl.selectedDate.value);
+      final lessons = ctrl.lessons;
       final weekDays = TimetableMockData.weekDaysFor(ctrl.weekStart.value);
-      final isParent = Get.find<AuthController>().isParent;
-      final childFirstName = HomeMockData.user.fullName.split(' ').last;
+      final authCtrl = Get.find<AuthController>();
+      final isParent = authCtrl.isParent;
+      final childFirstName = authCtrl.selectedChildFirstName;
 
       return SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -102,7 +103,7 @@ class TimetableScreen extends StatelessWidget {
                     style: textTheme.headlineSmall,
                   ),
                 ),
-                if (ctrl.selectedDate.value == TimetableMockData.selectedDate)
+                if (ctrl.selectedDate.value == TimetableMockData.dateKey(DateTime.now()))
                   DecoratedBox(
                     decoration: BoxDecoration(
                       color: AppColors.successBackground,

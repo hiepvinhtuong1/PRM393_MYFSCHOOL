@@ -1,15 +1,25 @@
 import 'package:get/get.dart';
 
-import '../core/mock/app_mock_data.dart';
+import '../core/mock/notification_mock_data.dart';
+import '../core/services/notification_service.dart';
 
 class NotificationController extends GetxController {
+  final _service = NotificationService();
+
   final notifications = <SchoolNotification>[].obs;
   final selectedCategory = NotificationCategory.all.obs;
+  final isLoading = false.obs;
+  final isLoadingMore = false.obs;
+
+  int _currentPage = 0;
+  int _totalPages = 1;
+
+  bool get hasMore => _currentPage < _totalPages - 1;
 
   @override
   void onInit() {
     super.onInit();
-    notifications.assignAll(NotificationMockData.notifications);
+    loadNotifications();
   }
 
   List<SchoolNotification> get filtered {
@@ -30,10 +40,45 @@ class NotificationController extends GetxController {
         .length;
   }
 
-  void markAsRead(String id) {
+  Future<void> loadNotifications() async {
+    if (isLoading.value) return;
+    isLoading.value = true;
+    _currentPage = 0;
+    try {
+      final result = await _service.getNotifications(page: 0);
+      _totalPages = result.totalPages;
+      notifications.assignAll(result.items);
+    } catch (_) {
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> loadMore() async {
+    if (isLoadingMore.value || !hasMore) return;
+    isLoadingMore.value = true;
+    try {
+      final nextPage = _currentPage + 1;
+      final result = await _service.getNotifications(page: nextPage);
+      _currentPage = nextPage;
+      _totalPages = result.totalPages;
+      notifications.addAll(result.items);
+    } catch (_) {
+    } finally {
+      isLoadingMore.value = false;
+    }
+  }
+
+  Future<void> markAsRead(String id) async {
     final index = notifications.indexWhere((n) => n.id == id);
-    if (index != -1) {
+    if (index != -1 && !notifications[index].isRead) {
       notifications[index] = notifications[index].copyWith(isRead: true);
+      try {
+        await _service.markAsRead(id);
+      } catch (_) {
+        // revert on failure
+        notifications[index] = notifications[index].copyWith(isRead: false);
+      }
     }
   }
 

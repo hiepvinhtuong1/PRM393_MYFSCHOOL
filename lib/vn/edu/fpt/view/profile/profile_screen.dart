@@ -43,8 +43,7 @@ class ProfileScreen extends StatelessWidget {
     return Obx(() {
       final ctrl = Get.find<AuthController>();
       final isParent = ctrl.isParent;
-      final profile =
-          isParent ? ProfileMockData.parentProfile : ProfileMockData.profile;
+      final profile = ctrl.profileInfo;
 
       return _ProfileContent(
         profile: profile,

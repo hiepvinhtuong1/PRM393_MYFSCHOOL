@@ -1,12 +1,17 @@
-import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../core/constants/app_routes.dart';
-import '../core/mock/app_mock_data.dart';
+import '../core/mock/profile_mock_data.dart';
+import '../core/services/auth_service.dart';
+import '../core/services/profile_service.dart';
+import '../core/storage/token_storage.dart';
 import '../core/theme/app_colors.dart';
 
 class AuthController extends GetxController {
+  final _authService = AuthService();
+  final _profileService = ProfileService();
+
   final formKey = GlobalKey<FormState>();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
@@ -14,19 +19,81 @@ class AuthController extends GetxController {
   final obscurePassword = true.obs;
   final isSubmitting = false.obs;
   final loginError = Rxn<String>();
-  final currentUser = Rxn<MockUser>();
 
-  UserRole get role => currentUser.value?.role ?? UserRole.student;
-  bool get isParent => role == UserRole.parent;
-  bool get isStudent => role == UserRole.student;
+  // ── Auth state ──────────────────────────────────────────────────────────────
+  final userFullName = ''.obs;
+  final userRole = ''.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    if (kDebugMode) {
-      phoneController.text = MockUsers.demoAccounts.first.phone;
-      passwordController.text = MockUsers.demoAccounts.first.password;
+  bool get isParent => userRole.value == 'PARENT';
+  bool get isStudent => userRole.value == 'STUDENT';
+  bool get isLoggedIn => userFullName.value.isNotEmpty;
+
+  // ── Profile / parent child selector ────────────────────────────────────────
+  final profileData = Rxn<ProfileData>();
+  final selectedStudentId = Rxn<int>();
+
+  List<ChildInfo> get children => profileData.value?.children ?? [];
+
+  String get selectedChildName {
+    if (selectedStudentId.value == null) return '';
+    return children
+            .where((c) => c.id == selectedStudentId.value)
+            .map((c) => c.fullName)
+            .firstOrNull ??
+        '';
+  }
+
+  String get selectedChildFirstName {
+    final name = selectedChildName;
+    if (name.isEmpty) return '';
+    return name.trim().split(RegExp(r'\s+')).last;
+  }
+
+  ProfileInfo get profileInfo {
+    final data = profileData.value;
+    if (data == null) {
+      return ProfileInfo(
+        fullName: userFullName.value,
+        role: isParent ? 'Phụ huynh' : 'Học sinh',
+        studentCode: '', className: '', grade: '', campus: '',
+        phone: '', email: '', guardianName: '', guardianPhone: '',
+        dateOfBirth: '', gender: '',
+      );
     }
+    if (data.isParent) {
+      final child = children
+              .where((c) => c.id == selectedStudentId.value)
+              .firstOrNull ??
+          children.firstOrNull;
+      return ProfileInfo(
+        fullName: data.fullName,
+        role: 'Phụ huynh',
+        studentCode: child?.studentCode ?? '',
+        className: child?.classroomName ?? '',
+        grade: '',
+        campus: '',
+        phone: data.phone ?? '',
+        email: data.email ?? '',
+        guardianName: child?.fullName ?? '',
+        guardianPhone: '',
+        dateOfBirth: data.dateOfBirth ?? '',
+        gender: data.gender ?? '',
+      );
+    }
+    return ProfileInfo(
+      fullName: data.fullName,
+      role: 'Học sinh',
+      studentCode: data.studentCode ?? '',
+      className: data.classroomName ?? '',
+      grade: '',
+      campus: data.campusName ?? '',
+      phone: data.phone ?? '',
+      email: data.email ?? '',
+      guardianName: '',
+      guardianPhone: '',
+      dateOfBirth: data.dateOfBirth ?? '',
+      gender: data.gender ?? '',
+    );
   }
 
   @override
@@ -48,42 +115,58 @@ class AuthController extends GetxController {
     if (!formKey.currentState!.validate()) return;
 
     isSubmitting.value = true;
-    await Future<void>.delayed(const Duration(milliseconds: 500));
+    try {
+      final result = await _authService.login(
+        phoneController.text.trim(),
+        passwordController.text,
+      );
 
-    final user = MockUsers.authenticate(
-      phone: phoneController.text.trim(),
-      password: passwordController.text,
-    );
+      userFullName.value = result.fullName;
+      userRole.value = result.role;
 
-    isSubmitting.value = false;
+      await _loadProfile(result.role);
 
-    if (user == null) {
-      loginError.value = 'Số điện thoại hoặc mật khẩu không đúng.';
-      return;
+      Get.snackbar(
+        'Đăng nhập thành công',
+        result.fullName,
+        backgroundColor: AppColors.fptGreen,
+        colorText: Colors.white,
+        duration: const Duration(milliseconds: 1200),
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+      Get.offAllNamed(AppRoutes.home);
+    } catch (e) {
+      loginError.value = 'Tên đăng nhập hoặc mật khẩu không đúng.';
+    } finally {
+      isSubmitting.value = false;
     }
+  }
 
-    currentUser.value = user;
+  Future<void> _loadProfile(String role) async {
+    try {
+      final data = await _profileService.getProfile(role);
+      profileData.value = data;
+      if (role == 'PARENT' && data.children.isNotEmpty) {
+        selectedStudentId.value = data.children.first.id;
+      }
+    } catch (_) {}
+  }
 
-    Get.snackbar(
-      'Đăng nhập thành công',
-      user.fullName,
-      backgroundColor: AppColors.fptGreen,
-      colorText: Colors.white,
-      duration: const Duration(milliseconds: 1200),
-    );
-    await Future<void>.delayed(const Duration(milliseconds: 400));
-    Get.offAllNamed(AppRoutes.home);
+  void selectChild(int studentId) {
+    selectedStudentId.value = studentId;
   }
 
   void showForgotPassword() {
-    Get.snackbar(
-      'Thông báo',
-      'Tính năng quên mật khẩu sẽ được kết nối backend sau.',
-    );
+    Get.snackbar('Thông báo', 'Vui lòng liên hệ nhà trường để được hỗ trợ.');
   }
 
-  void logout() {
-    currentUser.value = null;
+  Future<void> logout() async {
+    await _authService.logout();
+    userFullName.value = '';
+    userRole.value = '';
+    profileData.value = null;
+    selectedStudentId.value = null;
+    await TokenStorage.clearAll();
     Get.offAllNamed(AppRoutes.login);
   }
 }

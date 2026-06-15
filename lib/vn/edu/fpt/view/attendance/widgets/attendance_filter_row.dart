@@ -1,8 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 
+import '../../../core/mock/attendance_mock_data.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
-import '../../../core/mock/app_mock_data.dart';
 
 class AttendanceFilterRow extends StatelessWidget {
   const AttendanceFilterRow({
@@ -12,6 +12,7 @@ class AttendanceFilterRow extends StatelessWidget {
     required this.selectedSubjectId,
     required this.onSemesterChanged,
     required this.onSubjectChanged,
+    this.allSubjects = const [],
   });
 
   final List<String> semesters;
@@ -19,6 +20,7 @@ class AttendanceFilterRow extends StatelessWidget {
   final String selectedSubjectId;
   final ValueChanged<String> onSemesterChanged;
   final ValueChanged<String> onSubjectChanged;
+  final List<AttendanceSubject> allSubjects;
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +69,11 @@ class AttendanceFilterRow extends StatelessWidget {
           height: 44,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            itemCount: AttendanceMockData.subjects.length + 1,
+            itemCount: allSubjects.length + 1,
             separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.sm),
             itemBuilder: (context, index) {
               final isAll = index == 0;
-              final subject = isAll
-                  ? null
-                  : AttendanceMockData.subjects[index - 1];
+              final subject = isAll ? null : allSubjects[index - 1];
               final id = isAll ? 'all' : subject!.id;
               final isSelected = selectedSubjectId == id;
 

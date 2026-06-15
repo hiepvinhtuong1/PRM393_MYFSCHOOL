@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../core/mock/app_mock_data.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/app_card.dart';
@@ -27,7 +26,7 @@ class _StudentInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const profile = ProfileMockData.profile;
+    final profile = Get.find<AuthController>().profileInfo;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -111,8 +110,7 @@ class _ParentInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const parent = ProfileMockData.parentProfile;
-    const child = ProfileMockData.profile;
+    final profile = Get.find<AuthController>().profileInfo;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -128,9 +126,9 @@ class _ParentInfoScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _AvatarHeader(
-              initials: parent.initials,
-              name: parent.fullName,
-              subtitle: parent.role,
+              initials: profile.initials,
+              name: profile.fullName,
+              subtitle: profile.role,
               avatarColor: AppColors.fptBlue,
             ),
             const SizedBox(height: AppSpacing.xl),
@@ -139,12 +137,12 @@ class _ParentInfoScreen extends StatelessWidget {
             AppCard(
               child: Column(
                 children: [
-                  _DetailRow(label: 'Ngày sinh', value: parent.dateOfBirth),
-                  _DetailRow(label: 'Giới tính', value: parent.gender),
-                  _DetailRow(label: 'Số điện thoại', value: parent.phone),
+                  _DetailRow(label: 'Ngày sinh', value: profile.dateOfBirth),
+                  _DetailRow(label: 'Giới tính', value: profile.gender),
+                  _DetailRow(label: 'Số điện thoại', value: profile.phone),
                   _DetailRow(
                     label: 'Email',
-                    value: parent.email,
+                    value: profile.email,
                     isLast: true,
                   ),
                 ],
@@ -156,13 +154,13 @@ class _ParentInfoScreen extends StatelessWidget {
             AppCard(
               child: Column(
                 children: [
-                  _DetailRow(label: 'Họ và tên', value: child.fullName),
-                  _DetailRow(label: 'Mã học sinh', value: child.studentCode),
-                  _DetailRow(label: 'Lớp', value: child.className),
-                  _DetailRow(label: 'Khối', value: child.grade),
+                  _DetailRow(label: 'Họ và tên', value: profile.guardianName),
+                  _DetailRow(label: 'Mã học sinh', value: profile.studentCode),
+                  _DetailRow(label: 'Lớp', value: profile.className),
+                  _DetailRow(label: 'Khối', value: profile.grade),
                   _DetailRow(
                     label: 'Cơ sở',
-                    value: child.campus,
+                    value: profile.campus,
                     isLast: true,
                   ),
                 ],
@@ -176,7 +174,7 @@ class _ParentInfoScreen extends StatelessWidget {
                 children: [
                   _PhoneDetailRow(
                     label: 'Số điện thoại',
-                    phone: child.phone,
+                    phone: profile.guardianPhone,
                   ),
                 ],
               ),

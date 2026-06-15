@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../core/constants/app_routes.dart';
 import '../../../core/mock/app_mock_data.dart';
+import '../../../core/services/profile_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
@@ -16,46 +17,111 @@ class ParentHomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final ctrl = Get.find<AuthController>();
-    const child = HomeMockData.user;
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // ── Parent greeting ─────────────────────────────────────────────
-          _ParentHeader(parentName: ctrl.currentUser.value?.fullName ?? ''),
-          const SizedBox(height: AppSpacing.lg),
+    return Obx(() {
+      final ctrl = Get.find<AuthController>();
+      final parentName = ctrl.userFullName.value;
+      final children = ctrl.children;
+      final selectedId = ctrl.selectedStudentId.value;
+      final selectedChild = children
+          .where((c) => c.id == selectedId)
+          .firstOrNull;
 
-          // ── Child summary card ───────────────────────────────────────────
-          _ChildSummaryCard(child: child),
-          const SizedBox(height: AppSpacing.lg),
+      return SingleChildScrollView(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _ParentHeader(parentName: parentName),
+            const SizedBox(height: AppSpacing.lg),
 
-          // ── Quick stats row ─────────────────────────────────────────────
-          _QuickStatsRow(),
-          const SizedBox(height: AppSpacing.lg),
+            // ── Child selector (multiple children support) ───────────────────
+            if (children.length > 1) ...[
+              _ChildSelector(
+                children: children,
+                selectedId: selectedId,
+                onSelect: ctrl.selectChild,
+              ),
+              const SizedBox(height: AppSpacing.md),
+            ],
 
-          // ── Today's schedule ────────────────────────────────────────────
-          Text(
-            "Lịch học hôm nay của ${child.fullName.split(' ').last}",
-            style: textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.w800,
-              color: AppColors.textSecondary,
+            // ── Child summary card ───────────────────────────────────────────
+            if (selectedChild != null)
+              _ChildSummaryCard(child: selectedChild)
+            else
+              const SizedBox.shrink(),
+            const SizedBox(height: AppSpacing.lg),
+
+            // ── Quick stats row ─────────────────────────────────────────────
+            _QuickStatsRow(),
+            const SizedBox(height: AppSpacing.lg),
+
+            // ── Today's schedule ────────────────────────────────────────────
+            Text(
+              selectedChild != null
+                  ? 'Lịch học hôm nay của ${selectedChild.fullName.trim().split(RegExp(r'\s+')).last}'
+                  : 'Lịch học hôm nay',
+              style: textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w800,
+                color: AppColors.textSecondary,
+              ),
             ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          _TodayScheduleCard(),
-          const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: AppSpacing.md),
+            _TodayScheduleCard(),
+            const SizedBox(height: AppSpacing.lg),
 
-          // ── Notices ──────────────────────────────────────────────────────
-          const NoticePanel(notices: HomeMockData.notices),
-          const SizedBox(height: AppSpacing.lg),
+            const NoticePanel(notices: HomeMockData.notices),
+            const SizedBox(height: AppSpacing.lg),
 
-          // ── Events ───────────────────────────────────────────────────────
-          const UpcomingEventsSection(events: HomeMockData.events),
-          const SizedBox(height: AppSpacing.lg),
-        ],
+            const UpcomingEventsSection(events: HomeMockData.events),
+            const SizedBox(height: AppSpacing.lg),
+          ],
+        ),
+      );
+    });
+  }
+}
+
+// ─── Child selector (shown when parent has >1 child) ─────────────────────────
+
+class _ChildSelector extends StatelessWidget {
+  const _ChildSelector({
+    required this.children,
+    required this.selectedId,
+    required this.onSelect,
+  });
+
+  final List<ChildInfo> children;
+  final int? selectedId;
+  final void Function(int) onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: children.length,
+        separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.sm),
+        itemBuilder: (context, i) {
+          final child = children[i];
+          final isSelected = child.id == selectedId;
+          return ChoiceChip(
+            selected: isSelected,
+            showCheckmark: false,
+            label: Text(child.fullName.trim().split(RegExp(r'\s+')).last),
+            labelStyle: TextStyle(
+              color: isSelected ? Colors.white : AppColors.textPrimary,
+              fontWeight: FontWeight.w700,
+            ),
+            selectedColor: AppColors.fptOrange,
+            backgroundColor: AppColors.surface,
+            side: BorderSide(
+              color: isSelected ? AppColors.fptOrange : AppColors.borderLight,
+            ),
+            onSelected: (_) => onSelect(child.id),
+          );
+        },
       ),
     );
   }
@@ -78,9 +144,8 @@ class _ParentHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final displayName = parentName.isNotEmpty
-        ? parentName.split(' ').last
-        : 'Phụ huynh';
+    final displayName =
+        parentName.isNotEmpty ? parentName.trim().split(RegExp(r'\s+')).last : 'Phụ huynh';
 
     return Row(
       children: [
@@ -128,7 +193,7 @@ class _ParentHeader extends StatelessWidget {
 class _ChildSummaryCard extends StatelessWidget {
   const _ChildSummaryCard({required this.child});
 
-  final HomeUser child;
+  final ChildInfo child;
 
   @override
   Widget build(BuildContext context) {
@@ -169,15 +234,16 @@ class _ChildSummaryCard extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xs),
                 Row(
                   children: [
-                    _InfoChip(
-                      icon: Icons.class_outlined,
-                      label: child.className,
-                      color: AppColors.fptBlue,
-                    ),
+                    if (child.classroomName != null)
+                      _InfoChip(
+                        icon: Icons.class_outlined,
+                        label: child.classroomName!,
+                        color: AppColors.fptBlue,
+                      ),
                     const SizedBox(width: AppSpacing.sm),
                     _InfoChip(
                       icon: Icons.school_outlined,
-                      label: child.role,
+                      label: 'Học sinh',
                       color: AppColors.fptGreen,
                     ),
                   ],
@@ -257,9 +323,8 @@ class _QuickStatsRow extends StatelessWidget {
             icon: Icons.fact_check_outlined,
             label: 'Chuyên cần',
             value: '$attendanceRate%',
-            color: attendanceRate >= 90
-                ? AppColors.fptGreen
-                : AppColors.warning,
+            color:
+                attendanceRate >= 90 ? AppColors.fptGreen : AppColors.warning,
           ),
         ),
         const SizedBox(width: AppSpacing.md),

@@ -4,13 +4,11 @@ import 'package:get/get.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/empty_state.dart';
-import '../../core/mock/app_mock_data.dart';
 import '../../controllers/attendance_controller.dart';
 import 'attendance_detail_screen.dart';
 import 'widgets/attendance_filter_row.dart';
 import 'widgets/attendance_subject_card.dart';
 import 'widgets/attendance_summary_card.dart';
-import 'widgets/recent_attendance_list.dart';
 
 class AttendanceScreen extends StatelessWidget {
   const AttendanceScreen({super.key});
@@ -22,6 +20,7 @@ class AttendanceScreen extends StatelessWidget {
 
     return Obx(() {
       final subjects = ctrl.filteredSubjects;
+      final allSubjects = ctrl.subjects;
 
       return SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -44,50 +43,43 @@ class AttendanceScreen extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.md),
             AttendanceFilterRow(
-              semesters: AttendanceMockData.semesters,
+              semesters: ctrl.semesterLabels,
               selectedSemester: ctrl.selectedSemester.value,
               selectedSubjectId: ctrl.selectedSubjectId.value,
-              onSemesterChanged: (v) => ctrl.selectedSemester.value = v,
+              allSubjects: allSubjects,
+              onSemesterChanged: ctrl.onSemesterChanged,
               onSubjectChanged: (v) => ctrl.selectedSubjectId.value = v,
             ),
             const SizedBox(height: AppSpacing.lg),
-            AttendanceSummaryCard(subjects: subjects),
-            const SizedBox(height: AppSpacing.lg),
-            Text(
-              'Theo môn học',
-              style: textTheme.titleMedium?.copyWith(
-                color: AppColors.textSecondary,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            if (subjects.isEmpty)
-              const EmptyState(
-                icon: Icons.fact_check_outlined,
-                title: 'Chưa có dữ liệu điểm danh',
-                message: 'Bộ lọc hiện tại chưa có môn học nào.',
-              )
-            else
-              for (final subject in subjects) ...[
-                AttendanceSubjectCard(
-                  subject: subject,
-                  onTap: () =>
-                      Get.to(() => AttendanceDetailScreen(subject: subject)),
+            if (ctrl.isLoading.value)
+              const Center(child: CircularProgressIndicator())
+            else ...[
+              AttendanceSummaryCard(subjects: subjects),
+              const SizedBox(height: AppSpacing.lg),
+              Text(
+                'Theo môn học',
+                style: textTheme.titleMedium?.copyWith(
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w800,
                 ),
-                const SizedBox(height: AppSpacing.md),
-              ],
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              'Lần điểm danh gần đây',
-              style: textTheme.titleMedium?.copyWith(
-                color: AppColors.textSecondary,
-                fontWeight: FontWeight.w800,
               ),
-            ),
-            const SizedBox(height: AppSpacing.md),
-            const RecentAttendanceList(
-              sessions: AttendanceMockData.recentSessions,
-            ),
+              const SizedBox(height: AppSpacing.md),
+              if (subjects.isEmpty)
+                const EmptyState(
+                  icon: Icons.fact_check_outlined,
+                  title: 'Chưa có dữ liệu điểm danh',
+                  message: 'Bộ lọc hiện tại chưa có môn học nào.',
+                )
+              else
+                for (final subject in subjects) ...[
+                  AttendanceSubjectCard(
+                    subject: subject,
+                    onTap: () =>
+                        Get.to(() => AttendanceDetailScreen(subject: subject)),
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                ],
+            ],
           ],
         ),
       );

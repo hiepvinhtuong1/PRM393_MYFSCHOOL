@@ -16,16 +16,23 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final isParent = Get.find<AuthController>().isParent;
-      return isParent
-          ? const ParentHomeContent()
-          : const _StudentHomeContent();
+      final auth = Get.find<AuthController>();
+      if (auth.isParent) return const ParentHomeContent();
+
+      final user = HomeUser(
+        fullName: auth.userFullName.value,
+        role: 'Học sinh',
+        className: auth.profileData.value?.classroomName ?? '',
+      );
+      return _StudentHomeContent(user: user);
     });
   }
 }
 
 class _StudentHomeContent extends StatelessWidget {
-  const _StudentHomeContent();
+  const _StudentHomeContent({required this.user});
+
+  final HomeUser user;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +41,7 @@ class _StudentHomeContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const HomeHeader(user: HomeMockData.user),
+          HomeHeader(user: user),
           const SizedBox(height: AppSpacing.lg),
           HomeSummaryGrid(
             scheduleItems: HomeMockData.todaySchedule,
