@@ -77,11 +77,12 @@ class TimetableScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: AppSpacing.md),
-            SemesterTabBar(
-              semesters: TimetableMockData.semesters,
-              selectedSemester: ctrl.selectedSemester.value,
-              onSelected: ctrl.selectSemester,
-            ),
+            if (ctrl.semesterItems.isNotEmpty)
+              SemesterTabBar(
+                semesters: ctrl.semesterItems,
+                selectedSemester: ctrl.selectedSemester.value,
+                onSelected: ctrl.selectSemester,
+              ),
             const SizedBox(height: AppSpacing.md),
             WeekDaySelector(
               days: weekDays,
