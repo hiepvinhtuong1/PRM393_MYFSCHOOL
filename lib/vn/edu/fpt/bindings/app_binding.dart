@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../controllers/attendance_controller.dart';
 import '../controllers/auth_controller.dart';
+import '../controllers/contact_controller.dart';
 import '../controllers/grade_controller.dart';
 import '../controllers/notification_controller.dart';
 import '../controllers/timetable_controller.dart';
@@ -14,5 +15,6 @@ class AppBinding extends Bindings {
     Get.put(AttendanceController());
     Get.put(TimetableController());
     Get.put(GradeController());
+    Get.put(ContactController());
   }
 }

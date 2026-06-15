@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../core/mock/app_mock_data.dart';
+import '../../controllers/auth_controller.dart';
+import '../../controllers/contact_controller.dart';
+import '../../core/mock/contact_mock_data.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/widgets/app_card.dart';
@@ -12,67 +15,97 @@ class ContactScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final homeroom = ContactMockData.homeroom;
-    final subjects = ContactMockData.subjectTeachers;
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(AppSpacing.md),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            'Liên hệ',
-            style: textTheme.displaySmall?.copyWith(
-              color: AppColors.textPrimary,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Text(
-            'Thông tin liên hệ giáo viên lớp 10A1.',
-            style: textTheme.bodyMedium?.copyWith(
-              color: AppColors.textSecondary,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.lg),
+    return Obx(() {
+      final ctrl = Get.find<ContactController>();
+      final auth = Get.find<AuthController>();
+      final className = auth.profileInfo.className;
+      final homeroom = ctrl.homeroom;
+      final subjects = ctrl.subjectTeachers;
 
-          // ── Giáo viên chủ nhiệm ─────────────────────────────────────────
-          Text(
-            'Giáo viên chủ nhiệm',
-            style: textTheme.titleMedium?.copyWith(
-              color: AppColors.textSecondary,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          _HomeroomCard(teacher: homeroom),
-          const SizedBox(height: AppSpacing.lg),
+      if (ctrl.isLoading.value) {
+        return const Center(child: CircularProgressIndicator());
+      }
 
-          // ── Giáo viên bộ môn ────────────────────────────────────────────
-          Text(
-            'Giáo viên bộ môn',
-            style: textTheme.titleMedium?.copyWith(
-              color: AppColors.textSecondary,
-              fontWeight: FontWeight.w800,
+      return SingleChildScrollView(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Liên hệ',
+              style: textTheme.displaySmall?.copyWith(
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w800,
+              ),
             ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          AppCard(
-            padding: EdgeInsets.zero,
-            child: Column(
-              children: [
-                for (var i = 0; i < subjects.length; i++) ...[
-                  _TeacherRow(teacher: subjects[i]),
-                  if (i != subjects.length - 1)
-                    const Divider(height: 1, color: AppColors.borderLight),
-                ],
-              ],
+            const SizedBox(height: AppSpacing.xs),
+            Text(
+              className.isNotEmpty
+                  ? 'Thông tin liên hệ giáo viên lớp $className.'
+                  : 'Thông tin liên hệ giáo viên.',
+              style: textTheme.bodyMedium?.copyWith(
+                color: AppColors.textSecondary,
+              ),
             ),
-          ),
-          const SizedBox(height: AppSpacing.xl),
-        ],
-      ),
-    );
+            const SizedBox(height: AppSpacing.lg),
+
+            // ── Giáo viên chủ nhiệm ───────────────────────────────────────
+            if (homeroom != null) ...[
+              Text(
+                'Giáo viên chủ nhiệm',
+                style: textTheme.titleMedium?.copyWith(
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.md),
+              _HomeroomCard(teacher: homeroom),
+              const SizedBox(height: AppSpacing.lg),
+            ],
+
+            // ── Giáo viên bộ môn ─────────────────────────────────────────
+            if (subjects.isNotEmpty) ...[
+              Text(
+                'Giáo viên bộ môn',
+                style: textTheme.titleMedium?.copyWith(
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.md),
+              AppCard(
+                padding: EdgeInsets.zero,
+                child: Column(
+                  children: [
+                    for (var i = 0; i < subjects.length; i++) ...[
+                      _TeacherRow(teacher: subjects[i]),
+                      if (i != subjects.length - 1)
+                        const Divider(height: 1, color: AppColors.borderLight),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+
+            if (ctrl.teachers.isEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
+                child: Center(
+                  child: Text(
+                    'Chưa có thông tin giáo viên.',
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: AppColors.textTertiary,
+                    ),
+                  ),
+                ),
+              ),
+
+            const SizedBox(height: AppSpacing.xl),
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -133,18 +166,20 @@ class _HomeroomCard extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           const Divider(color: AppColors.borderLight),
           const SizedBox(height: AppSpacing.sm),
-          _ContactRow(
-            icon: Icons.phone_outlined,
-            text: teacher.phone,
-            color: AppColors.fptGreen,
-            onTap: () => _call(teacher.phone),
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          _ContactRow(
-            icon: Icons.email_outlined,
-            text: teacher.email,
-            color: AppColors.fptBlue,
-          ),
+          if (teacher.phone.isNotEmpty)
+            _ContactRow(
+              icon: Icons.phone_outlined,
+              text: teacher.phone,
+              color: AppColors.fptGreen,
+              onTap: () => _call(teacher.phone),
+            ),
+          if (teacher.phone.isNotEmpty) const SizedBox(height: AppSpacing.sm),
+          if (teacher.email.isNotEmpty)
+            _ContactRow(
+              icon: Icons.email_outlined,
+              text: teacher.email,
+              color: AppColors.fptBlue,
+            ),
         ],
       ),
     );
@@ -172,7 +207,7 @@ class _TeacherRow extends StatelessWidget {
           Container(
             width: 40,
             height: 40,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.surfaceElevated,
               shape: BoxShape.circle,
             ),
@@ -202,22 +237,23 @@ class _TeacherRow extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            onPressed: () => _call(teacher.phone),
-            icon: const Icon(Icons.phone_outlined, size: 20),
-            color: AppColors.fptGreen,
-            style: IconButton.styleFrom(
-              backgroundColor: AppColors.fptGreen.withValues(alpha: 0.1),
-              shape: const CircleBorder(),
+          if (teacher.phone.isNotEmpty)
+            IconButton(
+              onPressed: () => _call(teacher.phone),
+              icon: const Icon(Icons.phone_outlined, size: 20),
+              color: AppColors.fptGreen,
+              style: IconButton.styleFrom(
+                backgroundColor: AppColors.fptGreen.withValues(alpha: 0.1),
+                shape: const CircleBorder(),
+              ),
             ),
-          ),
         ],
       ),
     );
   }
 }
 
-// ─── Contact row (phone/email) ────────────────────────────────────────────────
+// ─── Shared widgets ───────────────────────────────────────────────────────────
 
 class _ContactRow extends StatelessWidget {
   const _ContactRow({
@@ -248,7 +284,8 @@ class _ContactRow extends StatelessWidget {
               style: TextStyle(
                 color: onTap != null ? color : AppColors.textSecondary,
                 fontSize: 14,
-                fontWeight: onTap != null ? FontWeight.w700 : FontWeight.w400,
+                fontWeight:
+                    onTap != null ? FontWeight.w700 : FontWeight.w400,
                 decoration: onTap != null ? TextDecoration.underline : null,
               ),
             ),
@@ -258,8 +295,6 @@ class _ContactRow extends StatelessWidget {
     );
   }
 }
-
-// ─── Helper ───────────────────────────────────────────────────────────────────
 
 Future<void> _call(String phone) async {
   final uri = Uri(scheme: 'tel', path: phone);
