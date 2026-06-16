@@ -15,7 +15,7 @@ class AttendanceService {
     if (studentId != null) params['studentId'] = studentId;
 
     final response = await _dio.get('/me/attendance', queryParameters: params);
-    final list = response.data as List;
+    final list = response.data['data'] as List;
     return list.map(_mapSubject).toList();
   }
 

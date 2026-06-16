@@ -53,4 +53,11 @@ class AuthService {
     }
     await TokenStorage.clearAll();
   }
+
+  Future<void> changePassword(String currentPassword, String newPassword) async {
+    await _dio.patch(
+      '/me/password',
+      data: {'currentPassword': currentPassword, 'newPassword': newPassword},
+    );
+  }
 }

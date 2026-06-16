@@ -43,12 +43,13 @@ class HomeController extends GetxController {
       events.assignAll(eventsResult.items.map(HomeEvent.fromNotification));
 
       final semesters = await _semesterService.getSemesters();
-      if (semesters.isNotEmpty) {
-        final latest = semesters.last;
-        final grades = await _gradeService.getGrades(latest.id, studentId: studentId);
-        final gpa = _calcGpa(grades);
-        currentGpa.value = gpa;
-        gpaHistory.assignAll([SemesterGpa(label: latest.name, gpa: gpa)]);
+      for (final semester in semesters) {
+        final grades = await _gradeService.getGrades(semester.id, studentId: studentId);
+        if (grades.isNotEmpty) {
+          currentGpa.value = _calcGpa(grades);
+          gpaHistory.assignAll([SemesterGpa(label: semester.name, gpa: currentGpa.value)]);
+          break;
+        }
       }
     } catch (_) {
       // silent fail — keep whatever was loaded before

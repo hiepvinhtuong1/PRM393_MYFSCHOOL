@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../core/network/api_client.dart' show parseErrorMessage;
+import '../../core/services/auth_service.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 
@@ -33,16 +35,27 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _loading = true);
-    await Future<void>.delayed(const Duration(milliseconds: 800));
-    if (!mounted) return;
-    setState(() => _loading = false);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Đổi mật khẩu thành công'),
-        backgroundColor: AppColors.fptGreen,
-      ),
-    );
-    Get.back();
+    try {
+      await AuthService().changePassword(_currentCtrl.text, _newCtrl.text);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Đổi mật khẩu thành công'),
+          backgroundColor: AppColors.fptGreen,
+        ),
+      );
+      Get.back();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(parseErrorMessage(e)),
+          backgroundColor: AppColors.danger,
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
   }
 
   @override
