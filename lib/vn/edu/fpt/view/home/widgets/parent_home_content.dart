@@ -8,6 +8,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../controllers/auth_controller.dart';
+import '../../../controllers/home_controller.dart';
 import 'notice_panel.dart';
 import 'upcoming_events_section.dart';
 
@@ -70,7 +71,7 @@ class ParentHomeContent extends StatelessWidget {
             _TodayScheduleCard(),
             const SizedBox(height: AppSpacing.lg),
 
-            const NoticePanel(notices: HomeMockData.notices),
+            NoticePanel(notices: Get.find<HomeController>().recentNotices),
             const SizedBox(height: AppSpacing.lg),
 
             const UpcomingEventsSection(events: HomeMockData.events),
@@ -309,59 +310,44 @@ class _InfoChip extends StatelessWidget {
 class _QuickStatsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final totalAbsent = AttendanceMockData.totalAbsent;
-    final totalSessions = AttendanceMockData.totalSessions;
-    final attendanceRate = totalSessions > 0
-        ? ((totalSessions - totalAbsent) / totalSessions * 100).round()
-        : 0;
-    final gpa = HomeMockData.currentGpa;
-
-    return Row(
-      children: [
-        Expanded(
-          child: _StatCard(
-            icon: Icons.fact_check_outlined,
-            label: 'Chuyên cần',
-            value: '$attendanceRate%',
-            color:
-                attendanceRate >= 90 ? AppColors.fptGreen : AppColors.warning,
+    return Obx(() {
+      final gpa = Get.find<HomeController>().currentGpa.value;
+      return Row(
+        children: [
+          Expanded(
+            child: _StatCard(
+              icon: Icons.fact_check_outlined,
+              label: 'Chuyên cần',
+              value: '--',
+              color: AppColors.textSecondary,
+            ),
           ),
-        ),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: _StatCard(
-            icon: Icons.star_outline,
-            label: 'GPA học kỳ',
-            value: gpa.toStringAsFixed(1),
-            color: gpa >= 8.0
-                ? AppColors.fptGreen
-                : gpa >= 6.5
-                ? AppColors.warning
-                : AppColors.danger,
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: _StatCard(
+              icon: Icons.star_outline,
+              label: 'GPA học kỳ',
+              value: gpa > 0 ? gpa.toStringAsFixed(1) : '--',
+              color: gpa >= 8.0
+                  ? AppColors.fptGreen
+                  : gpa >= 6.5
+                  ? AppColors.warning
+                  : AppColors.danger,
+            ),
           ),
-        ),
-        const SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: _StatCard(
-            icon: Icons.warning_amber_outlined,
-            label: 'Môn cảnh báo',
-            value: '$_dangerSubjectCount',
-            color: _dangerSubjectCount > 0
-                ? AppColors.danger
-                : AppColors.fptGreen,
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: _StatCard(
+              icon: Icons.warning_amber_outlined,
+              label: 'Môn cảnh báo',
+              value: '--',
+              color: AppColors.textSecondary,
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
-
-  int get _dangerSubjectCount => AttendanceMockData.subjects
-      .where(
-        (s) =>
-            s.status == AttendanceStatus.danger ||
-            s.status == AttendanceStatus.exceeded,
-      )
-      .length;
 }
 
 class _StatCard extends StatelessWidget {
@@ -414,8 +400,13 @@ class _TodayScheduleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final items = HomeMockData.todaySchedule;
+    return Obx(() {
+      final items = Get.find<HomeController>().todaySchedule;
+      return _buildContent(textTheme, items);
+    });
+  }
 
+  Widget _buildContent(TextTheme textTheme, List<HomeScheduleItem> items) {
     if (items.isEmpty) {
       return AppCard(
         child: Center(
