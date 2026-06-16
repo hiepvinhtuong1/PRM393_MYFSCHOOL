@@ -20,33 +20,13 @@ class ApiClient {
     );
     d.interceptors.add(_AuthInterceptor(d));
     return d;
-  static Dio? _instance;
-
-  static Dio get instance {
-    _instance ??= _buildDio();
-    return _instance!;
-  }
-
-  static Dio _buildDio() {
-    final dio = Dio(BaseOptions(
-      baseUrl: AppConstants.baseUrl,
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
-      contentType: 'application/json',
-      responseType: ResponseType.json,
-    ));
-    dio.interceptors.add(_AuthInterceptor(dio));
-    return dio;
   }
 }
 
 class _AuthInterceptor extends Interceptor {
   _AuthInterceptor(this._dio);
   final Dio _dio;
-  final Dio _dio;
   bool _isRefreshing = false;
-
-  _AuthInterceptor(this._dio);
 
   @override
   Future<void> onRequest(
@@ -65,45 +45,27 @@ class _AuthInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    if (err.response?.statusCode == 401) {
+    if (err.response?.statusCode == 401 && !_isRefreshing) {
       final refreshToken = await TokenStorage.getRefreshToken();
       if (refreshToken != null) {
+        _isRefreshing = true;
         try {
           final response = await _dio.post(
             '/auth/refresh',
             data: {'refreshToken': refreshToken},
             options: Options(headers: {'Authorization': null}),
           );
-          final newToken = response.data['data']['accessToken'] as String?;
-          if (newToken != null) {
-            await TokenStorage.saveAccessToken(newToken);
-            final opts = err.requestOptions;
-            opts.headers['Authorization'] = 'Bearer $newToken';
-            handler.resolve(await _dio.fetch(opts));
-            return;
-          }
-        } catch (_) {}
-    if (err.response?.statusCode == 401 && !_isRefreshing) {
-      final refreshToken = await TokenStorage.getRefreshToken();
-      if (refreshToken != null) {
-        _isRefreshing = true;
-        try {
-          final response = await Dio().post(
-            '${AppConstants.baseUrl}/auth/refresh',
-            data: {'refreshToken': refreshToken},
-          );
-          final data = response.data as Map<String, dynamic>;
+          final data = response.data['data'] as Map<String, dynamic>;
           await TokenStorage.saveTokens(
             accessToken: data['accessToken'] as String,
             refreshToken: data['refreshToken'] as String? ?? refreshToken,
           );
-          err.requestOptions.headers['Authorization'] =
-              'Bearer ${data['accessToken']}';
-          final retryResponse = await _dio.fetch(err.requestOptions);
-          handler.resolve(retryResponse);
+          final opts = err.requestOptions;
+          opts.headers['Authorization'] = 'Bearer ${data['accessToken']}';
+          handler.resolve(await _dio.fetch(opts));
           return;
         } catch (_) {
-          await TokenStorage.clear();
+          await TokenStorage.clearAll();
         } finally {
           _isRefreshing = false;
         }

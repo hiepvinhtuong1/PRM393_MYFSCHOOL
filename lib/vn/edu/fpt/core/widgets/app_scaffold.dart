@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '../constants/app_routes.dart';
 import '../constants/app_strings.dart';
-import '../mock/app_mock_data.dart';
 import '../theme/app_colors.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/notification_controller.dart';
@@ -176,7 +175,7 @@ class _AppBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final isParent =
-          Get.find<AuthController>().role == UserRole.parent;
+          Get.find<AuthController>().isParent;
       final items = isParent ? _parentItems : _studentItems;
       final currentIndex = items.indexWhere((i) => i.route == currentRoute);
 
