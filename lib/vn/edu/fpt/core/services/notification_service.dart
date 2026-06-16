@@ -5,11 +5,10 @@ class NotificationService {
   final _dio = ApiClient.instance.dio;
 
   Future<({List<SchoolNotification> items, int totalPages, int unreadCount})>
-      getNotifications({int page = 0, int size = 20}) async {
-    final response = await _dio.get(
-      '/me/notifications',
-      queryParameters: {'page': page, 'size': size},
-    );
+      getNotifications({int page = 0, int size = 20, String? category}) async {
+    final params = <String, dynamic>{'page': page, 'size': size};
+    if (category != null) params['category'] = category;
+    final response = await _dio.get('/me/notifications', queryParameters: params);
     final data = response.data as Map<String, dynamic>;
     final content = data['content'] as List;
     final totalPages = data['totalPages'] as int;

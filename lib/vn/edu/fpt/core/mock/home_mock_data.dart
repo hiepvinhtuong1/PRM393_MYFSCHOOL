@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
 import 'grade_mock_data.dart';
+import 'notification_mock_data.dart';
 
 // ─── Content block (rich text + image) ───────────────────────────────────────
 
@@ -75,7 +76,7 @@ class HomeNotice {
 }
 
 class HomeEvent {
-  const HomeEvent({
+  HomeEvent({
     required this.title,
     required this.date,
     required this.location,
@@ -92,6 +93,16 @@ class HomeEvent {
   final Color color;
   final String imageUrl;
   final List<ContentBlock> content;
+
+  factory HomeEvent.fromNotification(SchoolNotification n) => HomeEvent(
+        title: n.title,
+        date: n.time,
+        location: '',
+        category: 'Sự kiện',
+        color: AppColors.fptOrange,
+        imageUrl: '',
+        content: [TextBlock(n.description)],
+      );
 
   String get previewText {
     for (final block in content) {
@@ -230,7 +241,7 @@ abstract final class HomeMockData {
     ),
   ];
 
-  static const events = <HomeEvent>[
+  static final events = <HomeEvent>[
     HomeEvent(
       title: 'Hội thao FPT School 2026',
       date: 'Hôm nay',

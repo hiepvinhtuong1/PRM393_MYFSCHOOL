@@ -23,9 +23,9 @@ class AttendanceSummaryCard extends StatelessWidget {
     final unexcusedAbsent = subjects.fold(0, (s, sub) => s + sub.unexcusedAbsent);
     final lateSessions = subjects.fold(0, (s, sub) => s + sub.lateSessions);
     final totalAbsent = excusedAbsent + unexcusedAbsent;
+    final totalWarningThreshold = subjects.fold(0, (s, sub) => s + sub.warningThreshold);
 
-    // Cảnh báo dựa trên số tiết vắng tuyệt đối/học kỳ
-    final warningColor = _warningColor(totalAbsent);
+    final warningColor = _warningColor(totalAbsent, totalWarningThreshold);
     final progress = totalSessions > 0
         ? (totalAbsent / totalSessions).clamp(0.0, 1.0)
         : 0.0;
@@ -56,7 +56,7 @@ class AttendanceSummaryCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Ngưỡng: ${AttendanceMockData.semesterWarningThreshold} tiết/kỳ',
+                    'Ngưỡng: $totalWarningThreshold tiết/kỳ',
                     style: textTheme.labelSmall?.copyWith(
                       color: AppColors.textTertiary,
                     ),
@@ -75,7 +75,7 @@ class AttendanceSummaryCard extends StatelessWidget {
               backgroundColor: AppColors.surfaceElevated,
             ),
           ),
-          if (totalAbsent >= AttendanceMockData.semesterWarningThreshold) ...[
+          if (totalWarningThreshold > 0 && totalAbsent >= totalWarningThreshold) ...[
             const SizedBox(height: AppSpacing.sm),
             DecoratedBox(
               decoration: BoxDecoration(
@@ -151,11 +151,9 @@ class AttendanceSummaryCard extends StatelessWidget {
     );
   }
 
-  Color _warningColor(int totalAbsent) {
-    if (totalAbsent >= AttendanceMockData.semesterWarningThreshold) {
-      return AppColors.danger;
-    }
-    if (totalAbsent >= 35) return AppColors.warning;
+  Color _warningColor(int totalAbsent, int threshold) {
+    if (threshold > 0 && totalAbsent >= threshold) return AppColors.danger;
+    if (threshold > 0 && totalAbsent >= (threshold * 0.8).ceil()) return AppColors.warning;
     return AppColors.fptGreen;
   }
 }

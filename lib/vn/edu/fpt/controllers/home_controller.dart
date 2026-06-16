@@ -15,6 +15,7 @@ class HomeController extends GetxController {
 
   final todaySchedule = <HomeScheduleItem>[].obs;
   final recentNotices = <HomeNotice>[].obs;
+  final events = <HomeEvent>[].obs;
   final currentGpa = 0.0.obs;
   final gpaHistory = <SemesterGpa>[].obs;
   final isLoading = true.obs;
@@ -37,6 +38,9 @@ class HomeController extends GetxController {
 
       final notifResult = await _notificationService.getNotifications(page: 0, size: 5);
       recentNotices.assignAll(notifResult.items.take(3).map(_toNotice));
+
+      final eventsResult = await _notificationService.getNotifications(page: 0, size: 5, category: 'event');
+      events.assignAll(eventsResult.items.map(HomeEvent.fromNotification));
 
       final semesters = await _semesterService.getSemesters();
       if (semesters.isNotEmpty) {

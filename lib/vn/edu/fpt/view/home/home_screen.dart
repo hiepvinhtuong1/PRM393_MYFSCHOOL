@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../core/mock/app_mock_data.dart';
+import '../../core/mock/app_mock_data.dart' show HomeUser;
 import '../../core/theme/app_spacing.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/home_controller.dart';
@@ -54,7 +54,7 @@ class _StudentHomeContent extends StatelessWidget {
             const SizedBox(height: AppSpacing.lg),
             NoticePanel(notices: homeCtrl.recentNotices),
             const SizedBox(height: AppSpacing.lg),
-            const UpcomingEventsSection(events: HomeMockData.events),
+            UpcomingEventsSection(events: homeCtrl.events),
             const SizedBox(height: AppSpacing.lg),
           ],
         ),

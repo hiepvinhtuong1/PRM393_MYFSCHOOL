@@ -7,6 +7,7 @@ import '../../../core/services/profile_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/widgets/app_card.dart';
+import '../../../controllers/attendance_controller.dart';
 import '../../../controllers/auth_controller.dart';
 import '../../../controllers/home_controller.dart';
 import 'notice_panel.dart';
@@ -74,7 +75,7 @@ class ParentHomeContent extends StatelessWidget {
             NoticePanel(notices: Get.find<HomeController>().recentNotices),
             const SizedBox(height: AppSpacing.lg),
 
-            const UpcomingEventsSection(events: HomeMockData.events),
+            UpcomingEventsSection(events: Get.find<HomeController>().events),
             const SizedBox(height: AppSpacing.lg),
           ],
         ),
@@ -312,14 +313,30 @@ class _QuickStatsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final gpa = Get.find<HomeController>().currentGpa.value;
+      final subjects = Get.find<AttendanceController>().subjects;
+      final totalSessions = subjects.fold(0, (s, sub) => s + sub.totalSessions);
+      final totalAbsent = subjects.fold(0, (s, sub) => s + sub.totalAbsent);
+      final attendanceRate = totalSessions > 0
+          ? ((totalSessions - totalAbsent) / totalSessions * 100).round()
+          : null;
+      final dangerCount = subjects
+          .where((s) =>
+              s.status == AttendanceStatus.danger ||
+              s.status == AttendanceStatus.exceeded)
+          .length;
+
       return Row(
         children: [
           Expanded(
             child: _StatCard(
               icon: Icons.fact_check_outlined,
               label: 'Chuyên cần',
-              value: '--',
-              color: AppColors.textSecondary,
+              value: attendanceRate != null ? '$attendanceRate%' : '--',
+              color: attendanceRate == null
+                  ? AppColors.textSecondary
+                  : attendanceRate >= 90
+                  ? AppColors.fptGreen
+                  : AppColors.warning,
             ),
           ),
           const SizedBox(width: AppSpacing.md),
@@ -340,8 +357,8 @@ class _QuickStatsRow extends StatelessWidget {
             child: _StatCard(
               icon: Icons.warning_amber_outlined,
               label: 'Môn cảnh báo',
-              value: '--',
-              color: AppColors.textSecondary,
+              value: subjects.isEmpty ? '--' : '$dangerCount',
+              color: dangerCount > 0 ? AppColors.danger : AppColors.fptGreen,
             ),
           ),
         ],
