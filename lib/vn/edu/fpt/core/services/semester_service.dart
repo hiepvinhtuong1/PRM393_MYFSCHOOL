@@ -19,8 +19,12 @@ class SemesterDto {
         id: (json['id'] as num).toInt(),
         name: json['name'] as String,
         academicYear: json['academicYear'] as String,
-        startDate: DateTime.parse(json['startDate'] as String),
-        endDate: DateTime.parse(json['endDate'] as String),
+        startDate: json['startDate'] != null
+            ? DateTime.parse(json['startDate'] as String)
+            : DateTime(2000),
+        endDate: json['endDate'] != null
+            ? DateTime.parse(json['endDate'] as String)
+            : DateTime(2000, 12, 31),
       );
 
   String get combinedLabel => '$name - $academicYear';
