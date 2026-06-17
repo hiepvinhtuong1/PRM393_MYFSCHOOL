@@ -16,7 +16,7 @@ class GradeItemCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final avg = item.subjectAverage;
     final rank = item.rank;
-    final displayScore = avg?.toStringAsFixed(1) ?? '0.0';
+    final displayScore = avg?.toStringAsFixed(1) ?? '—';
 
     return AppCard(
       padding: EdgeInsets.zero,

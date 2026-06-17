@@ -37,8 +37,8 @@ class TimetableController extends GetxController {
                 : Icons.spa_outlined,
           )).toList();
       semesterItems.assignAll(items);
-      if (selectedSemester.value.isEmpty && items.isNotEmpty) {
-        selectedSemester.value = items.first.id;
+      if (selectedSemester.value.isEmpty && dtos.isNotEmpty) {
+        selectedSemester.value = pickDefaultSemester(dtos).id.toString();
       }
     } catch (_) {}
   }
