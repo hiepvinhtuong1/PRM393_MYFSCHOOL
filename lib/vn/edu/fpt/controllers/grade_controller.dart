@@ -46,8 +46,9 @@ class GradeController extends GetxController {
       final list = await _semesterService.getSemesters();
       semesterList.assignAll(list);
       if (list.isNotEmpty) {
-        selectedSemester.value = list.first.name;
-        selectedYear.value = list.first.academicYear;
+        final def = pickDefaultSemester(list);
+        selectedSemester.value = def.name;
+        selectedYear.value = def.academicYear;
         await loadGrades();
       }
     } catch (_) {}

@@ -41,7 +41,7 @@ class AttendanceController extends GetxController {
       final list = await _semesterService.getSemesters();
       semesterList.assignAll(list);
       if (list.isNotEmpty) {
-        selectedSemester.value = list.first.combinedLabel;
+        selectedSemester.value = pickDefaultSemester(list).combinedLabel;
         await loadAttendance();
       }
     } catch (_) {}
