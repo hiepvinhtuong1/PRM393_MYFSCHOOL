@@ -93,6 +93,7 @@ class AuthController extends GetxController {
       guardianPhone: '',
       dateOfBirth: data.dateOfBirth ?? '',
       gender: data.gender ?? '',
+      photoUrl: data.photoUrl,
     );
   }
 
@@ -150,6 +151,10 @@ class AuthController extends GetxController {
         selectedStudentId.value = data.children.first.id;
       }
     } catch (_) {}
+  }
+
+  Future<void> refreshProfile() async {
+    if (userRole.value.isNotEmpty) await _loadProfile(userRole.value);
   }
 
   void selectChild(int studentId) {

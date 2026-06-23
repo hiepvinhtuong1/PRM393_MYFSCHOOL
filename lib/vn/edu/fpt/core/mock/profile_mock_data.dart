@@ -16,6 +16,7 @@ class ProfileInfo {
     required this.guardianPhone,
     required this.dateOfBirth,
     required this.gender,
+    this.photoUrl,
   });
 
   final String fullName;
@@ -30,6 +31,7 @@ class ProfileInfo {
   final String guardianPhone;
   final String dateOfBirth;
   final String gender;
+  final String? photoUrl;
 
   String get initials {
     final parts = fullName.trim().split(RegExp(r'\s+'));
