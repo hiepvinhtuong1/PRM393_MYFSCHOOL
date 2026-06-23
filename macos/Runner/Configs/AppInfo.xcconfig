@@ -8,7 +8,7 @@
 PRODUCT_NAME = myfschoolse1911
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.myfschoolse1911
+PRODUCT_BUNDLE_IDENTIFIER = vn.edu.fpt.myfschoolse1911
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 vn.edu.fpt. All rights reserved.
