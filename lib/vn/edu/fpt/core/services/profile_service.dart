@@ -32,6 +32,7 @@ class ProfileData {
   final String? gender;
   final String? phone;
   final String? email;
+  final String? photoUrl;
   final List<ChildInfo> children;
 
   const ProfileData({
@@ -45,6 +46,7 @@ class ProfileData {
     this.gender,
     this.phone,
     this.email,
+    this.photoUrl,
     this.children = const [],
   });
 
@@ -77,6 +79,7 @@ class ProfileData {
         gender: json['gender'] as String?,
         phone: json['phone'] as String?,
         email: json['email'] as String?,
+        photoUrl: json['photoUrl'] as String?,
       );
     }
   }
